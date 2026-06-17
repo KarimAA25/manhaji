@@ -1,0 +1,178 @@
+/* ============================================================================
+   Mobile-first styles for /parent/* pages.
+   Loaded only from the parent layout, so these rules don't leak into /admin.
+
+   Strategy: every layout that was previously a hard-coded `repeat(N,1fr)`
+   inline grid now lives behind a class with a single-column default and a
+   media-query bump to multi-column above 640px (tablet) / 900px (desktop).
+   ============================================================================ */
+
+/* ----- Page container ----- */
+.p-shell { background: #F0F2F8; min-height: 100vh; }
+.p-article {
+  max-width: 840px; margin: 16px auto; background: #fff; border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(15,30,60,.08); overflow: hidden;
+}
+@media (min-width: 640px) {
+  .p-article { margin: 24px auto; }
+}
+
+/* ----- IP banner ----- */
+.p-ip-banner {
+  background: #FFF8E1; border: 1px solid #F6E05E; color: #744210;
+  padding: 8px 14px; font-size: 11px; margin: 14px 16px 0; border-radius: 8px; text-align: center;
+}
+@media (min-width: 640px) { .p-ip-banner { margin: 18px 36px 0; } }
+
+/* ----- Cover band ----- */
+.p-cover {
+  background: linear-gradient(135deg, #0B2545 0%, #3D5A80 100%);
+  color: #fff; padding: 24px 18px;
+}
+@media (min-width: 640px) { .p-cover { padding: 30px 36px; } }
+
+.p-cover-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.p-cover h1 {
+  font-size: 24px; margin: 14px 0 6px; font-weight: 800; letter-spacing: -.01em;
+}
+@media (min-width: 640px) { .p-cover h1 { font-size: 30px; margin: 18px 0 6px; } }
+
+.p-cover-chips { display: flex; gap: 6px; margin-top: 14px; flex-wrap: wrap; }
+.p-cover-chips span {
+  background: rgba(255,255,255,.14); padding: 5px 11px; border-radius: 14px;
+  font-size: 11px; font-weight: 600; color: #fff;
+}
+
+/* ----- Body ----- */
+.p-body { padding: 20px 16px 28px; }
+@media (min-width: 640px) { .p-body { padding: 28px 36px 36px; } }
+
+/* ----- Stack-then-grid helpers ----- */
+.p-grid-3 {
+  display: grid; grid-template-columns: 1fr; gap: 10px;
+}
+@media (min-width: 640px) { .p-grid-3 { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+@media (min-width: 900px) { .p-grid-3 { grid-template-columns: repeat(3, 1fr); gap: 12px; } }
+
+.p-grid-4 {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+}
+@media (min-width: 900px) { .p-grid-4 { grid-template-columns: repeat(4, 1fr); gap: 14px; } }
+
+/* radar + axis list */
+.p-radar-row {
+  display: grid; grid-template-columns: 1fr; gap: 12px; align-items: center;
+  justify-items: center;
+}
+@media (min-width: 640px) {
+  .p-radar-row { grid-template-columns: 300px 1fr; gap: 24px; justify-items: stretch; }
+}
+
+/* matrix table — horizontal scroll on mobile */
+.p-rubric-matrix-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.p-rubric-matrix { width: 100%; border-collapse: collapse; font-size: 11.5px; min-width: 560px; }
+
+/* ----- Footer ----- */
+.p-footer {
+  display: flex; flex-direction: column; gap: 4px;
+  font-size: 11px; color: var(--muted);
+  border-top: 1px solid var(--border); padding: 14px 16px; background: #FAFCFE;
+}
+@media (min-width: 640px) {
+  .p-footer { flex-direction: row; justify-content: space-between; padding: 14px 36px; }
+}
+
+/* ============================================================================
+   /parent/select-courses — wizard
+   ============================================================================ */
+.pc-shell main {
+  max-width: 760px; margin: 16px auto; padding: 0 16px 60px;
+}
+@media (min-width: 640px) {
+  .pc-shell main { margin: 24px auto; padding: 0 20px 60px; }
+}
+
+/* Topbar wraps on tiny screens; lang toggles get touch-target height */
+.pc-topbar { flex-wrap: wrap; gap: 8px; }
+.pc-lang-btn { min-height: 44px; min-width: 60px; padding: 8px 14px !important; font-size: 13px !important; }
+
+/* Wizard progress: smaller step labels, tighter on mobile */
+.pc-progress { padding: 0; margin: 0 0 24px; list-style: none; display: flex; align-items: stretch; gap: 0; }
+.pc-progress li { flex: 1; display: flex; align-items: center; gap: 0; }
+.pc-progress .pc-step {
+  display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 56px;
+}
+.pc-progress .pc-step-dot {
+  width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center;
+  justify-content: center; font-size: 11px; font-weight: 700;
+}
+.pc-progress .pc-step-name {
+  font-size: 10px; font-weight: 500; text-align: center; white-space: nowrap;
+}
+@media (min-width: 480px) {
+  .pc-progress .pc-step-name { font-size: 10.5px; }
+}
+.pc-progress .pc-step-conn { flex: 1; height: 2px; margin-top: -16px; }
+
+/* Form fields: full-width inputs/selects, ≥44px tappable */
+.pc-shell .field { margin-bottom: 14px; }
+.pc-shell .field input,
+.pc-shell .field select {
+  width: 100%; padding: 12px 14px; font-size: 14px;
+  border: 1px solid var(--border); border-radius: 8px; font-family: inherit;
+  background: #fff; min-height: 44px; box-sizing: border-box;
+}
+.pc-shell .field input:focus,
+.pc-shell .field select:focus {
+  outline: 2px solid var(--accent); outline-offset: 2px;
+}
+.pc-shell .field label {
+  display: block; font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .04em; color: var(--muted); margin-bottom: 6px;
+}
+
+/* Choice chips — wrap, full-width on mobile, ≥44px touch */
+.choice-group { margin-bottom: 14px; }
+.choice-label {
+  font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em;
+  color: var(--muted); margin-bottom: 8px;
+}
+.choice-options {
+  display: grid; grid-template-columns: 1fr; gap: 8px;
+}
+@media (min-width: 480px) {
+  .choice-options { grid-template-columns: repeat(2, 1fr); }
+}
+.choice {
+  display: flex; flex-direction: column; align-items: flex-start; text-align: left;
+  background: #fff; border: 1.5px solid var(--border); border-radius: 10px;
+  padding: 12px 14px; font-size: 13px; font-weight: 600; color: var(--ink);
+  cursor: pointer; min-height: 44px; transition: border-color .15s, background .15s;
+  font-family: inherit;
+}
+.choice:hover { border-color: var(--accent); background: #FAFCFE; }
+.choice.selected { border-color: var(--accent); background: #EBF4FF; }
+.choice .ar { font-size: 11px; color: var(--muted); margin-top: 2px; font-weight: 400; }
+
+/* Wizard nav row */
+.pc-actions {
+  display: flex; justify-content: space-between; gap: 10px;
+  margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.pc-actions .btn { min-height: 44px; padding: 12px 20px; font-size: 13px; }
+
+/* Review card — keep header readable on mobile */
+.pc-review-hero {
+  background: linear-gradient(135deg, #0B2545, #3D5A80); color: #fff;
+  border-radius: 14px; padding: 18px; margin-bottom: 16px;
+}
+@media (min-width: 480px) { .pc-review-hero { padding: 24px; } }
+.pc-review-hero h2 { margin: 0 0 4px; font-size: 16px; font-weight: 800; }
+@media (min-width: 480px) { .pc-review-hero h2 { font-size: 18px; } }
+.pc-review-stats {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 14px; font-size: 11.5px;
+}
+@media (min-width: 480px) {
+  .pc-review-stats { display: flex; flex-wrap: wrap; gap: 24px; }
+}

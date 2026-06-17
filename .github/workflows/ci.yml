@@ -1,0 +1,53 @@
+name: CI
+
+# Runs automatically on every Pull Request into main, and on direct pushes to main.
+# These are the automated "robots" that must pass before code can merge.
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+defaults:
+  run:
+    working-directory: apps/web
+
+jobs:
+  checks:
+    name: Lint, test, build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: apps/web/package-lock.json
+
+      - name: Install dependencies
+        # Using `npm install` (not the stricter `npm ci`) so the correct
+        # platform-specific native packages resolve on the Linux runner,
+        # even though the lock file is generated on macOS.
+        run: npm install --no-audit --no-fund
+
+      - name: Lint (code style)
+        run: npm run lint
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build the app
+        run: npm run build
+        env:
+          # Placeholder public values so the build can complete in CI.
+          # Real secrets live in Vercel / GitHub Secrets, never in the repo.
+          NEXT_PUBLIC_SUPABASE_URL: https://placeholder.supabase.co
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: placeholder-anon-key
+          NEXT_PUBLIC_APP_NAME: Manhaj
+          NEXT_PUBLIC_SCHOOL_NAME: Demo School
+          NEXT_PUBLIC_ACADEMIC_YEAR: "2026-2027"
+          ANTHROPIC_API_KEY: placeholder-key

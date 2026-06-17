@@ -1,0 +1,692 @@
+[
+  {
+    "id": "T001",
+    "serial": 1,
+    "name": "JO AN",
+    "cap": 30,
+    "primary_subject": "ENGLISH",
+    "assigned_in_sheet": 30,
+    "assigned_computed": 30,
+    "slack": 0
+  },
+  {
+    "id": "T002",
+    "serial": 2,
+    "name": "MAIMONA",
+    "cap": 30,
+    "primary_subject": "ISLAMIC",
+    "assigned_in_sheet": 31,
+    "assigned_computed": 31,
+    "slack": -1
+  },
+  {
+    "id": "T003",
+    "serial": 3,
+    "name": "Dr MOHD Saab",
+    "cap": 30,
+    "primary_subject": "MATH",
+    "assigned_in_sheet": 24,
+    "assigned_computed": 24,
+    "slack": 6
+  },
+  {
+    "id": "T004",
+    "serial": 4,
+    "name": "Suzan Coetzee",
+    "cap": 30,
+    "primary_subject": "ESS G2 COOR",
+    "assigned_in_sheet": 21,
+    "assigned_computed": 21,
+    "slack": 9
+  },
+  {
+    "id": "T005",
+    "serial": 5,
+    "name": "Anika Botha",
+    "cap": 30,
+    "primary_subject": "ENGLISH",
+    "assigned_in_sheet": 26,
+    "assigned_computed": 26,
+    "slack": 4
+  },
+  {
+    "id": "T006",
+    "serial": 6,
+    "name": "CLAIRE HUDGSON",
+    "cap": 30,
+    "primary_subject": "ENGLISH",
+    "assigned_in_sheet": 14,
+    "assigned_computed": 14,
+    "slack": 16
+  },
+  {
+    "id": "T007",
+    "serial": 7,
+    "name": "Marli Shaw",
+    "cap": 30,
+    "primary_subject": "ENGLISH",
+    "assigned_in_sheet": 29,
+    "assigned_computed": 29,
+    "slack": 1
+  },
+  {
+    "id": "T008",
+    "serial": 8,
+    "name": "Ferdinand Gericke",
+    "cap": 30,
+    "primary_subject": "ENGLISH",
+    "assigned_in_sheet": 25,
+    "assigned_computed": 25,
+    "slack": 5
+  },
+  {
+    "id": "T009",
+    "serial": 9,
+    "name": "MARY BOYLE",
+    "cap": 30,
+    "primary_subject": "ENGLISH",
+    "assigned_in_sheet": 30,
+    "assigned_computed": 30,
+    "slack": 0
+  },
+  {
+    "id": "T011",
+    "serial": 11,
+    "name": "TANIA HARDER",
+    "cap": 30,
+    "primary_subject": "HOD(1-12)",
+    "assigned_in_sheet": 15,
+    "assigned_computed": 15,
+    "slack": 15
+  },
+  {
+    "id": "T012",
+    "serial": 12,
+    "name": "LIZEL",
+    "cap": 30,
+    "primary_subject": "ENGLISH",
+    "assigned_in_sheet": 26,
+    "assigned_computed": 26,
+    "slack": 4
+  },
+  {
+    "id": "T013",
+    "serial": 13,
+    "name": "JUSTIN ROOS",
+    "cap": 30,
+    "primary_subject": "ENGLISH",
+    "assigned_in_sheet": 29,
+    "assigned_computed": 29,
+    "slack": 1
+  },
+  {
+    "id": "T014",
+    "serial": 14,
+    "name": "NATALIE STEVENS",
+    "cap": 30,
+    "primary_subject": "ENGLISH",
+    "assigned_in_sheet": 30,
+    "assigned_computed": 30,
+    "slack": 0
+  },
+  {
+    "id": "T015",
+    "serial": 15,
+    "name": "Agnes Blignaut",
+    "cap": 30,
+    "primary_subject": "ENGLISH",
+    "assigned_in_sheet": 30,
+    "assigned_computed": 30,
+    "slack": 0
+  },
+  {
+    "id": "T016",
+    "serial": 16,
+    "name": "SHIHAM",
+    "cap": 30,
+    "primary_subject": "ENGLISH",
+    "assigned_in_sheet": 26,
+    "assigned_computed": 26,
+    "slack": 4
+  },
+  {
+    "id": "T017",
+    "serial": 17,
+    "name": "NEW ENGLISH",
+    "cap": 30,
+    "primary_subject": "ENGLISH",
+    "assigned_in_sheet": 30,
+    "assigned_computed": 30,
+    "slack": 0
+  },
+  {
+    "id": "T018",
+    "serial": 18,
+    "name": "LYN",
+    "cap": 30,
+    "primary_subject": "ENGLISH",
+    "assigned_in_sheet": 21,
+    "assigned_computed": 21,
+    "slack": 9
+  },
+  {
+    "id": "T019",
+    "serial": 19,
+    "name": "Shane Carroll",
+    "cap": 30,
+    "primary_subject": "Grades 9 to 12",
+    "assigned_in_sheet": 16,
+    "assigned_computed": 16,
+    "slack": 14
+  },
+  {
+    "id": "T020",
+    "serial": 20,
+    "name": "MILITIA",
+    "cap": 30,
+    "primary_subject": "ENGLISH",
+    "assigned_in_sheet": 25,
+    "assigned_computed": 25,
+    "slack": 5
+  },
+  {
+    "id": "T021",
+    "serial": 21,
+    "name": "Eslam Aghawani",
+    "cap": 30,
+    "primary_subject": "IT",
+    "assigned_in_sheet": 28,
+    "assigned_computed": 28,
+    "slack": 2
+  },
+  {
+    "id": "T022",
+    "serial": 22,
+    "name": "FATMA MANANA",
+    "cap": 30,
+    "primary_subject": "MATH/SC",
+    "assigned_in_sheet": 28,
+    "assigned_computed": 28,
+    "slack": 2
+  },
+  {
+    "id": "T023",
+    "serial": 23,
+    "name": "ELIANA ALHAKEEM",
+    "cap": 30,
+    "primary_subject": "SCIENCE",
+    "assigned_in_sheet": 27,
+    "assigned_computed": 27,
+    "slack": 3
+  },
+  {
+    "id": "T024",
+    "serial": 24,
+    "name": "YASMEEN",
+    "cap": 30,
+    "primary_subject": "MATH",
+    "assigned_in_sheet": 30,
+    "assigned_computed": 30,
+    "slack": 0
+  },
+  {
+    "id": "T026",
+    "serial": 26,
+    "name": "SAHAR",
+    "cap": 30,
+    "primary_subject": "MATH/SC",
+    "assigned_in_sheet": 26,
+    "assigned_computed": 26,
+    "slack": 4
+  },
+  {
+    "id": "T027",
+    "serial": 27,
+    "name": "AL WALEED",
+    "cap": 30,
+    "primary_subject": "SCIENCE",
+    "assigned_in_sheet": 29,
+    "assigned_computed": 29,
+    "slack": 1
+  },
+  {
+    "id": "T028",
+    "serial": 28,
+    "name": "RITA MAHFOUZ",
+    "cap": 30,
+    "primary_subject": "SCIENCE",
+    "assigned_in_sheet": 0,
+    "assigned_computed": 0,
+    "slack": 30
+  },
+  {
+    "id": "T029",
+    "serial": 29,
+    "name": "Khalil Al Salim",
+    "cap": 30,
+    "primary_subject": "COORDINATOR(7-12) CHEM",
+    "assigned_in_sheet": 24,
+    "assigned_computed": 24,
+    "slack": 6
+  },
+  {
+    "id": "T030",
+    "serial": 30,
+    "name": "Ghada Buheisi",
+    "cap": 30,
+    "primary_subject": "MATH",
+    "assigned_in_sheet": 29,
+    "assigned_computed": 29,
+    "slack": 1
+  },
+  {
+    "id": "T031",
+    "serial": 31,
+    "name": "ZEINAB MURTADA",
+    "cap": 30,
+    "primary_subject": "MATH",
+    "assigned_in_sheet": 28,
+    "assigned_computed": 32,
+    "slack": -2
+  },
+  {
+    "id": "T032",
+    "serial": 32,
+    "name": "FATMA SHOUR",
+    "cap": 30,
+    "primary_subject": "MATH",
+    "assigned_in_sheet": 30,
+    "assigned_computed": 30,
+    "slack": 0
+  },
+  {
+    "id": "T033",
+    "serial": 33,
+    "name": "HASSAN SEIFEDDINE",
+    "cap": 30,
+    "primary_subject": "MATH",
+    "assigned_in_sheet": 27,
+    "assigned_computed": 27,
+    "slack": 3
+  },
+  {
+    "id": "T034",
+    "serial": 34,
+    "name": "YUNUS MURAT",
+    "cap": 30,
+    "primary_subject": "MATH",
+    "assigned_in_sheet": 25,
+    "assigned_computed": 25,
+    "slack": 5
+  },
+  {
+    "id": "T035",
+    "serial": 35,
+    "name": "IBRAHIM HARB",
+    "cap": 30,
+    "primary_subject": "COORDINATOR(5-12) MATH",
+    "assigned_in_sheet": 23,
+    "assigned_computed": 23,
+    "slack": 7
+  },
+  {
+    "id": "T036",
+    "serial": 36,
+    "name": "Hussein Kameh",
+    "cap": 30,
+    "primary_subject": "COORDINATOR(9-12) PHY",
+    "assigned_in_sheet": 26,
+    "assigned_computed": 26,
+    "slack": 4
+  },
+  {
+    "id": "T037",
+    "serial": 37,
+    "name": "NAGAVANI",
+    "cap": 30,
+    "primary_subject": "IT",
+    "assigned_in_sheet": 28,
+    "assigned_computed": 28,
+    "slack": 2
+  },
+  {
+    "id": "T038",
+    "serial": 38,
+    "name": "KHAWLA JEDDA",
+    "cap": 30,
+    "primary_subject": "SCIENCE",
+    "assigned_in_sheet": 26,
+    "assigned_computed": 26,
+    "slack": 4
+  },
+  {
+    "id": "T039",
+    "serial": 39,
+    "name": "Hilda Mucharafieh",
+    "cap": 30,
+    "primary_subject": "COORDINATOR(9-12 ) BIO",
+    "assigned_in_sheet": 23,
+    "assigned_computed": 23,
+    "slack": 7
+  },
+  {
+    "id": "T040",
+    "serial": 40,
+    "name": "Hiba Hamoud",
+    "cap": 30,
+    "primary_subject": "ARABIC",
+    "assigned_in_sheet": 27,
+    "assigned_computed": 27,
+    "slack": 3
+  },
+  {
+    "id": "T041",
+    "serial": 41,
+    "name": "Mirna Jomaa",
+    "cap": 30,
+    "primary_subject": "ART",
+    "assigned_in_sheet": 24,
+    "assigned_computed": 24,
+    "slack": 6
+  },
+  {
+    "id": "T042",
+    "serial": 42,
+    "name": "SALMA DAYUB",
+    "cap": 30,
+    "primary_subject": "ARABIC",
+    "assigned_in_sheet": 25,
+    "assigned_computed": 25,
+    "slack": 5
+  },
+  {
+    "id": "T043",
+    "serial": 43,
+    "name": "RAYYAN",
+    "cap": 30,
+    "primary_subject": "ARABIC",
+    "assigned_in_sheet": 27,
+    "assigned_computed": 27,
+    "slack": 3
+  },
+  {
+    "id": "T044",
+    "serial": 44,
+    "name": "May Dib",
+    "cap": 30,
+    "primary_subject": "ARABIC",
+    "assigned_in_sheet": 25,
+    "assigned_computed": 25,
+    "slack": 5
+  },
+  {
+    "id": "T045",
+    "serial": 45,
+    "name": "Mrs Munira",
+    "cap": 30,
+    "primary_subject": "SSA",
+    "assigned_in_sheet": 25,
+    "assigned_computed": 25,
+    "slack": 5
+  },
+  {
+    "id": "T046",
+    "serial": 46,
+    "name": "RAFAH Khatib",
+    "cap": 30,
+    "primary_subject": "ARABIC",
+    "assigned_in_sheet": 24,
+    "assigned_computed": 24,
+    "slack": 6
+  },
+  {
+    "id": "T047",
+    "serial": 47,
+    "name": "Mohamad  Kuzzo",
+    "cap": 30,
+    "primary_subject": "Same Classes HOD ARABIC",
+    "assigned_in_sheet": 24,
+    "assigned_computed": 24,
+    "slack": 6
+  },
+  {
+    "id": "T048",
+    "serial": 48,
+    "name": "HIBA ASHA",
+    "cap": 30,
+    "primary_subject": "ARABIC",
+    "assigned_in_sheet": 25,
+    "assigned_computed": 25,
+    "slack": 5
+  },
+  {
+    "id": "T049",
+    "serial": 49,
+    "name": "MOHD AL ALI",
+    "cap": 30,
+    "primary_subject": "ARABIC",
+    "assigned_in_sheet": 30,
+    "assigned_computed": 30,
+    "slack": 0
+  },
+  {
+    "id": "T050",
+    "serial": 50,
+    "name": "RAHEEQ MER3I",
+    "cap": 30,
+    "primary_subject": "ARABIC",
+    "assigned_in_sheet": 27,
+    "assigned_computed": 27,
+    "slack": 3
+  },
+  {
+    "id": "T051",
+    "serial": 51,
+    "name": "Nemah Hasn",
+    "cap": 30,
+    "primary_subject": "ARABIC",
+    "assigned_in_sheet": 30,
+    "assigned_computed": 30,
+    "slack": 0
+  },
+  {
+    "id": "T052",
+    "serial": 52,
+    "name": "Shaima El Temsah",
+    "cap": 30,
+    "primary_subject": "ISLAMIC",
+    "assigned_in_sheet": 28,
+    "assigned_computed": 28,
+    "slack": 2
+  },
+  {
+    "id": "T053",
+    "serial": 53,
+    "name": "Ali El Temsah",
+    "cap": 30,
+    "primary_subject": "ISLAMIC",
+    "assigned_in_sheet": 30,
+    "assigned_computed": 30,
+    "slack": 0
+  },
+  {
+    "id": "T054",
+    "serial": 54,
+    "name": "MARIAM AL BLOUCHI",
+    "cap": 30,
+    "primary_subject": "SSA",
+    "assigned_in_sheet": 26,
+    "assigned_computed": 26,
+    "slack": 4
+  },
+  {
+    "id": "T055",
+    "serial": 55,
+    "name": "MANAL",
+    "cap": 30,
+    "primary_subject": "FRENCH",
+    "assigned_in_sheet": 29,
+    "assigned_computed": 29,
+    "slack": 1
+  },
+  {
+    "id": "T056",
+    "serial": 56,
+    "name": "LAMIA AKERMOUN",
+    "cap": 30,
+    "primary_subject": "FRENCH",
+    "assigned_in_sheet": 29,
+    "assigned_computed": 29,
+    "slack": 1
+  },
+  {
+    "id": "T057",
+    "serial": 57,
+    "name": "MICHELIN",
+    "cap": 30,
+    "primary_subject": "FRENCH",
+    "assigned_in_sheet": 28,
+    "assigned_computed": 28,
+    "slack": 2
+  },
+  {
+    "id": "T058",
+    "serial": 58,
+    "name": "KHADIJA",
+    "cap": 30,
+    "primary_subject": "FRENCH",
+    "assigned_in_sheet": 21,
+    "assigned_computed": 21,
+    "slack": 9
+  },
+  {
+    "id": "T059",
+    "serial": 59,
+    "name": "HAJER",
+    "cap": 30,
+    "primary_subject": "PE",
+    "assigned_in_sheet": 18,
+    "assigned_computed": 18,
+    "slack": 12
+  },
+  {
+    "id": "T060",
+    "serial": 60,
+    "name": "FATEMA",
+    "cap": 30,
+    "primary_subject": "PE",
+    "assigned_in_sheet": 20,
+    "assigned_computed": 20,
+    "slack": 10
+  },
+  {
+    "id": "T062",
+    "serial": 62,
+    "name": "SHADMER PE",
+    "cap": 45,
+    "primary_subject": "PE",
+    "assigned_in_sheet": 18,
+    "assigned_computed": 10,
+    "slack": 35
+  },
+  {
+    "id": "T063",
+    "serial": 63,
+    "name": "NEW PE FEMALE",
+    "cap": 45,
+    "primary_subject": "PE",
+    "assigned_in_sheet": 20,
+    "assigned_computed": 40,
+    "slack": 5
+  },
+  {
+    "id": "T063",
+    "serial": 63,
+    "name": "NEW PE MALE",
+    "cap": 45,
+    "primary_subject": "PE",
+    "assigned_in_sheet": 20,
+    "assigned_computed": 40,
+    "slack": 5
+  },
+  {
+    "id": "T061",
+    "serial": 61,
+    "name": "JINAN",
+    "cap": 45,
+    "primary_subject": "PASTORAL CARE",
+    "assigned_in_sheet": 12,
+    "assigned_computed": 12,
+    "slack": 33
+  },
+  {
+    "id": "T064",
+    "serial": 64,
+    "name": "JOLIO LOPEZ",
+    "cap": 30,
+    "primary_subject": "MUSIC",
+    "assigned_in_sheet": 26,
+    "assigned_computed": 26,
+    "slack": 4
+  },
+  {
+    "id": "T065",
+    "serial": 65,
+    "name": "Irina Murariu",
+    "cap": 30,
+    "primary_subject": "ART",
+    "assigned_in_sheet": 31,
+    "assigned_computed": 31,
+    "slack": -1
+  },
+  {
+    "id": "T066",
+    "serial": 66,
+    "name": "SAFAA",
+    "cap": 30,
+    "primary_subject": "ISLAMIC",
+    "assigned_in_sheet": 30,
+    "assigned_computed": 30,
+    "slack": 0
+  },
+  {
+    "id": "T068",
+    "serial": 68,
+    "name": "JESSICA",
+    "cap": 30,
+    "primary_subject": "Business/ECO",
+    "assigned_in_sheet": 26,
+    "assigned_computed": 26,
+    "slack": 4
+  },
+  {
+    "id": "T069",
+    "serial": 69,
+    "name": "MOHD WASEEM",
+    "cap": 30,
+    "primary_subject": "Business/ECO",
+    "assigned_in_sheet": 29,
+    "assigned_computed": 29,
+    "slack": 1
+  },
+  {
+    "id": "T070",
+    "serial": 70,
+    "name": "AZZA",
+    "cap": 30,
+    "primary_subject": "LIBRARIAN",
+    "assigned_in_sheet": 12,
+    "assigned_computed": 12,
+    "slack": 18
+  },
+  {
+    "id": "T071",
+    "serial": 71,
+    "name": "RANA YEHIA",
+    "cap": 30,
+    "primary_subject": "EXAM OFFICER",
+    "assigned_in_sheet": 12,
+    "assigned_computed": 12,
+    "slack": 18
+  }
+]

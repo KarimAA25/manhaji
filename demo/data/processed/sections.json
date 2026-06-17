@@ -1,0 +1,330 @@
+[
+  {
+    "code": "K1A",
+    "col_start": 5,
+    "col_end": 9,
+    "grade_level": "K1A",
+    "label": "",
+    "stream": "regular"
+  },
+  {
+    "code": "KG1B",
+    "col_start": 9,
+    "col_end": 13,
+    "grade_level": "KG1",
+    "label": "B",
+    "stream": "regular"
+  },
+  {
+    "code": "KG2C",
+    "col_start": 13,
+    "col_end": 17,
+    "grade_level": "KG2",
+    "label": "C",
+    "stream": "regular"
+  },
+  {
+    "code": "KG2A",
+    "col_start": 17,
+    "col_end": 21,
+    "grade_level": "KG2",
+    "label": "A",
+    "stream": "regular"
+  },
+  {
+    "code": "KG2B",
+    "col_start": 21,
+    "col_end": 25,
+    "grade_level": "KG2",
+    "label": "B",
+    "stream": "regular"
+  },
+  {
+    "code": "1A",
+    "col_start": 25,
+    "col_end": 29,
+    "grade_level": "1",
+    "label": "A",
+    "stream": "regular"
+  },
+  {
+    "code": "1B",
+    "col_start": 29,
+    "col_end": 34,
+    "grade_level": "1",
+    "label": "B",
+    "stream": "regular"
+  },
+  {
+    "code": "1C",
+    "col_start": 34,
+    "col_end": 37,
+    "grade_level": "1",
+    "label": "C",
+    "stream": "regular"
+  },
+  {
+    "code": "2A",
+    "col_start": 37,
+    "col_end": 40,
+    "grade_level": "2",
+    "label": "A",
+    "stream": "regular"
+  },
+  {
+    "code": "2B",
+    "col_start": 40,
+    "col_end": 43,
+    "grade_level": "2",
+    "label": "B",
+    "stream": "regular"
+  },
+  {
+    "code": "2C",
+    "col_start": 43,
+    "col_end": 46,
+    "grade_level": "2",
+    "label": "C",
+    "stream": "regular"
+  },
+  {
+    "code": "1-2 AL",
+    "col_start": 46,
+    "col_end": 49,
+    "grade_level": "1-2",
+    "label": "AL",
+    "stream": "AL_combined"
+  },
+  {
+    "code": "3A",
+    "col_start": 49,
+    "col_end": 53,
+    "grade_level": "3",
+    "label": "A",
+    "stream": "regular"
+  },
+  {
+    "code": "3B",
+    "col_start": 53,
+    "col_end": 57,
+    "grade_level": "3",
+    "label": "B",
+    "stream": "regular"
+  },
+  {
+    "code": "3C",
+    "col_start": 57,
+    "col_end": 61,
+    "grade_level": "3",
+    "label": "C",
+    "stream": "regular"
+  },
+  {
+    "code": "4A",
+    "col_start": 61,
+    "col_end": 65,
+    "grade_level": "4",
+    "label": "A",
+    "stream": "regular"
+  },
+  {
+    "code": "4B",
+    "col_start": 65,
+    "col_end": 69,
+    "grade_level": "4",
+    "label": "B",
+    "stream": "regular"
+  },
+  {
+    "code": "4C",
+    "col_start": 69,
+    "col_end": 73,
+    "grade_level": "4",
+    "label": "C",
+    "stream": "regular"
+  },
+  {
+    "code": "3-4 AL",
+    "col_start": 73,
+    "col_end": 76,
+    "grade_level": "3-4",
+    "label": "AL",
+    "stream": "AL_combined"
+  },
+  {
+    "code": "5A",
+    "col_start": 76,
+    "col_end": 80,
+    "grade_level": "5",
+    "label": "A",
+    "stream": "regular"
+  },
+  {
+    "code": "5B",
+    "col_start": 80,
+    "col_end": 83,
+    "grade_level": "5",
+    "label": "B",
+    "stream": "regular"
+  },
+  {
+    "code": "5C",
+    "col_start": 83,
+    "col_end": 86,
+    "grade_level": "5",
+    "label": "C",
+    "stream": "regular"
+  },
+  {
+    "code": "5-6 AL",
+    "col_start": 86,
+    "col_end": 89,
+    "grade_level": "5-6",
+    "label": "AL",
+    "stream": "AL_combined"
+  },
+  {
+    "code": "6A",
+    "col_start": 89,
+    "col_end": 93,
+    "grade_level": "6",
+    "label": "A",
+    "stream": "regular"
+  },
+  {
+    "code": "6B",
+    "col_start": 93,
+    "col_end": 96,
+    "grade_level": "6",
+    "label": "B",
+    "stream": "regular"
+  },
+  {
+    "code": "6C",
+    "col_start": 96,
+    "col_end": 101,
+    "grade_level": "6",
+    "label": "C",
+    "stream": "regular"
+  },
+  {
+    "code": "7A",
+    "col_start": 101,
+    "col_end": 106,
+    "grade_level": "7",
+    "label": "A",
+    "stream": "regular"
+  },
+  {
+    "code": "7B",
+    "col_start": 106,
+    "col_end": 109,
+    "grade_level": "7",
+    "label": "B",
+    "stream": "regular"
+  },
+  {
+    "code": "7C",
+    "col_start": 109,
+    "col_end": 112,
+    "grade_level": "7",
+    "label": "C",
+    "stream": "regular"
+  },
+  {
+    "code": "8A",
+    "col_start": 112,
+    "col_end": 116,
+    "grade_level": "8",
+    "label": "A",
+    "stream": "regular"
+  },
+  {
+    "code": "8B",
+    "col_start": 116,
+    "col_end": 119,
+    "grade_level": "8",
+    "label": "B",
+    "stream": "regular"
+  },
+  {
+    "code": "9A",
+    "col_start": 119,
+    "col_end": 123,
+    "grade_level": "9",
+    "label": "A",
+    "stream": "regular"
+  },
+  {
+    "code": "9B",
+    "col_start": 123,
+    "col_end": 126,
+    "grade_level": "9",
+    "label": "B",
+    "stream": "regular"
+  },
+  {
+    "code": "10A",
+    "col_start": 126,
+    "col_end": 129,
+    "grade_level": "10",
+    "label": "A",
+    "stream": "regular"
+  },
+  {
+    "code": "10B",
+    "col_start": 129,
+    "col_end": 132,
+    "grade_level": "10",
+    "label": "B",
+    "stream": "regular"
+  },
+  {
+    "code": "11A",
+    "col_start": 132,
+    "col_end": 135,
+    "grade_level": "11",
+    "label": "A",
+    "stream": "regular"
+  },
+  {
+    "code": "11B",
+    "col_start": 135,
+    "col_end": 138,
+    "grade_level": "11",
+    "label": "B",
+    "stream": "regular"
+  },
+  {
+    "code": "11 AS",
+    "col_start": 138,
+    "col_end": 142,
+    "grade_level": "11",
+    "label": "AS",
+    "stream": "AS"
+  },
+  {
+    "code": "12A",
+    "col_start": 142,
+    "col_end": 146,
+    "grade_level": "12",
+    "label": "A",
+    "stream": "regular"
+  },
+  {
+    "code": "12B",
+    "col_start": 146,
+    "col_end": 150,
+    "grade_level": "12",
+    "label": "B",
+    "stream": "regular"
+  },
+  {
+    "code": "12 A2",
+    "col_start": 150,
+    "col_end": 158,
+    "grade_level": "12",
+    "label": "A2",
+    "stream": "A2"
+  }
+]

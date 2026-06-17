@@ -1,0 +1,17 @@
+{
+  "source_file": "24-25 provisional_18-8-2024.xlsx",
+  "source_sha256": "a5f8b441186aee7a9cf045cfb9982794b3a13afed226d1ce1ce52ee3387a95a0",
+  "school": {
+    "name": "International School of Oman",
+    "city": "Muscat",
+    "country": "OM"
+  },
+  "academic_year": "2026-2027",
+  "counts": {
+    "teachers": 69,
+    "sections": 41,
+    "subjects": 32,
+    "load_rows": 482,
+    "faculty_rows": 116
+  }
+}

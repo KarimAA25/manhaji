@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Manhaj — Course Selection · AY 2026/27</title>
+  <link rel="stylesheet" href="../assets/styles.css"/>
+  <script src="../assets/gate.js"></script>
+  <style>
+    .page{max-width:760px;margin:24px auto;padding:0 20px 60px}
+    .step{display:none}
+    .step.active{display:block}
+    .progress{display:flex;align-items:center;gap:8px;margin-bottom:24px}
+    .step-dot{width:24px;height:24px;border-radius:50%;background:var(--soft);color:var(--muted);
+      display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+    .step-dot.done{background:var(--success);color:#fff}
+    .step-dot.active{background:var(--primary);color:#fff}
+    .step-line{flex:1;height:2px;background:var(--border);position:relative;top:0}
+    .step-line.done{background:var(--success)}
+    .compulsory{background:#FAFCFE;border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:14px}
+    .compulsory-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+    .comp-pill{background:var(--soft);color:var(--ink);font-size:11.5px;padding:5px 10px;border-radius:8px;font-weight:600}
+    .summary-card{background:linear-gradient(135deg,#0B2545,#3D5A80);color:#fff;border-radius:14px;padding:24px;margin-bottom:16px}
+    .summary-card h2{margin:0 0 4px;font-size:18px;font-weight:800}
+    .summary-card p{margin:0;font-size:12.5px;opacity:.85}
+    .summary-card .stats{display:flex;gap:24px;margin-top:14px;font-size:11.5px}
+    .summary-card .stats b{display:block;font-size:20px;font-weight:800}
+    .footer-actions{display:flex;justify-content:space-between;align-items:center;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
+    .picks-list{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px}
+    .pick-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed var(--border);font-size:12.5px}
+    .pick-row:last-child{border:0}
+    .pick-row .l{color:var(--muted);font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;font-weight:700}
+    .pick-row .v{font-weight:700;color:var(--ink)}
+    .lang-toggle{position:absolute;top:18px;right:28px}
+    .lang-toggle button{background:transparent;border:1px solid var(--border);color:var(--muted);padding:4px 10px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600}
+    .lang-toggle button.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+    body.rtl{direction:rtl}
+    body.rtl .lang-toggle{left:28px;right:auto}
+    body.rtl .step-dot, body.rtl .compulsory-list, body.rtl .choice-options{direction:rtl}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">M</div>
+      <div><div class="brand-name">Manhaj <span class="brand-sub">· International School of Oman</span></div></div>
+    </div>
+    <div class="lang-toggle">
+      <button id="lang-en" class="active">EN</button>
+      <button id="lang-ar">العربية</button>
+    </div>
+  </div>
+
+  <div class="page">
+    <div class="banner" id="banner-en">
+      <b>Demo flow</b> · Parents normally arrive here from an email link. This replaces the 4 paper circulars
+      currently sent home in January.
+    </div>
+    <div class="banner" id="banner-ar" style="display:none;direction:rtl">
+      <b>تجربة توضيحية</b> · يصل الأهل عادةً عبر رابط بريد إلكتروني. تستبدل هذه النماذج النشرات الورقية الأربعة المرسلة في يناير.
+    </div>
+
+    <div class="progress">
+      <div class="step-dot active" id="d1">1</div>
+      <div class="step-line" id="l1"></div>
+      <div class="step-dot" id="d2">2</div>
+      <div class="step-line" id="l2"></div>
+      <div class="step-dot" id="d3">3</div>
+      <div class="step-line" id="l3"></div>
+      <div class="step-dot" id="d4">4</div>
+    </div>
+
+    <!-- STEP 1 -->
+    <div class="step active" id="step-1">
+      <h1 data-en="Course selection · AY 2026/27" data-ar="اختيار المواد الدراسية · العام الدراسي 2026/27">Course selection · AY 2026/27</h1>
+      <p class="sub" data-en="Please select your child's grade for next year to begin." data-ar="يرجى تحديد صف ابنك/ابنتك للعام المقبل للبدء.">Please select your child's grade for next year to begin.</p>
+
+      <div class="field">
+        <label data-en="Student name" data-ar="اسم الطالب">Student name</label>
+        <input id="student-name" value="Sample Student" />
+      </div>
+      <div class="field">
+        <label data-en="Grade in AY 2026/27" data-ar="الصف في العام الدراسي 2026/27">Grade in AY 2026/27</label>
+        <select id="grade-select">
+          <option value="9">Grade 9 · IGCSE (pick 5)</option>
+          <option value="10">Grade 10 · IGCSE (pick 5)</option>
+          <option value="11">Grade 11 · AS / GDE (pick 3)</option>
+          <option value="12">Grade 12 · A2 / GDE (pick 3)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label data-en="Language preference (compulsory)" data-ar="تفضيل اللغة (إجباري)">Language preference (compulsory)</label>
+        <select id="lang-pref">
+          <option value="Ar">Arabic</option>
+          <option value="F2">French (Stage 2)</option>
+          <option value="F3">French (Stage 3)</option>
+        </select>
+      </div>
+
+      <div class="footer-actions">
+        <span></span>
+        <button class="btn primary" onclick="goto(2)" data-en="Continue →" data-ar="متابعة →">Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step" id="step-2">
+      <h1 id="step2-title">Compulsory subjects · Grade —</h1>
+      <p class="sub" data-en="These are required for all students at this grade. You'll choose electives next." data-ar="هذه المواد إلزامية لجميع طلاب هذا الصف. ستختار المواد الاختيارية تالياً.">These are required for all students at this grade. You'll choose electives next.</p>
+
+      <div class="compulsory">
+        <div class="card-label" data-en="Compulsory" data-ar="إلزامي">Compulsory</div>
+        <div class="compulsory-list" id="compulsory-list"></div>
+      </div>
+
+      <div class="footer-actions">
+        <button class="btn ghost" onclick="goto(1)" data-en="← Back" data-ar="← رجوع">← Back</button>
+        <button class="btn primary" onclick="goto(3)" data-en="Continue to electives →" data-ar="متابعة إلى المواد الاختيارية →">Continue to electives →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step" id="step-3">
+      <h1 id="step3-title">Elective bundles · pick one per row</h1>
+      <p class="sub" id="step3-sub" data-en="Each row offers a choice. Pick one option per row." data-ar="كل صف يقدم خياراً. اختر خياراً واحداً لكل صف.">Each row offers a choice. Pick one option per row.</p>
+
+      <div id="bundles-container"></div>
+
+      <div id="pick-warning" style="display:none;background:#FFF8E1;border:1px solid #F6E05E;color:#744210;padding:10px 14px;font-size:12px;border-radius:8px;margin-top:8px"></div>
+
+      <div class="footer-actions">
+        <button class="btn ghost" onclick="goto(2)" data-en="← Back" data-ar="← رجوع">← Back</button>
+        <button class="btn primary" id="review-btn" onclick="goto(4)" data-en="Review selection →" data-ar="مراجعة الاختيار →">Review selection →</button>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="step" id="step-4">
+      <div class="summary-card">
+        <h2 data-en="All set — please review and confirm" data-ar="تم — يرجى المراجعة والتأكيد">All set — please review and confirm</h2>
+        <p data-en="Once submitted, the school administration will be notified. Changes can still be requested by liaising with the school before 29 January 2026." data-ar="عند الإرسال، تُبلَّغ إدارة المدرسة. يمكن طلب تعديل بالتواصل مع المدرسة قبل 29 يناير 2026.">Once submitted, the school administration will be notified. Changes can still be requested by liaising with the school before 29 January 2026.</p>
+        <div class="stats">
+          <div><b id="sum-grade">—</b><span data-en="Grade" data-ar="الصف">Grade</span></div>
+          <div><b id="sum-comp">—</b><span data-en="Compulsory" data-ar="إلزامي">Compulsory</span></div>
+          <div><b id="sum-elec">—</b><span data-en="Electives" data-ar="اختياري">Electives</span></div>
+          <div><b id="sum-total">—</b><span data-en="Total subjects" data-ar="إجمالي المواد">Total subjects</span></div>
+        </div>
+      </div>
+
+      <div class="picks-list" id="picks-list"></div>
+
+      <div class="footer-actions">
+        <button class="btn ghost" onclick="goto(3)" data-en="← Back to electives" data-ar="← رجوع إلى المواد الاختيارية">← Back to electives</button>
+        <button class="btn primary" onclick="submit()" data-en="Submit · sign digitally" data-ar="إرسال · توقيع رقمي">Submit · sign digitally</button>
+      </div>
+    </div>
+
+    <div class="step" id="step-done" style="text-align:center;padding:40px 20px">
+      <div style="width:60px;height:60px;border-radius:50%;background:#C6F6D5;color:#22543D;font-size:28px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-weight:800">✓</div>
+      <h1 data-en="Submitted" data-ar="تم الإرسال">Submitted</h1>
+      <p class="sub" data-en="The school has been notified. A confirmation email has been sent to you." data-ar="تم إبلاغ المدرسة. وأُرسل بريد إلكتروني للتأكيد.">The school has been notified. A confirmation email has been sent to you.</p>
+      <p style="font-size:11px;color:var(--muted);margin-top:30px"><i>Demo · in production this would store the picks in <code>course_selection_forms</code> and roll up via <code>v_elective_demand</code>.</i></p>
+    </div>
+  </div>
+
+  <script>
+    let SUBJECTS = {}, OFFERINGS = {}, CURRENT_STEP = 1, LANG = 'en';
+    const PICKS = {}; // bundle_label → subject_code
+
+    Promise.all([
+      fetch('../data/processed/subjects.json').then(r => r.json()),
+      fetch('../data/processed/course_offerings.json').then(r => r.json()),
+    ]).then(([subjects, offerings]) => {
+      SUBJECTS = Object.fromEntries(subjects.map(s => [s.code, s]));
+      OFFERINGS = offerings;
+    });
+
+    // Language toggle
+    document.getElementById('lang-en').onclick = () => setLang('en');
+    document.getElementById('lang-ar').onclick = () => setLang('ar');
+    function setLang(l) {
+      LANG = l;
+      document.body.classList.toggle('rtl', l === 'ar');
+      document.getElementById('lang-en').classList.toggle('active', l === 'en');
+      document.getElementById('lang-ar').classList.toggle('active', l === 'ar');
+      document.getElementById('banner-en').style.display = (l === 'en') ? 'block' : 'none';
+      document.getElementById('banner-ar').style.display = (l === 'ar') ? 'block' : 'none';
+      document.querySelectorAll('[data-en]').forEach(el => {
+        el.textContent = el.dataset[l] || el.textContent;
+      });
+      // Re-render bundles in current language
+      if (CURRENT_STEP === 3) renderBundles();
+      if (CURRENT_STEP === 2) renderCompulsory();
+    }
+
+    function subjLabel(code) {
+      const s = SUBJECTS[code];
+      if (!s) return code;
+      return LANG === 'ar' ? (s.name_ar || s.name_en) : s.name_en;
+    }
+    function subjLabelDual(code) {
+      const s = SUBJECTS[code];
+      if (!s) return code;
+      return { primary: LANG === 'ar' ? (s.name_ar || s.name_en) : s.name_en,
+               secondary: LANG === 'ar' ? s.name_en : (s.name_ar || '') };
+    }
+
+    function goto(step) {
+      // Validate before advancing
+      if (CURRENT_STEP === 3 && step === 4) {
+        const grade = document.getElementById('grade-select').value;
+        const need = OFFERINGS[grade].bundles.length;
+        const got = Object.keys(PICKS).length;
+        if (got < need) {
+          const w = document.getElementById('pick-warning');
+          w.style.display = 'block';
+          w.textContent = LANG === 'ar'
+            ? `يرجى اختيار خيار من كل صف. أنت اخترت ${got} من ${need}.`
+            : `Please pick one option per row. You've selected ${got} of ${need}.`;
+          return;
+        }
+      }
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      const target = (step >= 5) ? 'step-done' : `step-${step}`;
+      document.getElementById(target).classList.add('active');
+      CURRENT_STEP = step;
+
+      // Progress dots
+      for (let i = 1; i <= 4; i++) {
+        const d = document.getElementById('d'+i);
+        const l = document.getElementById('l'+i);
+        d.classList.toggle('active', i === step);
+        d.classList.toggle('done', i < step);
+        if (l) l.classList.toggle('done', i < step);
+      }
+
+      if (step === 2) renderCompulsory();
+      if (step === 3) renderBundles();
+      if (step === 4) renderReview();
+    }
+
+    function renderCompulsory() {
+      const grade = document.getElementById('grade-select').value;
+      const langPref = document.getElementById('lang-pref').value;
+      const offering = OFFERINGS[grade];
+      const titleEl = document.getElementById('step2-title');
+      titleEl.textContent = LANG === 'ar' ? `المواد الإلزامية · الصف ${grade}` : `Compulsory subjects · Grade ${grade}`;
+
+      const comp = offering.compulsory.map(c => {
+        // If Ar can be replaced and user chose a French alt, swap
+        if (c === 'Ar' && langPref !== 'Ar') return langPref;
+        return c;
+      });
+      const html = comp.map(code => {
+        const l = subjLabelDual(code);
+        return `<div class="comp-pill"><b>${l.primary}</b>${l.secondary ? ` <span style="opacity:.6">· ${l.secondary}</span>` : ''}</div>`;
+      }).join('');
+      document.getElementById('compulsory-list').innerHTML = html;
+    }
+
+    function renderBundles() {
+      const grade = document.getElementById('grade-select').value;
+      const offering = OFFERINGS[grade];
+      const total = offering.pick_count;
+      const titleEl = document.getElementById('step3-title');
+      const subEl = document.getElementById('step3-sub');
+      titleEl.textContent = LANG === 'ar'
+        ? `المواد الاختيارية · اختر ${total} من المجموع`
+        : `Electives · pick ${total} in total (one per row)`;
+      subEl.textContent = LANG === 'ar'
+        ? `كل صف يقدم خياراً. اختر خياراً واحداً لكل صف.`
+        : `Each row offers a choice. Pick one option per row.`;
+
+      const container = document.getElementById('bundles-container');
+      container.innerHTML = offering.bundles.map((bundle, bi) => {
+        const opts = bundle.options.map(code => {
+          const l = subjLabelDual(code);
+          const isSelected = PICKS[bundle.label] === code;
+          return `<div class="choice ${isSelected ? 'selected' : ''}" data-bundle="${bi}" data-code="${code}">
+            ${l.primary}${l.secondary ? `<span class="ar">${l.secondary}</span>` : ''}
+          </div>`;
+        }).join('');
+        return `<div class="choice-group">
+          <div class="choice-label">${LANG === 'ar' ? 'مجموعة' : 'Bundle'} ${bi+1} · ${bundle.label}</div>
+          <div class="choice-options">${opts}</div>
+        </div>`;
+      }).join('');
+
+      container.querySelectorAll('.choice').forEach(el => {
+        el.onclick = () => {
+          const bi = +el.dataset.bundle;
+          const code = el.dataset.code;
+          const bundle = offering.bundles[bi];
+          PICKS[bundle.label] = code;
+          // Update visual
+          container.querySelectorAll(`.choice[data-bundle="${bi}"]`).forEach(s => s.classList.remove('selected'));
+          el.classList.add('selected');
+          document.getElementById('pick-warning').style.display = 'none';
+        };
+      });
+    }
+
+    function renderReview() {
+      const grade = document.getElementById('grade-select').value;
+      const studentName = document.getElementById('student-name').value || 'Student';
+      const langPref = document.getElementById('lang-pref').value;
+      const offering = OFFERINGS[grade];
+
+      const comp = offering.compulsory.map(c => c === 'Ar' && langPref !== 'Ar' ? langPref : c);
+      const elec = Object.entries(PICKS).map(([bundle, code]) => ({bundle, code}));
+
+      document.getElementById('sum-grade').textContent = grade;
+      document.getElementById('sum-comp').textContent = comp.length;
+      document.getElementById('sum-elec').textContent = elec.length;
+      document.getElementById('sum-total').textContent = comp.length + elec.length;
+
+      const rows = [];
+      rows.push(`<div class="pick-row"><span class="l">${LANG === 'ar' ? 'الطالب' : 'Student'}</span><span class="v">${studentName}</span></div>`);
+      rows.push(`<div class="pick-row"><span class="l">${LANG === 'ar' ? 'العام الدراسي' : 'Academic year'}</span><span class="v">2026 / 2027</span></div>`);
+      rows.push(`<div class="pick-row"><span class="l">${LANG === 'ar' ? 'الصف' : 'Grade'}</span><span class="v">${grade} · ${offering.stage}</span></div>`);
+      rows.push(`<div style="margin-top:8px;font-size:10px;text-transform:uppercase;letter-spacing:.05em;font-weight:700;color:var(--muted)">${LANG === 'ar' ? 'إلزامي' : 'Compulsory'}</div>`);
+      comp.forEach(code => {
+        const l = subjLabelDual(code);
+        rows.push(`<div class="pick-row"><span>${l.primary}</span><span class="v" style="font-size:10.5px;color:var(--muted)">${l.secondary || ''}</span></div>`);
+      });
+      rows.push(`<div style="margin-top:8px;font-size:10px;text-transform:uppercase;letter-spacing:.05em;font-weight:700;color:var(--muted)">${LANG === 'ar' ? 'اختياري' : 'Electives'}</div>`);
+      elec.forEach(({bundle, code}) => {
+        const l = subjLabelDual(code);
+        rows.push(`<div class="pick-row">
+          <span><b>${l.primary}</b>${l.secondary ? ` · <span style="color:var(--muted)">${l.secondary}</span>` : ''}</span>
+          <span class="v" style="font-size:10.5px;color:var(--muted)">${bundle}</span></div>`);
+      });
+      document.getElementById('picks-list').innerHTML = rows.join('');
+    }
+
+    function submit() {
+      // Demo: just advance and console the payload
+      console.log('Course selection submitted', {
+        student: document.getElementById('student-name').value,
+        grade: document.getElementById('grade-select').value,
+        language: document.getElementById('lang-pref').value,
+        electives: PICKS,
+      });
+      goto(5);
+    }
+  </script>
+</body>
+</html>

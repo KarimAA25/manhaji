@@ -1,0 +1,3858 @@
+[
+  {
+    "teacher_id": "T001",
+    "section_code": "K1A",
+    "subject_code": "?",
+    "subject_short_raw": null,
+    "weekly_periods": 13,
+    "source_cell": "26-27A!R2C6"
+  },
+  {
+    "teacher_id": "T001",
+    "section_code": "K1A",
+    "subject_code": "?",
+    "subject_short_raw": null,
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R2C7"
+  },
+  {
+    "teacher_id": "T001",
+    "section_code": "K1A",
+    "subject_code": "?",
+    "subject_short_raw": null,
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R2C8"
+  },
+  {
+    "teacher_id": "T001",
+    "section_code": "K1A",
+    "subject_code": "?",
+    "subject_short_raw": null,
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R2C9"
+  },
+  {
+    "teacher_id": "T001",
+    "section_code": "2A",
+    "subject_code": "?",
+    "subject_short_raw": null,
+    "weekly_periods": 9,
+    "source_cell": "26-27A!R2C39"
+  },
+  {
+    "teacher_id": "T002",
+    "section_code": "1A",
+    "subject_code": "?",
+    "subject_short_raw": null,
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R3C27"
+  },
+  {
+    "teacher_id": "T002",
+    "section_code": "1B",
+    "subject_code": "?",
+    "subject_short_raw": null,
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R3C31"
+  },
+  {
+    "teacher_id": "T002",
+    "section_code": "1C",
+    "subject_code": "?",
+    "subject_short_raw": null,
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R3C36"
+  },
+  {
+    "teacher_id": "T002",
+    "section_code": "2B",
+    "subject_code": "?",
+    "subject_short_raw": null,
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R3C42"
+  },
+  {
+    "teacher_id": "T002",
+    "section_code": "3A",
+    "subject_code": "?",
+    "subject_short_raw": null,
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R3C51"
+  },
+  {
+    "teacher_id": "T002",
+    "section_code": "3C",
+    "subject_code": "?",
+    "subject_short_raw": null,
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R3C59"
+  },
+  {
+    "teacher_id": "T002",
+    "section_code": "3-4 AL",
+    "subject_code": "?",
+    "subject_short_raw": null,
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R3C75"
+  },
+  {
+    "teacher_id": "T002",
+    "section_code": "5A",
+    "subject_code": "?",
+    "subject_short_raw": null,
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R3C78"
+  },
+  {
+    "teacher_id": "T003",
+    "section_code": "9A",
+    "subject_code": "Ma",
+    "subject_short_raw": "MA",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R4C121"
+  },
+  {
+    "teacher_id": "T003",
+    "section_code": "9A",
+    "subject_code": "MS",
+    "subject_short_raw": "MS",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R4C123"
+  },
+  {
+    "teacher_id": "T003",
+    "section_code": "10B",
+    "subject_code": "Ma",
+    "subject_short_raw": "MA",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R4C130"
+  },
+  {
+    "teacher_id": "T003",
+    "section_code": "11A",
+    "subject_code": "Ma",
+    "subject_short_raw": "MA",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R4C133"
+  },
+  {
+    "teacher_id": "T003",
+    "section_code": "12A",
+    "subject_code": "Ma",
+    "subject_short_raw": "MA",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R4C143"
+  },
+  {
+    "teacher_id": "T004",
+    "section_code": "KG2A",
+    "subject_code": "En",
+    "subject_short_raw": "En",
+    "weekly_periods": 13,
+    "source_cell": "26-27A!R7C18"
+  },
+  {
+    "teacher_id": "T004",
+    "section_code": "KG2A",
+    "subject_code": "Ma",
+    "subject_short_raw": "Ma",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R7C19"
+  },
+  {
+    "teacher_id": "T004",
+    "section_code": "KG2A",
+    "subject_code": "Mu",
+    "subject_short_raw": "Mu",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R7C20"
+  },
+  {
+    "teacher_id": "T004",
+    "section_code": "KG2A",
+    "subject_code": "rt",
+    "subject_short_raw": "rt",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R7C21"
+  },
+  {
+    "teacher_id": "T005",
+    "section_code": "3B",
+    "subject_code": "Ex",
+    "subject_short_raw": "GP",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R11C55"
+  },
+  {
+    "teacher_id": "T005",
+    "section_code": "3B",
+    "subject_code": "ES",
+    "subject_short_raw": "ES",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R11C56"
+  },
+  {
+    "teacher_id": "T005",
+    "section_code": "3B",
+    "subject_code": "lb",
+    "subject_short_raw": "WB",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R11C57"
+  },
+  {
+    "teacher_id": "T005",
+    "section_code": "4B",
+    "subject_code": "En",
+    "subject_short_raw": "EN",
+    "weekly_periods": 8,
+    "source_cell": "26-27A!R11C66"
+  },
+  {
+    "teacher_id": "T005",
+    "section_code": "4B",
+    "subject_code": "ES",
+    "subject_short_raw": "ES",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R11C68"
+  },
+  {
+    "teacher_id": "T005",
+    "section_code": "3-4 AL",
+    "subject_code": "En",
+    "subject_short_raw": "EN",
+    "weekly_periods": 14,
+    "source_cell": "26-27A!R11C74"
+  },
+  {
+    "teacher_id": "T006",
+    "section_code": "2B",
+    "subject_code": "lb",
+    "subject_short_raw": "WB",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R15C41"
+  },
+  {
+    "teacher_id": "T006",
+    "section_code": "2B",
+    "subject_code": "Ex",
+    "subject_short_raw": "GP",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R15C43"
+  },
+  {
+    "teacher_id": "T006",
+    "section_code": "3A",
+    "subject_code": "En",
+    "subject_short_raw": "EN",
+    "weekly_periods": 9,
+    "source_cell": "26-27A!R15C50"
+  },
+  {
+    "teacher_id": "T006",
+    "section_code": "3A",
+    "subject_code": "Ex",
+    "subject_short_raw": "GP",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R15C51"
+  },
+  {
+    "teacher_id": "T006",
+    "section_code": "3A",
+    "subject_code": "lb",
+    "subject_short_raw": "WB",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R15C52"
+  },
+  {
+    "teacher_id": "T006",
+    "section_code": "3A",
+    "subject_code": "ES",
+    "subject_short_raw": "ES",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R15C53"
+  },
+  {
+    "teacher_id": "T007",
+    "section_code": "KG2B",
+    "subject_code": "En",
+    "subject_short_raw": "En",
+    "weekly_periods": 13,
+    "source_cell": "26-27A!R19C22"
+  },
+  {
+    "teacher_id": "T007",
+    "section_code": "KG2B",
+    "subject_code": "Ma",
+    "subject_short_raw": "Ma",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R19C23"
+  },
+  {
+    "teacher_id": "T007",
+    "section_code": "KG2B",
+    "subject_code": "Mu",
+    "subject_short_raw": "Mu",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R19C24"
+  },
+  {
+    "teacher_id": "T007",
+    "section_code": "KG2B",
+    "subject_code": "rt",
+    "subject_short_raw": "rt",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R19C25"
+  },
+  {
+    "teacher_id": "T007",
+    "section_code": "4A",
+    "subject_code": "En",
+    "subject_short_raw": "EN",
+    "weekly_periods": 8,
+    "source_cell": "26-27A!R19C62"
+  },
+  {
+    "teacher_id": "T008",
+    "section_code": "8A",
+    "subject_code": "En",
+    "subject_short_raw": "EN",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R23C113"
+  },
+  {
+    "teacher_id": "T008",
+    "section_code": "8A",
+    "subject_code": "ES",
+    "subject_short_raw": "ES",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R23C116"
+  },
+  {
+    "teacher_id": "T008",
+    "section_code": "9A",
+    "subject_code": "En",
+    "subject_short_raw": "EN",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R23C120"
+  },
+  {
+    "teacher_id": "T008",
+    "section_code": "9A",
+    "subject_code": "ES",
+    "subject_short_raw": "ES",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R23C123"
+  },
+  {
+    "teacher_id": "T008",
+    "section_code": "9B",
+    "subject_code": "En",
+    "subject_short_raw": "EN",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R23C124"
+  },
+  {
+    "teacher_id": "T008",
+    "section_code": "10B",
+    "subject_code": "En",
+    "subject_short_raw": "EN",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R23C130"
+  },
+  {
+    "teacher_id": "T009",
+    "section_code": "1C",
+    "subject_code": "En",
+    "subject_short_raw": "EN",
+    "weekly_periods": 11,
+    "source_cell": "26-27A!R27C35"
+  },
+  {
+    "teacher_id": "T009",
+    "section_code": "1C",
+    "subject_code": "Ma",
+    "subject_short_raw": "MA",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R27C36"
+  },
+  {
+    "teacher_id": "T009",
+    "section_code": "5-6 AL",
+    "subject_code": "En",
+    "subject_short_raw": "EN",
+    "weekly_periods": 14,
+    "source_cell": "26-27A!R27C87"
+  },
+  {
+    "teacher_id": "T011",
+    "section_code": "6C",
+    "subject_code": "Ex",
+    "subject_short_raw": "GP",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R35C97"
+  },
+  {
+    "teacher_id": "T011",
+    "section_code": "8A",
+    "subject_code": "Ex",
+    "subject_short_raw": "GP",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R35C114"
+  },
+  {
+    "teacher_id": "T011",
+    "section_code": "8B",
+    "subject_code": "En",
+    "subject_short_raw": "EN",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R35C117"
+  },
+  {
+    "teacher_id": "T011",
+    "section_code": "8B",
+    "subject_code": "Ex",
+    "subject_short_raw": "GP",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R35C119"
+  },
+  {
+    "teacher_id": "T011",
+    "section_code": "9B",
+    "subject_code": "Hi",
+    "subject_short_raw": "HI",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R35C126"
+  },
+  {
+    "teacher_id": "T012",
+    "section_code": "7A",
+    "subject_code": "En",
+    "subject_short_raw": "EN",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R39C102"
+  },
+  {
+    "teacher_id": "T012",
+    "section_code": "7A",
+    "subject_code": "Ex",
+    "subject_short_raw": "GP",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R39C106"
+  },
+  {
+    "teacher_id": "T012",
+    "section_code": "7B",
+    "subject_code": "En",
+    "subject_short_raw": "EN",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R39C107"
+  },
+  {
+    "teacher_id": "T012",
+    "section_code": "7B",
+    "subject_code": "Ex",
+    "subject_short_raw": "GP",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R39C108"
+  },
+  {
+    "teacher_id": "T012",
+    "section_code": "7B",
+    "subject_code": "ES",
+    "subject_short_raw": "ES",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R39C109"
+  },
+  {
+    "teacher_id": "T012",
+    "section_code": "7C",
+    "subject_code": "En",
+    "subject_short_raw": "EN",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R39C110"
+  },
+  {
+    "teacher_id": "T012",
+    "section_code": "7C",
+    "subject_code": "Ex",
+    "subject_short_raw": "GP",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R39C111"
+  },
+  {
+    "teacher_id": "T013",
+    "section_code": "1B",
+    "subject_code": "En",
+    "subject_short_raw": "En",
+    "weekly_periods": 11,
+    "source_cell": "26-27A!R43C30"
+  },
+  {
+    "teacher_id": "T013",
+    "section_code": "1B",
+    "subject_code": "Ma",
+    "subject_short_raw": "MA",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R43C33"
+  },
+  {
+    "teacher_id": "T013",
+    "section_code": "2A",
+    "subject_code": "Ex",
+    "subject_short_raw": "GP",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R43C38"
+  },
+  {
+    "teacher_id": "T013",
+    "section_code": "2A",
+    "subject_code": "lb",
+    "subject_short_raw": "WB",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R43C39"
+  },
+  {
+    "teacher_id": "T013",
+    "section_code": "2C",
+    "subject_code": "En",
+    "subject_short_raw": "EN",
+    "weekly_periods": 9,
+    "source_cell": "26-27A!R43C44"
+  },
+  {
+    "teacher_id": "T013",
+    "section_code": "2C",
+    "subject_code": "lb",
+    "subject_short_raw": "WB",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R43C45"
+  },
+  {
+    "teacher_id": "T013",
+    "section_code": "2C",
+    "subject_code": "Ex",
+    "subject_short_raw": "GP",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R43C46"
+  },
+  {
+    "teacher_id": "T014",
+    "section_code": "1A",
+    "subject_code": "En",
+    "subject_short_raw": "En",
+    "weekly_periods": 11,
+    "source_cell": "26-27A!R47C26"
+  },
+  {
+    "teacher_id": "T014",
+    "section_code": "1A",
+    "subject_code": "Ma",
+    "subject_short_raw": "MA",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R47C28"
+  },
+  {
+    "teacher_id": "T014",
+    "section_code": "1-2 AL",
+    "subject_code": "En",
+    "subject_short_raw": "EN",
+    "weekly_periods": 14,
+    "source_cell": "26-27A!R47C47"
+  },
+  {
+    "teacher_id": "T015",
+    "section_code": "3B",
+    "subject_code": "En",
+    "subject_short_raw": "En",
+    "weekly_periods": 9,
+    "source_cell": "26-27A!R51C54"
+  },
+  {
+    "teacher_id": "T015",
+    "section_code": "4C",
+    "subject_code": "En",
+    "subject_short_raw": "EN",
+    "weekly_periods": 8,
+    "source_cell": "26-27A!R51C70"
+  },
+  {
+    "teacher_id": "T015",
+    "section_code": "4C",
+    "subject_code": "Ex",
+    "subject_short_raw": "GP",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R51C72"
+  },
+  {
+    "teacher_id": "T015",
+    "section_code": "4C",
+    "subject_code": "lb",
+    "subject_short_raw": "WB",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R51C73"
+  },
+  {
+    "teacher_id": "T015",
+    "section_code": "5A",
+    "subject_code": "En",
+    "subject_short_raw": "EN",
+    "weekly_periods": 8,
+    "source_cell": "26-27A!R51C77"
+  },
+  {
+    "teacher_id": "T015",
+    "section_code": "5A",
+    "subject_code": "ES",
+    "subject_short_raw": "ES",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R51C78"
+  },
+  {
+    "teacher_id": "T015",
+    "section_code": "5A",
+    "subject_code": "Ex",
+    "subject_short_raw": "GP",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R51C80"
+  },
+  {
+    "teacher_id": "T016",
+    "section_code": "5B",
+    "subject_code": "En",
+    "subject_short_raw": "EN",
+    "weekly_periods": 8,
+    "source_cell": "26-27A!R55C81"
+  },
+  {
+    "teacher_id": "T016",
+    "section_code": "5B",
+    "subject_code": "Ex",
+    "subject_short_raw": "GP",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R55C82"
+  },
+  {
+    "teacher_id": "T016",
+    "section_code": "5C",
+    "subject_code": "En",
+    "subject_short_raw": "EN",
+    "weekly_periods": 8,
+    "source_cell": "26-27A!R55C84"
+  },
+  {
+    "teacher_id": "T016",
+    "section_code": "6C",
+    "subject_code": "En",
+    "subject_short_raw": "EN",
+    "weekly_periods": 8,
+    "source_cell": "26-27A!R55C97"
+  },
+  {
+    "teacher_id": "T017",
+    "section_code": "KG1B",
+    "subject_code": "En",
+    "subject_short_raw": "En",
+    "weekly_periods": 13,
+    "source_cell": "26-27A!R59C10"
+  },
+  {
+    "teacher_id": "T017",
+    "section_code": "KG1B",
+    "subject_code": "Ma",
+    "subject_short_raw": "Ma",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R59C11"
+  },
+  {
+    "teacher_id": "T017",
+    "section_code": "KG1B",
+    "subject_code": "Mu",
+    "subject_short_raw": "Mu",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R59C12"
+  },
+  {
+    "teacher_id": "T017",
+    "section_code": "KG1B",
+    "subject_code": "rt",
+    "subject_short_raw": "rt",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R59C13"
+  },
+  {
+    "teacher_id": "T017",
+    "section_code": "2B",
+    "subject_code": "En",
+    "subject_short_raw": "EN",
+    "weekly_periods": 9,
+    "source_cell": "26-27A!R59C41"
+  },
+  {
+    "teacher_id": "T018",
+    "section_code": "6A",
+    "subject_code": "En",
+    "subject_short_raw": "En",
+    "weekly_periods": 8,
+    "source_cell": "26-27A!R63C90"
+  },
+  {
+    "teacher_id": "T018",
+    "section_code": "6A",
+    "subject_code": "Ex",
+    "subject_short_raw": "GP",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R63C91"
+  },
+  {
+    "teacher_id": "T018",
+    "section_code": "6A",
+    "subject_code": "ES",
+    "subject_short_raw": "ES",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R63C93"
+  },
+  {
+    "teacher_id": "T018",
+    "section_code": "6B",
+    "subject_code": "En",
+    "subject_short_raw": "EN",
+    "weekly_periods": 8,
+    "source_cell": "26-27A!R63C94"
+  },
+  {
+    "teacher_id": "T018",
+    "section_code": "6B",
+    "subject_code": "Ex",
+    "subject_short_raw": "GP",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R63C95"
+  },
+  {
+    "teacher_id": "T019",
+    "section_code": "10A",
+    "subject_code": "En",
+    "subject_short_raw": "EN",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R67C127"
+  },
+  {
+    "teacher_id": "T019",
+    "section_code": "11A",
+    "subject_code": "En",
+    "subject_short_raw": "EN",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R67C133"
+  },
+  {
+    "teacher_id": "T019",
+    "section_code": "12A",
+    "subject_code": "En",
+    "subject_short_raw": "EN",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R67C143"
+  },
+  {
+    "teacher_id": "T020",
+    "section_code": "3C",
+    "subject_code": "En",
+    "subject_short_raw": "En",
+    "weekly_periods": 9,
+    "source_cell": "26-27A!R71C58"
+  },
+  {
+    "teacher_id": "T020",
+    "section_code": "3C",
+    "subject_code": "lb",
+    "subject_short_raw": "WB",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R71C59"
+  },
+  {
+    "teacher_id": "T020",
+    "section_code": "3C",
+    "subject_code": "ES",
+    "subject_short_raw": "ES",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R71C60"
+  },
+  {
+    "teacher_id": "T020",
+    "section_code": "3C",
+    "subject_code": "Ex",
+    "subject_short_raw": "GP",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R71C61"
+  },
+  {
+    "teacher_id": "T020",
+    "section_code": "4A",
+    "subject_code": "Ex",
+    "subject_short_raw": "GP",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R71C63"
+  },
+  {
+    "teacher_id": "T020",
+    "section_code": "4A",
+    "subject_code": "lb",
+    "subject_short_raw": "WB",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R71C65"
+  },
+  {
+    "teacher_id": "T020",
+    "section_code": "4B",
+    "subject_code": "En",
+    "subject_short_raw": "EN",
+    "weekly_periods": 8,
+    "source_cell": "26-27A!R71C66"
+  },
+  {
+    "teacher_id": "T020",
+    "section_code": "4B",
+    "subject_code": "Ex",
+    "subject_short_raw": "GP",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R71C67"
+  },
+  {
+    "teacher_id": "T020",
+    "section_code": "4B",
+    "subject_code": "ES",
+    "subject_short_raw": "ES",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R71C68"
+  },
+  {
+    "teacher_id": "T020",
+    "section_code": "4B",
+    "subject_code": "lb",
+    "subject_short_raw": "WB",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R71C69"
+  },
+  {
+    "teacher_id": "T021",
+    "section_code": "1A",
+    "subject_code": "IT",
+    "subject_short_raw": "IT",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R79C26"
+  },
+  {
+    "teacher_id": "T021",
+    "section_code": "1B",
+    "subject_code": "IT",
+    "subject_short_raw": "IT",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R79C30"
+  },
+  {
+    "teacher_id": "T021",
+    "section_code": "1C",
+    "subject_code": "IT",
+    "subject_short_raw": "IT",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R79C36"
+  },
+  {
+    "teacher_id": "T021",
+    "section_code": "2A",
+    "subject_code": "IT",
+    "subject_short_raw": "IT",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R79C38"
+  },
+  {
+    "teacher_id": "T021",
+    "section_code": "2B",
+    "subject_code": "IT",
+    "subject_short_raw": "IT",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R79C41"
+  },
+  {
+    "teacher_id": "T021",
+    "section_code": "2C",
+    "subject_code": "IT",
+    "subject_short_raw": "IT",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R79C44"
+  },
+  {
+    "teacher_id": "T021",
+    "section_code": "1-2 AL",
+    "subject_code": "IT",
+    "subject_short_raw": "IT",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R79C48"
+  },
+  {
+    "teacher_id": "T021",
+    "section_code": "3A",
+    "subject_code": "IT",
+    "subject_short_raw": "IT",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R79C50"
+  },
+  {
+    "teacher_id": "T021",
+    "section_code": "3B",
+    "subject_code": "IT",
+    "subject_short_raw": "IT",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R79C54"
+  },
+  {
+    "teacher_id": "T021",
+    "section_code": "3C",
+    "subject_code": "IT",
+    "subject_short_raw": "IT",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R79C58"
+  },
+  {
+    "teacher_id": "T021",
+    "section_code": "4A",
+    "subject_code": "IT",
+    "subject_short_raw": "IT",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R79C62"
+  },
+  {
+    "teacher_id": "T021",
+    "section_code": "4B",
+    "subject_code": "IT",
+    "subject_short_raw": "IT",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R79C66"
+  },
+  {
+    "teacher_id": "T021",
+    "section_code": "4C",
+    "subject_code": "IT",
+    "subject_short_raw": "IT",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R79C70"
+  },
+  {
+    "teacher_id": "T021",
+    "section_code": "3-4 AL",
+    "subject_code": "IT",
+    "subject_short_raw": "IT",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R79C75"
+  },
+  {
+    "teacher_id": "T021",
+    "section_code": "5A",
+    "subject_code": "IT",
+    "subject_short_raw": "IT",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R79C77"
+  },
+  {
+    "teacher_id": "T021",
+    "section_code": "5B",
+    "subject_code": "IT",
+    "subject_short_raw": "IT",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R79C81"
+  },
+  {
+    "teacher_id": "T021",
+    "section_code": "5C",
+    "subject_code": "IT",
+    "subject_short_raw": "IT",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R79C84"
+  },
+  {
+    "teacher_id": "T021",
+    "section_code": "5-6 AL",
+    "subject_code": "IT",
+    "subject_short_raw": "IT",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R79C88"
+  },
+  {
+    "teacher_id": "T021",
+    "section_code": "6A",
+    "subject_code": "IT",
+    "subject_short_raw": "IT",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R79C90"
+  },
+  {
+    "teacher_id": "T021",
+    "section_code": "6B",
+    "subject_code": "IT",
+    "subject_short_raw": "IT",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R79C94"
+  },
+  {
+    "teacher_id": "T021",
+    "section_code": "6C",
+    "subject_code": "IT",
+    "subject_short_raw": "IT",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R79C98"
+  },
+  {
+    "teacher_id": "T022",
+    "section_code": "5A",
+    "subject_code": "Sc",
+    "subject_short_raw": "SC",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R83C77"
+  },
+  {
+    "teacher_id": "T022",
+    "section_code": "6B",
+    "subject_code": "Sc",
+    "subject_short_raw": "SC",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R83C94"
+  },
+  {
+    "teacher_id": "T022",
+    "section_code": "6C",
+    "subject_code": "Sc",
+    "subject_short_raw": "SC",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R83C98"
+  },
+  {
+    "teacher_id": "T022",
+    "section_code": "9A",
+    "subject_code": "Ch",
+    "subject_short_raw": "CH",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R83C120"
+  },
+  {
+    "teacher_id": "T022",
+    "section_code": "9B",
+    "subject_code": "Ch",
+    "subject_short_raw": "CH",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R83C125"
+  },
+  {
+    "teacher_id": "T022",
+    "section_code": "10A",
+    "subject_code": "Ch",
+    "subject_short_raw": "CH",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R83C127"
+  },
+  {
+    "teacher_id": "T022",
+    "section_code": "10B",
+    "subject_code": "Ch",
+    "subject_short_raw": "CH",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R83C130"
+  },
+  {
+    "teacher_id": "T023",
+    "section_code": "4B",
+    "subject_code": "Sc",
+    "subject_short_raw": "Sc",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R87C66"
+  },
+  {
+    "teacher_id": "T023",
+    "section_code": "4C",
+    "subject_code": "Sc",
+    "subject_short_raw": "SC",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R87C70"
+  },
+  {
+    "teacher_id": "T023",
+    "section_code": "3-4 AL",
+    "subject_code": "Sc",
+    "subject_short_raw": "SC",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R87C74"
+  },
+  {
+    "teacher_id": "T023",
+    "section_code": "6A",
+    "subject_code": "Sc",
+    "subject_short_raw": "SC",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R87C90"
+  },
+  {
+    "teacher_id": "T023",
+    "section_code": "7A",
+    "subject_code": "Sc",
+    "subject_short_raw": "SC",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R87C102"
+  },
+  {
+    "teacher_id": "T023",
+    "section_code": "9A",
+    "subject_code": "Ph",
+    "subject_short_raw": "PH",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R87C120"
+  },
+  {
+    "teacher_id": "T023",
+    "section_code": "10A",
+    "subject_code": "Ph",
+    "subject_short_raw": "PH",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R87C127"
+  },
+  {
+    "teacher_id": "T024",
+    "section_code": "2A",
+    "subject_code": "Ma",
+    "subject_short_raw": "MA",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R91C38"
+  },
+  {
+    "teacher_id": "T024",
+    "section_code": "1-2 AL",
+    "subject_code": "Ma",
+    "subject_short_raw": "MA",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R91C47"
+  },
+  {
+    "teacher_id": "T024",
+    "section_code": "3A",
+    "subject_code": "Ma",
+    "subject_short_raw": "MA",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R91C50"
+  },
+  {
+    "teacher_id": "T024",
+    "section_code": "3C",
+    "subject_code": "Ma",
+    "subject_short_raw": "MA",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R91C58"
+  },
+  {
+    "teacher_id": "T024",
+    "section_code": "4C",
+    "subject_code": "Ma",
+    "subject_short_raw": "MA",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R91C70"
+  },
+  {
+    "teacher_id": "T026",
+    "section_code": "2A",
+    "subject_code": "Sc",
+    "subject_short_raw": "SC",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R95C38"
+  },
+  {
+    "teacher_id": "T026",
+    "section_code": "2B",
+    "subject_code": "Ma",
+    "subject_short_raw": "MA",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R95C42"
+  },
+  {
+    "teacher_id": "T026",
+    "section_code": "3A",
+    "subject_code": "MS",
+    "subject_short_raw": "MS",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R95C53"
+  },
+  {
+    "teacher_id": "T026",
+    "section_code": "3B",
+    "subject_code": "Ma",
+    "subject_short_raw": "MA",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R95C54"
+  },
+  {
+    "teacher_id": "T026",
+    "section_code": "3C",
+    "subject_code": "Sc",
+    "subject_short_raw": "SC",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R95C58"
+  },
+  {
+    "teacher_id": "T026",
+    "section_code": "3-4 AL",
+    "subject_code": "Ma",
+    "subject_short_raw": "MA",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R95C75"
+  },
+  {
+    "teacher_id": "T027",
+    "section_code": "7B",
+    "subject_code": "Sc",
+    "subject_short_raw": "Sc",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R99C107"
+  },
+  {
+    "teacher_id": "T027",
+    "section_code": "7C",
+    "subject_code": "Sc",
+    "subject_short_raw": "Sc",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R99C110"
+  },
+  {
+    "teacher_id": "T027",
+    "section_code": "8B",
+    "subject_code": "Sc",
+    "subject_short_raw": "Sc",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R99C117"
+  },
+  {
+    "teacher_id": "T027",
+    "section_code": "9A",
+    "subject_code": "dv",
+    "subject_short_raw": "EM",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R99C123"
+  },
+  {
+    "teacher_id": "T027",
+    "section_code": "10A",
+    "subject_code": "dv",
+    "subject_short_raw": "EM",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R99C128"
+  },
+  {
+    "teacher_id": "T027",
+    "section_code": "10B",
+    "subject_code": "Bi",
+    "subject_short_raw": "BIO",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R99C132"
+  },
+  {
+    "teacher_id": "T027",
+    "section_code": "11A",
+    "subject_code": "Bi",
+    "subject_short_raw": "BIO",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R99C135"
+  },
+  {
+    "teacher_id": "T029",
+    "section_code": "11A",
+    "subject_code": "Ch",
+    "subject_short_raw": "CH",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R107C133"
+  },
+  {
+    "teacher_id": "T029",
+    "section_code": "11 AS",
+    "subject_code": "Ch",
+    "subject_short_raw": "CH",
+    "weekly_periods": 7,
+    "source_cell": "26-27A!R107C139"
+  },
+  {
+    "teacher_id": "T029",
+    "section_code": "12A",
+    "subject_code": "Ch",
+    "subject_short_raw": "CH",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R107C144"
+  },
+  {
+    "teacher_id": "T029",
+    "section_code": "12 A2",
+    "subject_code": "Ch",
+    "subject_short_raw": "CH",
+    "weekly_periods": 7,
+    "source_cell": "26-27A!R107C151"
+  },
+  {
+    "teacher_id": "T030",
+    "section_code": "4A",
+    "subject_code": "Ma",
+    "subject_short_raw": "MA",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R111C62"
+  },
+  {
+    "teacher_id": "T030",
+    "section_code": "4A",
+    "subject_code": "MS",
+    "subject_short_raw": "MS",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R111C65"
+  },
+  {
+    "teacher_id": "T030",
+    "section_code": "4B",
+    "subject_code": "Ma",
+    "subject_short_raw": "MA",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R111C66"
+  },
+  {
+    "teacher_id": "T030",
+    "section_code": "5-6 AL",
+    "subject_code": "Ma",
+    "subject_short_raw": "MA",
+    "weekly_periods": 7,
+    "source_cell": "26-27A!R111C87"
+  },
+  {
+    "teacher_id": "T030",
+    "section_code": "6B",
+    "subject_code": "Ma",
+    "subject_short_raw": "MA",
+    "weekly_periods": 8,
+    "source_cell": "26-27A!R111C94"
+  },
+  {
+    "teacher_id": "T031",
+    "section_code": "7A",
+    "subject_code": "Ar",
+    "subject_short_raw": "ML",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R115C103"
+  },
+  {
+    "teacher_id": "T031",
+    "section_code": "7B",
+    "subject_code": "Ar",
+    "subject_short_raw": "ML",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R115C107"
+  },
+  {
+    "teacher_id": "T031",
+    "section_code": "7B",
+    "subject_code": "MS",
+    "subject_short_raw": "MS",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R115C109"
+  },
+  {
+    "teacher_id": "T031",
+    "section_code": "7C",
+    "subject_code": "Ar",
+    "subject_short_raw": "ML",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R115C110"
+  },
+  {
+    "teacher_id": "T031",
+    "section_code": "8A",
+    "subject_code": "MS",
+    "subject_short_raw": "MS",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R115C116"
+  },
+  {
+    "teacher_id": "T031",
+    "section_code": "8B",
+    "subject_code": "Ar",
+    "subject_short_raw": "ML",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R115C118"
+  },
+  {
+    "teacher_id": "T031",
+    "section_code": "12 A2",
+    "subject_code": "?",
+    "subject_short_raw": null,
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R115C156"
+  },
+  {
+    "teacher_id": "T032",
+    "section_code": "1C",
+    "subject_code": "Sc",
+    "subject_short_raw": "SC",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R119C36"
+  },
+  {
+    "teacher_id": "T032",
+    "section_code": "2B",
+    "subject_code": "Sc",
+    "subject_short_raw": "SC",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R119C41"
+  },
+  {
+    "teacher_id": "T032",
+    "section_code": "2B",
+    "subject_code": "MS",
+    "subject_short_raw": "MS",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R119C43"
+  },
+  {
+    "teacher_id": "T032",
+    "section_code": "2C",
+    "subject_code": "Sc",
+    "subject_short_raw": "SC",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R119C44"
+  },
+  {
+    "teacher_id": "T032",
+    "section_code": "2C",
+    "subject_code": "Ma",
+    "subject_short_raw": "MA",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R119C45"
+  },
+  {
+    "teacher_id": "T032",
+    "section_code": "1-2 AL",
+    "subject_code": "Sc",
+    "subject_short_raw": "SC",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R119C47"
+  },
+  {
+    "teacher_id": "T032",
+    "section_code": "3A",
+    "subject_code": "Sc",
+    "subject_short_raw": "SC",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R119C50"
+  },
+  {
+    "teacher_id": "T032",
+    "section_code": "3B",
+    "subject_code": "Sc",
+    "subject_short_raw": "SC",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R119C55"
+  },
+  {
+    "teacher_id": "T032",
+    "section_code": "5-6 AL",
+    "subject_code": "Sc",
+    "subject_short_raw": "SC",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R119C87"
+  },
+  {
+    "teacher_id": "T033",
+    "section_code": "6A",
+    "subject_code": "Ma",
+    "subject_short_raw": "MA",
+    "weekly_periods": 8,
+    "source_cell": "26-27A!R123C90"
+  },
+  {
+    "teacher_id": "T033",
+    "section_code": "6C",
+    "subject_code": "Ma",
+    "subject_short_raw": "MA",
+    "weekly_periods": 8,
+    "source_cell": "26-27A!R123C98"
+  },
+  {
+    "teacher_id": "T033",
+    "section_code": "8A",
+    "subject_code": "Ar",
+    "subject_short_raw": "ML",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R123C114"
+  },
+  {
+    "teacher_id": "T033",
+    "section_code": "9B",
+    "subject_code": "Ma",
+    "subject_short_raw": "MA",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R123C124"
+  },
+  {
+    "teacher_id": "T034",
+    "section_code": "5A",
+    "subject_code": "Ma",
+    "subject_short_raw": "MA",
+    "weekly_periods": 7,
+    "source_cell": "26-27A!R127C77"
+  },
+  {
+    "teacher_id": "T034",
+    "section_code": "5A",
+    "subject_code": "MS",
+    "subject_short_raw": "MS",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R127C80"
+  },
+  {
+    "teacher_id": "T034",
+    "section_code": "5B",
+    "subject_code": "Ma",
+    "subject_short_raw": "Ma",
+    "weekly_periods": 7,
+    "source_cell": "26-27A!R127C81"
+  },
+  {
+    "teacher_id": "T034",
+    "section_code": "5C",
+    "subject_code": "Ma",
+    "subject_short_raw": "MA",
+    "weekly_periods": 7,
+    "source_cell": "26-27A!R127C84"
+  },
+  {
+    "teacher_id": "T034",
+    "section_code": "6A",
+    "subject_code": "MS",
+    "subject_short_raw": "MS",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R127C93"
+  },
+  {
+    "teacher_id": "T035",
+    "section_code": "10A",
+    "subject_code": "Ma",
+    "subject_short_raw": "Ma",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R131C127"
+  },
+  {
+    "teacher_id": "T035",
+    "section_code": "10A",
+    "subject_code": "MS",
+    "subject_short_raw": "MS",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R131C129"
+  },
+  {
+    "teacher_id": "T035",
+    "section_code": "11 AS",
+    "subject_code": "Ma",
+    "subject_short_raw": "MA",
+    "weekly_periods": 7,
+    "source_cell": "26-27A!R131C140"
+  },
+  {
+    "teacher_id": "T035",
+    "section_code": "12 A2",
+    "subject_code": "A3",
+    "subject_short_raw": "A2",
+    "weekly_periods": 7,
+    "source_cell": "26-27A!R131C151"
+  },
+  {
+    "teacher_id": "T035",
+    "section_code": "12 A2",
+    "subject_code": "SSE",
+    "subject_short_raw": "S2",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R131C152"
+  },
+  {
+    "teacher_id": "T036",
+    "section_code": "11A",
+    "subject_code": "Ph",
+    "subject_short_raw": "PH",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R135C133"
+  },
+  {
+    "teacher_id": "T036",
+    "section_code": "11 AS",
+    "subject_code": "Ph",
+    "subject_short_raw": "PH",
+    "weekly_periods": 7,
+    "source_cell": "26-27A!R135C140"
+  },
+  {
+    "teacher_id": "T036",
+    "section_code": "11 AS",
+    "subject_code": "Ma",
+    "subject_short_raw": "M1",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R135C142"
+  },
+  {
+    "teacher_id": "T036",
+    "section_code": "12A",
+    "subject_code": "Ph",
+    "subject_short_raw": "PHY",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R135C144"
+  },
+  {
+    "teacher_id": "T036",
+    "section_code": "12 A2",
+    "subject_code": "Ph",
+    "subject_short_raw": "PH",
+    "weekly_periods": 7,
+    "source_cell": "26-27A!R135C151"
+  },
+  {
+    "teacher_id": "T037",
+    "section_code": "7A",
+    "subject_code": "IT",
+    "subject_short_raw": "IT",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R139C102"
+  },
+  {
+    "teacher_id": "T037",
+    "section_code": "7B",
+    "subject_code": "IT",
+    "subject_short_raw": "IT",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R139C107"
+  },
+  {
+    "teacher_id": "T037",
+    "section_code": "7C",
+    "subject_code": "IT",
+    "subject_short_raw": "IT",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R139C110"
+  },
+  {
+    "teacher_id": "T037",
+    "section_code": "8A",
+    "subject_code": "IT",
+    "subject_short_raw": "IT",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R139C113"
+  },
+  {
+    "teacher_id": "T037",
+    "section_code": "8B",
+    "subject_code": "IT",
+    "subject_short_raw": "IT",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R139C117"
+  },
+  {
+    "teacher_id": "T037",
+    "section_code": "9A",
+    "subject_code": "IT",
+    "subject_short_raw": "IT",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R139C120"
+  },
+  {
+    "teacher_id": "T037",
+    "section_code": "10B",
+    "subject_code": "IT",
+    "subject_short_raw": "IT",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R139C130"
+  },
+  {
+    "teacher_id": "T037",
+    "section_code": "11A",
+    "subject_code": "IT",
+    "subject_short_raw": "IT",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R139C134"
+  },
+  {
+    "teacher_id": "T037",
+    "section_code": "12A",
+    "subject_code": "IT",
+    "subject_short_raw": "IT",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R139C144"
+  },
+  {
+    "teacher_id": "T038",
+    "section_code": "1A",
+    "subject_code": "?",
+    "subject_short_raw": null,
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R143C27"
+  },
+  {
+    "teacher_id": "T038",
+    "section_code": "1B",
+    "subject_code": "?",
+    "subject_short_raw": null,
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R143C31"
+  },
+  {
+    "teacher_id": "T038",
+    "section_code": "4A",
+    "subject_code": "Sc",
+    "subject_short_raw": "SC",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R143C62"
+  },
+  {
+    "teacher_id": "T038",
+    "section_code": "5B",
+    "subject_code": "Sc",
+    "subject_short_raw": "SC",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R143C82"
+  },
+  {
+    "teacher_id": "T038",
+    "section_code": "5C",
+    "subject_code": "Sc",
+    "subject_short_raw": "SC",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R143C85"
+  },
+  {
+    "teacher_id": "T038",
+    "section_code": "8A",
+    "subject_code": "Sc",
+    "subject_short_raw": "SC",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R143C113"
+  },
+  {
+    "teacher_id": "T038",
+    "section_code": "9B",
+    "subject_code": "Bi",
+    "subject_short_raw": "BIO",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R143C126"
+  },
+  {
+    "teacher_id": "T039",
+    "section_code": "10A",
+    "subject_code": "Bi SS",
+    "subject_short_raw": "BSS",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R147C129"
+  },
+  {
+    "teacher_id": "T039",
+    "section_code": "11 AS",
+    "subject_code": "Bi",
+    "subject_short_raw": "BIO",
+    "weekly_periods": 7,
+    "source_cell": "26-27A!R147C140"
+  },
+  {
+    "teacher_id": "T039",
+    "section_code": "12A",
+    "subject_code": "Bi",
+    "subject_short_raw": "BIO",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R147C144"
+  },
+  {
+    "teacher_id": "T039",
+    "section_code": "12 A2",
+    "subject_code": "?",
+    "subject_short_raw": null,
+    "weekly_periods": 7,
+    "source_cell": "26-27A!R147C152"
+  },
+  {
+    "teacher_id": "T040",
+    "section_code": "2B",
+    "subject_code": "Ar",
+    "subject_short_raw": "Ar",
+    "weekly_periods": 9,
+    "source_cell": "26-27A!R151C41"
+  },
+  {
+    "teacher_id": "T040",
+    "section_code": "2C",
+    "subject_code": "Ar",
+    "subject_short_raw": "Ar",
+    "weekly_periods": 9,
+    "source_cell": "26-27A!R151C44"
+  },
+  {
+    "teacher_id": "T040",
+    "section_code": "1-2 AL",
+    "subject_code": "Ar",
+    "subject_short_raw": "AR",
+    "weekly_periods": 9,
+    "source_cell": "26-27A!R151C47"
+  },
+  {
+    "teacher_id": "T041",
+    "section_code": "1A",
+    "subject_code": "rt",
+    "subject_short_raw": "RT",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R155C26"
+  },
+  {
+    "teacher_id": "T041",
+    "section_code": "1B",
+    "subject_code": "rt",
+    "subject_short_raw": "RT",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R155C30"
+  },
+  {
+    "teacher_id": "T041",
+    "section_code": "1C",
+    "subject_code": "rt",
+    "subject_short_raw": "RT",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R155C35"
+  },
+  {
+    "teacher_id": "T041",
+    "section_code": "2A",
+    "subject_code": "rt",
+    "subject_short_raw": "RT",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R155C38"
+  },
+  {
+    "teacher_id": "T041",
+    "section_code": "2B",
+    "subject_code": "rt",
+    "subject_short_raw": "RT",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R155C41"
+  },
+  {
+    "teacher_id": "T041",
+    "section_code": "2C",
+    "subject_code": "rt",
+    "subject_short_raw": "RT",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R155C44"
+  },
+  {
+    "teacher_id": "T041",
+    "section_code": "1-2 AL",
+    "subject_code": "rt",
+    "subject_short_raw": "RT",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R155C47"
+  },
+  {
+    "teacher_id": "T041",
+    "section_code": "3A",
+    "subject_code": "rt",
+    "subject_short_raw": "RT",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R155C50"
+  },
+  {
+    "teacher_id": "T041",
+    "section_code": "3B",
+    "subject_code": "rt",
+    "subject_short_raw": "RT",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R155C54"
+  },
+  {
+    "teacher_id": "T041",
+    "section_code": "3C",
+    "subject_code": "rt",
+    "subject_short_raw": "RT",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R155C58"
+  },
+  {
+    "teacher_id": "T041",
+    "section_code": "4A",
+    "subject_code": "rt",
+    "subject_short_raw": "RT",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R155C62"
+  },
+  {
+    "teacher_id": "T041",
+    "section_code": "4B",
+    "subject_code": "rt",
+    "subject_short_raw": "RT",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R155C66"
+  },
+  {
+    "teacher_id": "T041",
+    "section_code": "4C",
+    "subject_code": "rt",
+    "subject_short_raw": "RT",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R155C70"
+  },
+  {
+    "teacher_id": "T041",
+    "section_code": "3-4 AL",
+    "subject_code": "rt",
+    "subject_short_raw": "RT",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R155C74"
+  },
+  {
+    "teacher_id": "T041",
+    "section_code": "5A",
+    "subject_code": "rt",
+    "subject_short_raw": "RT",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R155C77"
+  },
+  {
+    "teacher_id": "T041",
+    "section_code": "5B",
+    "subject_code": "rt",
+    "subject_short_raw": "RT",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R155C81"
+  },
+  {
+    "teacher_id": "T041",
+    "section_code": "5C",
+    "subject_code": "rt",
+    "subject_short_raw": "RT",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R155C84"
+  },
+  {
+    "teacher_id": "T041",
+    "section_code": "5-6 AL",
+    "subject_code": "rt",
+    "subject_short_raw": "RT",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R155C88"
+  },
+  {
+    "teacher_id": "T041",
+    "section_code": "6A",
+    "subject_code": "rt",
+    "subject_short_raw": "RT",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R155C90"
+  },
+  {
+    "teacher_id": "T041",
+    "section_code": "6B",
+    "subject_code": "rt",
+    "subject_short_raw": "RT",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R155C94"
+  },
+  {
+    "teacher_id": "T041",
+    "section_code": "6C",
+    "subject_code": "rt",
+    "subject_short_raw": "RT",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R155C98"
+  },
+  {
+    "teacher_id": "T042",
+    "section_code": "1C",
+    "subject_code": "Ar",
+    "subject_short_raw": "AR",
+    "weekly_periods": 9,
+    "source_cell": "26-27A!R159C35"
+  },
+  {
+    "teacher_id": "T042",
+    "section_code": "3A",
+    "subject_code": "Ar",
+    "subject_short_raw": "AR",
+    "weekly_periods": 8,
+    "source_cell": "26-27A!R159C50"
+  },
+  {
+    "teacher_id": "T042",
+    "section_code": "3C",
+    "subject_code": "Ar",
+    "subject_short_raw": "AR",
+    "weekly_periods": 8,
+    "source_cell": "26-27A!R159C58"
+  },
+  {
+    "teacher_id": "T043",
+    "section_code": "K1A",
+    "subject_code": "Ar",
+    "subject_short_raw": "AR",
+    "weekly_periods": 7,
+    "source_cell": "26-27A!R163C6"
+  },
+  {
+    "teacher_id": "T043",
+    "section_code": "KG1B",
+    "subject_code": "Ar",
+    "subject_short_raw": "AR",
+    "weekly_periods": 7,
+    "source_cell": "26-27A!R163C10"
+  },
+  {
+    "teacher_id": "T043",
+    "section_code": "KG2A",
+    "subject_code": "Ar",
+    "subject_short_raw": "AR",
+    "weekly_periods": 7,
+    "source_cell": "26-27A!R163C18"
+  },
+  {
+    "teacher_id": "T043",
+    "section_code": "2A",
+    "subject_code": "A3",
+    "subject_short_raw": "AR3",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R163C40"
+  },
+  {
+    "teacher_id": "T043",
+    "section_code": "5A",
+    "subject_code": "A3",
+    "subject_short_raw": "AR3",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R163C80"
+  },
+  {
+    "teacher_id": "T043",
+    "section_code": "9A",
+    "subject_code": "A3",
+    "subject_short_raw": "AR3",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R163C120"
+  },
+  {
+    "teacher_id": "T044",
+    "section_code": "KG2C",
+    "subject_code": "Ar",
+    "subject_short_raw": "AR",
+    "weekly_periods": 7,
+    "source_cell": "26-27A!R167C14"
+  },
+  {
+    "teacher_id": "T044",
+    "section_code": "1A",
+    "subject_code": "Ar",
+    "subject_short_raw": "AR",
+    "weekly_periods": 9,
+    "source_cell": "26-27A!R167C26"
+  },
+  {
+    "teacher_id": "T044",
+    "section_code": "1B",
+    "subject_code": "Ar",
+    "subject_short_raw": "Ar",
+    "weekly_periods": 9,
+    "source_cell": "26-27A!R167C31"
+  },
+  {
+    "teacher_id": "T045",
+    "section_code": "1A",
+    "subject_code": "A3",
+    "subject_short_raw": "A3",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R171C29"
+  },
+  {
+    "teacher_id": "T045",
+    "section_code": "3A",
+    "subject_code": "A3",
+    "subject_short_raw": "A3",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R171C52"
+  },
+  {
+    "teacher_id": "T045",
+    "section_code": "5C",
+    "subject_code": "SSA",
+    "subject_short_raw": "SSA",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R171C85"
+  },
+  {
+    "teacher_id": "T045",
+    "section_code": "6A",
+    "subject_code": "A3",
+    "subject_short_raw": "AR3",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R171C92"
+  },
+  {
+    "teacher_id": "T045",
+    "section_code": "6A",
+    "subject_code": "SSA",
+    "subject_short_raw": "SSA",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R171C93"
+  },
+  {
+    "teacher_id": "T045",
+    "section_code": "6B",
+    "subject_code": "SSA",
+    "subject_short_raw": "SSA",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R171C96"
+  },
+  {
+    "teacher_id": "T045",
+    "section_code": "6C",
+    "subject_code": "SSA",
+    "subject_short_raw": "SSA",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R171C98"
+  },
+  {
+    "teacher_id": "T045",
+    "section_code": "7A",
+    "subject_code": "A3",
+    "subject_short_raw": "AR3",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R171C105"
+  },
+  {
+    "teacher_id": "T045",
+    "section_code": "7A",
+    "subject_code": "SSA",
+    "subject_short_raw": "ASS",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R171C106"
+  },
+  {
+    "teacher_id": "T045",
+    "section_code": "8A",
+    "subject_code": "A3",
+    "subject_short_raw": "AR3",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R171C113"
+  },
+  {
+    "teacher_id": "T046",
+    "section_code": "3B",
+    "subject_code": "Ar",
+    "subject_short_raw": "AR",
+    "weekly_periods": 8,
+    "source_cell": "26-27A!R175C54"
+  },
+  {
+    "teacher_id": "T046",
+    "section_code": "4A",
+    "subject_code": "Ar",
+    "subject_short_raw": "Ar",
+    "weekly_periods": 8,
+    "source_cell": "26-27A!R175C62"
+  },
+  {
+    "teacher_id": "T046",
+    "section_code": "4C",
+    "subject_code": "Ar",
+    "subject_short_raw": "AR",
+    "weekly_periods": 8,
+    "source_cell": "26-27A!R175C70"
+  },
+  {
+    "teacher_id": "T047",
+    "section_code": "8A",
+    "subject_code": "Ar",
+    "subject_short_raw": "AR",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R179C113"
+  },
+  {
+    "teacher_id": "T047",
+    "section_code": "8B",
+    "subject_code": "Ar",
+    "subject_short_raw": "AR",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R179C117"
+  },
+  {
+    "teacher_id": "T047",
+    "section_code": "11A",
+    "subject_code": "Ar",
+    "subject_short_raw": "AR",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R179C133"
+  },
+  {
+    "teacher_id": "T047",
+    "section_code": "12A",
+    "subject_code": "Ar",
+    "subject_short_raw": "AR",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R179C143"
+  },
+  {
+    "teacher_id": "T048",
+    "section_code": "9A",
+    "subject_code": "Ar",
+    "subject_short_raw": "AR",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R183C120"
+  },
+  {
+    "teacher_id": "T048",
+    "section_code": "9B",
+    "subject_code": "Ar",
+    "subject_short_raw": "AR",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R183C124"
+  },
+  {
+    "teacher_id": "T048",
+    "section_code": "10A",
+    "subject_code": "Ar",
+    "subject_short_raw": "AR",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R183C127"
+  },
+  {
+    "teacher_id": "T048",
+    "section_code": "10B",
+    "subject_code": "Ar",
+    "subject_short_raw": "AR",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R183C130"
+  },
+  {
+    "teacher_id": "T048",
+    "section_code": "11A",
+    "subject_code": "Ar",
+    "subject_short_raw": "AR",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R183C133"
+  },
+  {
+    "teacher_id": "T049",
+    "section_code": "5A",
+    "subject_code": "Ar",
+    "subject_short_raw": "AR",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R187C77"
+  },
+  {
+    "teacher_id": "T049",
+    "section_code": "5B",
+    "subject_code": "Ar",
+    "subject_short_raw": "AR",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R187C81"
+  },
+  {
+    "teacher_id": "T049",
+    "section_code": "5C",
+    "subject_code": "Ar",
+    "subject_short_raw": "AR",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R187C84"
+  },
+  {
+    "teacher_id": "T049",
+    "section_code": "6B",
+    "subject_code": "Ar",
+    "subject_short_raw": "AR",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R187C94"
+  },
+  {
+    "teacher_id": "T049",
+    "section_code": "6C",
+    "subject_code": "Ar",
+    "subject_short_raw": "AR",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R187C98"
+  },
+  {
+    "teacher_id": "T050",
+    "section_code": "2A",
+    "subject_code": "Ar",
+    "subject_short_raw": "AR",
+    "weekly_periods": 9,
+    "source_cell": "26-27A!R191C38"
+  },
+  {
+    "teacher_id": "T050",
+    "section_code": "4A",
+    "subject_code": "A3",
+    "subject_short_raw": "AR3",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R191C65"
+  },
+  {
+    "teacher_id": "T050",
+    "section_code": "4B",
+    "subject_code": "Ar",
+    "subject_short_raw": "AR",
+    "weekly_periods": 8,
+    "source_cell": "26-27A!R191C66"
+  },
+  {
+    "teacher_id": "T050",
+    "section_code": "3-4 AL",
+    "subject_code": "Ar",
+    "subject_short_raw": "AR",
+    "weekly_periods": 8,
+    "source_cell": "26-27A!R191C74"
+  },
+  {
+    "teacher_id": "T051",
+    "section_code": "5-6 AL",
+    "subject_code": "Ar",
+    "subject_short_raw": "AR",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R195C87"
+  },
+  {
+    "teacher_id": "T051",
+    "section_code": "6A",
+    "subject_code": "Ar",
+    "subject_short_raw": "AR",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R195C90"
+  },
+  {
+    "teacher_id": "T051",
+    "section_code": "7A",
+    "subject_code": "Ar",
+    "subject_short_raw": "AR",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R195C102"
+  },
+  {
+    "teacher_id": "T051",
+    "section_code": "7B",
+    "subject_code": "Ar",
+    "subject_short_raw": "AR",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R195C107"
+  },
+  {
+    "teacher_id": "T051",
+    "section_code": "7C",
+    "subject_code": "Ar",
+    "subject_short_raw": "AR",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R195C110"
+  },
+  {
+    "teacher_id": "T052",
+    "section_code": "4C",
+    "subject_code": "IS",
+    "subject_short_raw": "IS",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R199C70"
+  },
+  {
+    "teacher_id": "T052",
+    "section_code": "5B",
+    "subject_code": "IS",
+    "subject_short_raw": "IS",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R199C82"
+  },
+  {
+    "teacher_id": "T052",
+    "section_code": "5C",
+    "subject_code": "IS",
+    "subject_short_raw": "IS",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R199C85"
+  },
+  {
+    "teacher_id": "T052",
+    "section_code": "6A",
+    "subject_code": "IS",
+    "subject_short_raw": "IS",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R199C90"
+  },
+  {
+    "teacher_id": "T052",
+    "section_code": "6B",
+    "subject_code": "IS",
+    "subject_short_raw": "IS",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R199C94"
+  },
+  {
+    "teacher_id": "T052",
+    "section_code": "6C",
+    "subject_code": "IS",
+    "subject_short_raw": "IS",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R199C98"
+  },
+  {
+    "teacher_id": "T052",
+    "section_code": "7A",
+    "subject_code": "IS",
+    "subject_short_raw": "IS",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R199C102"
+  },
+  {
+    "teacher_id": "T052",
+    "section_code": "7B",
+    "subject_code": "IS",
+    "subject_short_raw": "IS",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R199C107"
+  },
+  {
+    "teacher_id": "T052",
+    "section_code": "8A",
+    "subject_code": "IS",
+    "subject_short_raw": "IS",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R199C113"
+  },
+  {
+    "teacher_id": "T053",
+    "section_code": "7C",
+    "subject_code": "IS",
+    "subject_short_raw": "IS",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R203C110"
+  },
+  {
+    "teacher_id": "T053",
+    "section_code": "8B",
+    "subject_code": "IS",
+    "subject_short_raw": "IS",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R203C117"
+  },
+  {
+    "teacher_id": "T053",
+    "section_code": "9A",
+    "subject_code": "IS",
+    "subject_short_raw": "IS",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R203C120"
+  },
+  {
+    "teacher_id": "T053",
+    "section_code": "9B",
+    "subject_code": "IS",
+    "subject_short_raw": "IS",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R203C124"
+  },
+  {
+    "teacher_id": "T053",
+    "section_code": "10A",
+    "subject_code": "IS",
+    "subject_short_raw": "IS",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R203C127"
+  },
+  {
+    "teacher_id": "T053",
+    "section_code": "10B",
+    "subject_code": "IS",
+    "subject_short_raw": "IS",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R203C130"
+  },
+  {
+    "teacher_id": "T053",
+    "section_code": "11A",
+    "subject_code": "IS",
+    "subject_short_raw": "IS",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R203C133"
+  },
+  {
+    "teacher_id": "T053",
+    "section_code": "11 AS",
+    "subject_code": "IS",
+    "subject_short_raw": "IS",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R203C139"
+  },
+  {
+    "teacher_id": "T053",
+    "section_code": "12A",
+    "subject_code": "IS",
+    "subject_short_raw": "IS",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R203C143"
+  },
+  {
+    "teacher_id": "T054",
+    "section_code": "7B",
+    "subject_code": "SSA",
+    "subject_short_raw": "SSA",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R207C107"
+  },
+  {
+    "teacher_id": "T054",
+    "section_code": "7C",
+    "subject_code": "SSA",
+    "subject_short_raw": "SSA",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R207C110"
+  },
+  {
+    "teacher_id": "T054",
+    "section_code": "8A",
+    "subject_code": "SSA",
+    "subject_short_raw": "SSA",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R207C116"
+  },
+  {
+    "teacher_id": "T054",
+    "section_code": "8B",
+    "subject_code": "SSA",
+    "subject_short_raw": "SSA",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R207C119"
+  },
+  {
+    "teacher_id": "T054",
+    "section_code": "9A",
+    "subject_code": "SSA",
+    "subject_short_raw": "SSA",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R207C120"
+  },
+  {
+    "teacher_id": "T054",
+    "section_code": "9B",
+    "subject_code": "SSA",
+    "subject_short_raw": "SSA",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R207C124"
+  },
+  {
+    "teacher_id": "T054",
+    "section_code": "10A",
+    "subject_code": "SSA",
+    "subject_short_raw": "SSA",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R207C127"
+  },
+  {
+    "teacher_id": "T054",
+    "section_code": "10B",
+    "subject_code": "SSA",
+    "subject_short_raw": "SSA",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R207C130"
+  },
+  {
+    "teacher_id": "T054",
+    "section_code": "11A",
+    "subject_code": "CV",
+    "subject_short_raw": "CV",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R207C133"
+  },
+  {
+    "teacher_id": "T054",
+    "section_code": "11 AS",
+    "subject_code": "CV",
+    "subject_short_raw": "CV",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R207C139"
+  },
+  {
+    "teacher_id": "T054",
+    "section_code": "12A",
+    "subject_code": "CV",
+    "subject_short_raw": "CV",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R207C143"
+  },
+  {
+    "teacher_id": "T055",
+    "section_code": "1A",
+    "subject_code": "F2",
+    "subject_short_raw": "F2",
+    "weekly_periods": 7,
+    "source_cell": "26-27A!R211C28"
+  },
+  {
+    "teacher_id": "T055",
+    "section_code": "1A",
+    "subject_code": "F3",
+    "subject_short_raw": "F3",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R211C29"
+  },
+  {
+    "teacher_id": "T055",
+    "section_code": "1B",
+    "subject_code": "F3",
+    "subject_short_raw": "F3",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R211C34"
+  },
+  {
+    "teacher_id": "T055",
+    "section_code": "1C",
+    "subject_code": "F3",
+    "subject_short_raw": "F3",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R211C37"
+  },
+  {
+    "teacher_id": "T055",
+    "section_code": "2A",
+    "subject_code": "F3",
+    "subject_short_raw": "F3",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R211C38"
+  },
+  {
+    "teacher_id": "T055",
+    "section_code": "2B",
+    "subject_code": "F3",
+    "subject_short_raw": "F3",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R211C41"
+  },
+  {
+    "teacher_id": "T055",
+    "section_code": "4A",
+    "subject_code": "F2",
+    "subject_short_raw": "F2",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R211C65"
+  },
+  {
+    "teacher_id": "T055",
+    "section_code": "7A",
+    "subject_code": "F3",
+    "subject_short_raw": "F3",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R211C106"
+  },
+  {
+    "teacher_id": "T055",
+    "section_code": "7B",
+    "subject_code": "F3",
+    "subject_short_raw": "F3",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R211C109"
+  },
+  {
+    "teacher_id": "T055",
+    "section_code": "7C",
+    "subject_code": "F3",
+    "subject_short_raw": "F3",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R211C112"
+  },
+  {
+    "teacher_id": "T056",
+    "section_code": "3A",
+    "subject_code": "F2",
+    "subject_short_raw": "F2",
+    "weekly_periods": 7,
+    "source_cell": "26-27A!R215C50"
+  },
+  {
+    "teacher_id": "T056",
+    "section_code": "4A",
+    "subject_code": "F3",
+    "subject_short_raw": "F3",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R215C65"
+  },
+  {
+    "teacher_id": "T056",
+    "section_code": "4B",
+    "subject_code": "F3",
+    "subject_short_raw": "F3",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R215C69"
+  },
+  {
+    "teacher_id": "T056",
+    "section_code": "4C",
+    "subject_code": "F3",
+    "subject_short_raw": "F3",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R215C73"
+  },
+  {
+    "teacher_id": "T056",
+    "section_code": "5A",
+    "subject_code": "F3",
+    "subject_short_raw": "F3",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R215C77"
+  },
+  {
+    "teacher_id": "T056",
+    "section_code": "5B",
+    "subject_code": "F3",
+    "subject_short_raw": "F3",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R215C81"
+  },
+  {
+    "teacher_id": "T056",
+    "section_code": "5C",
+    "subject_code": "F3",
+    "subject_short_raw": "F3",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R215C86"
+  },
+  {
+    "teacher_id": "T056",
+    "section_code": "7A",
+    "subject_code": "F2",
+    "subject_short_raw": "F2",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R215C106"
+  },
+  {
+    "teacher_id": "T056",
+    "section_code": "8A",
+    "subject_code": "F3",
+    "subject_short_raw": "F3",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R215C116"
+  },
+  {
+    "teacher_id": "T056",
+    "section_code": "8B",
+    "subject_code": "F3",
+    "subject_short_raw": "F3",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R215C117"
+  },
+  {
+    "teacher_id": "T057",
+    "section_code": "3B",
+    "subject_code": "F3",
+    "subject_short_raw": "F3",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R219C55"
+  },
+  {
+    "teacher_id": "T057",
+    "section_code": "3C",
+    "subject_code": "F3",
+    "subject_short_raw": "F3",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R219C59"
+  },
+  {
+    "teacher_id": "T057",
+    "section_code": "5A",
+    "subject_code": "F2",
+    "subject_short_raw": "F2",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R219C80"
+  },
+  {
+    "teacher_id": "T057",
+    "section_code": "6A",
+    "subject_code": "F3",
+    "subject_short_raw": "F3",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R219C90"
+  },
+  {
+    "teacher_id": "T057",
+    "section_code": "6A",
+    "subject_code": "F2",
+    "subject_short_raw": "F2",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R219C93"
+  },
+  {
+    "teacher_id": "T057",
+    "section_code": "6B",
+    "subject_code": "F3",
+    "subject_short_raw": "F3",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R219C96"
+  },
+  {
+    "teacher_id": "T057",
+    "section_code": "6C",
+    "subject_code": "F3",
+    "subject_short_raw": "F3",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R219C101"
+  },
+  {
+    "teacher_id": "T057",
+    "section_code": "8A",
+    "subject_code": "F2",
+    "subject_short_raw": "F2",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R219C116"
+  },
+  {
+    "teacher_id": "T058",
+    "section_code": "2A",
+    "subject_code": "F2",
+    "subject_short_raw": "F2",
+    "weekly_periods": 7,
+    "source_cell": "26-27A!R223C40"
+  },
+  {
+    "teacher_id": "T058",
+    "section_code": "2C",
+    "subject_code": "F3",
+    "subject_short_raw": "FR3",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R223C44"
+  },
+  {
+    "teacher_id": "T058",
+    "section_code": "3A",
+    "subject_code": "F3",
+    "subject_short_raw": "F3",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R223C50"
+  },
+  {
+    "teacher_id": "T058",
+    "section_code": "9A",
+    "subject_code": "F2",
+    "subject_short_raw": "F2",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R223C123"
+  },
+  {
+    "teacher_id": "T058",
+    "section_code": "10A",
+    "subject_code": "F2",
+    "subject_short_raw": "F2",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R223C129"
+  },
+  {
+    "teacher_id": "T059",
+    "section_code": "4A",
+    "subject_code": "PE",
+    "subject_short_raw": "PE",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R227C63"
+  },
+  {
+    "teacher_id": "T059",
+    "section_code": "7A",
+    "subject_code": "PE",
+    "subject_short_raw": "PE",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R227C104"
+  },
+  {
+    "teacher_id": "T059",
+    "section_code": "8A",
+    "subject_code": "PE",
+    "subject_short_raw": "PE",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R227C114"
+  },
+  {
+    "teacher_id": "T059",
+    "section_code": "9A",
+    "subject_code": "?",
+    "subject_short_raw": null,
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R227C120"
+  },
+  {
+    "teacher_id": "T059",
+    "section_code": "10B",
+    "subject_code": "PE",
+    "subject_short_raw": "PE",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R227C132"
+  },
+  {
+    "teacher_id": "T059",
+    "section_code": "11A",
+    "subject_code": "PE",
+    "subject_short_raw": "PE",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R227C133"
+  },
+  {
+    "teacher_id": "T059",
+    "section_code": "12A",
+    "subject_code": "PE",
+    "subject_short_raw": "PE",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R227C143"
+  },
+  {
+    "teacher_id": "T060",
+    "section_code": "K1A",
+    "subject_code": "PE",
+    "subject_short_raw": "PE",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R231C6"
+  },
+  {
+    "teacher_id": "T060",
+    "section_code": "KG2C",
+    "subject_code": "PE",
+    "subject_short_raw": "PE",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R231C14"
+  },
+  {
+    "teacher_id": "T060",
+    "section_code": "KG2A",
+    "subject_code": "PE",
+    "subject_short_raw": "PE",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R231C18"
+  },
+  {
+    "teacher_id": "T060",
+    "section_code": "2A",
+    "subject_code": "PE",
+    "subject_short_raw": "PE",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R231C38"
+  },
+  {
+    "teacher_id": "T060",
+    "section_code": "2B",
+    "subject_code": "PE",
+    "subject_short_raw": "PE",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R231C41"
+  },
+  {
+    "teacher_id": "T060",
+    "section_code": "2C",
+    "subject_code": "PE",
+    "subject_short_raw": "PE",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R231C44"
+  },
+  {
+    "teacher_id": "T060",
+    "section_code": "3A",
+    "subject_code": "PE",
+    "subject_short_raw": "PE",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R231C51"
+  },
+  {
+    "teacher_id": "T060",
+    "section_code": "4A",
+    "subject_code": "PE",
+    "subject_short_raw": "PE",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R231C63"
+  },
+  {
+    "teacher_id": "T060",
+    "section_code": "5A",
+    "subject_code": "?",
+    "subject_short_raw": null,
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R231C77"
+  },
+  {
+    "teacher_id": "T060",
+    "section_code": "6A",
+    "subject_code": "PE",
+    "subject_short_raw": "PE",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R231C91"
+  },
+  {
+    "teacher_id": "T062",
+    "section_code": "6B",
+    "subject_code": "?",
+    "subject_short_raw": null,
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R235C96"
+  },
+  {
+    "teacher_id": "T062",
+    "section_code": "9B",
+    "subject_code": "Ar",
+    "subject_short_raw": "R9",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R235C124"
+  },
+  {
+    "teacher_id": "T062",
+    "section_code": "10B",
+    "subject_code": "PE",
+    "subject_short_raw": "PE",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R235C130"
+  },
+  {
+    "teacher_id": "T062",
+    "section_code": "12A",
+    "subject_code": "PE",
+    "subject_short_raw": "PE",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R235C143"
+  },
+  {
+    "teacher_id": "T063",
+    "section_code": "1A",
+    "subject_code": "?",
+    "subject_short_raw": null,
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R239C26"
+  },
+  {
+    "teacher_id": "T063",
+    "section_code": "1B",
+    "subject_code": "?",
+    "subject_short_raw": null,
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R239C30"
+  },
+  {
+    "teacher_id": "T063",
+    "section_code": "1C",
+    "subject_code": "?",
+    "subject_short_raw": null,
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R239C35"
+  },
+  {
+    "teacher_id": "T063",
+    "section_code": "2A",
+    "subject_code": "?",
+    "subject_short_raw": null,
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R239C39"
+  },
+  {
+    "teacher_id": "T063",
+    "section_code": "2B",
+    "subject_code": "?",
+    "subject_short_raw": null,
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R239C41"
+  },
+  {
+    "teacher_id": "T063",
+    "section_code": "2C",
+    "subject_code": "?",
+    "subject_short_raw": null,
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R239C44"
+  },
+  {
+    "teacher_id": "T063",
+    "section_code": "3A",
+    "subject_code": "PE",
+    "subject_short_raw": "PE",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R239C50"
+  },
+  {
+    "teacher_id": "T063",
+    "section_code": "4A",
+    "subject_code": "PE",
+    "subject_short_raw": "PE",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R239C62"
+  },
+  {
+    "teacher_id": "T063",
+    "section_code": "5A",
+    "subject_code": "PE",
+    "subject_short_raw": "PE",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R239C77"
+  },
+  {
+    "teacher_id": "T063",
+    "section_code": "6A",
+    "subject_code": "PE",
+    "subject_short_raw": "PE",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R239C90"
+  },
+  {
+    "teacher_id": "T063",
+    "section_code": "5A",
+    "subject_code": "PE",
+    "subject_short_raw": "PE",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R243C77"
+  },
+  {
+    "teacher_id": "T063",
+    "section_code": "6A",
+    "subject_code": "PE",
+    "subject_short_raw": "PE",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R243C90"
+  },
+  {
+    "teacher_id": "T063",
+    "section_code": "7A",
+    "subject_code": "PE",
+    "subject_short_raw": "PE",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R243C104"
+  },
+  {
+    "teacher_id": "T063",
+    "section_code": "8A",
+    "subject_code": "PE",
+    "subject_short_raw": "PE",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R243C114"
+  },
+  {
+    "teacher_id": "T063",
+    "section_code": "9A",
+    "subject_code": "PE",
+    "subject_short_raw": "PE",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R243C121"
+  },
+  {
+    "teacher_id": "T063",
+    "section_code": "10A",
+    "subject_code": "PE",
+    "subject_short_raw": "PE",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R243C128"
+  },
+  {
+    "teacher_id": "T063",
+    "section_code": "11A",
+    "subject_code": "PE",
+    "subject_short_raw": "PE",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R243C135"
+  },
+  {
+    "teacher_id": "T063",
+    "section_code": "12A",
+    "subject_code": "PE",
+    "subject_short_raw": "PE",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R243C143"
+  },
+  {
+    "teacher_id": "T061",
+    "section_code": "1A",
+    "subject_code": "IT",
+    "subject_short_raw": "IC",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R247C26"
+  },
+  {
+    "teacher_id": "T061",
+    "section_code": "1B",
+    "subject_code": "IT",
+    "subject_short_raw": "IC",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R247C31"
+  },
+  {
+    "teacher_id": "T061",
+    "section_code": "1C",
+    "subject_code": "IT",
+    "subject_short_raw": "IC",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R247C36"
+  },
+  {
+    "teacher_id": "T061",
+    "section_code": "2A",
+    "subject_code": "IT",
+    "subject_short_raw": "IC",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R247C40"
+  },
+  {
+    "teacher_id": "T061",
+    "section_code": "2B",
+    "subject_code": "IT",
+    "subject_short_raw": "IC",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R247C43"
+  },
+  {
+    "teacher_id": "T061",
+    "section_code": "2C",
+    "subject_code": "IT",
+    "subject_short_raw": "IC",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R247C46"
+  },
+  {
+    "teacher_id": "T061",
+    "section_code": "3A",
+    "subject_code": "IT",
+    "subject_short_raw": "IC",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R247C50"
+  },
+  {
+    "teacher_id": "T061",
+    "section_code": "3B",
+    "subject_code": "IT",
+    "subject_short_raw": "IC",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R247C54"
+  },
+  {
+    "teacher_id": "T061",
+    "section_code": "3C",
+    "subject_code": "IT",
+    "subject_short_raw": "IC",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R247C58"
+  },
+  {
+    "teacher_id": "T061",
+    "section_code": "4A",
+    "subject_code": "IT",
+    "subject_short_raw": "IC",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R247C65"
+  },
+  {
+    "teacher_id": "T061",
+    "section_code": "4B",
+    "subject_code": "IT",
+    "subject_short_raw": "IC",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R247C69"
+  },
+  {
+    "teacher_id": "T061",
+    "section_code": "4C",
+    "subject_code": "IT",
+    "subject_short_raw": "IC",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R247C71"
+  },
+  {
+    "teacher_id": "T064",
+    "section_code": "1A",
+    "subject_code": "Mu",
+    "subject_short_raw": "Mu",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R251C26"
+  },
+  {
+    "teacher_id": "T064",
+    "section_code": "1B",
+    "subject_code": "Mu",
+    "subject_short_raw": "Mu",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R251C30"
+  },
+  {
+    "teacher_id": "T064",
+    "section_code": "1C",
+    "subject_code": "Mu",
+    "subject_short_raw": "MU",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R251C36"
+  },
+  {
+    "teacher_id": "T064",
+    "section_code": "2A",
+    "subject_code": "Mu",
+    "subject_short_raw": "Mu",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R251C38"
+  },
+  {
+    "teacher_id": "T064",
+    "section_code": "2B",
+    "subject_code": "Mu",
+    "subject_short_raw": "Mu",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R251C41"
+  },
+  {
+    "teacher_id": "T064",
+    "section_code": "2C",
+    "subject_code": "Mu",
+    "subject_short_raw": "Mu",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R251C44"
+  },
+  {
+    "teacher_id": "T064",
+    "section_code": "1-2 AL",
+    "subject_code": "Mu",
+    "subject_short_raw": "MU",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R251C47"
+  },
+  {
+    "teacher_id": "T064",
+    "section_code": "3A",
+    "subject_code": "Mu",
+    "subject_short_raw": "Mu",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R251C50"
+  },
+  {
+    "teacher_id": "T064",
+    "section_code": "3B",
+    "subject_code": "Mu",
+    "subject_short_raw": "Mu",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R251C54"
+  },
+  {
+    "teacher_id": "T064",
+    "section_code": "3C",
+    "subject_code": "Mu",
+    "subject_short_raw": "Mu",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R251C58"
+  },
+  {
+    "teacher_id": "T064",
+    "section_code": "4A",
+    "subject_code": "Mu",
+    "subject_short_raw": "Mu",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R251C62"
+  },
+  {
+    "teacher_id": "T064",
+    "section_code": "4B",
+    "subject_code": "Mu",
+    "subject_short_raw": "Mu",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R251C66"
+  },
+  {
+    "teacher_id": "T064",
+    "section_code": "4C",
+    "subject_code": "Mu",
+    "subject_short_raw": "MU",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R251C71"
+  },
+  {
+    "teacher_id": "T064",
+    "section_code": "3-4 AL",
+    "subject_code": "Mu",
+    "subject_short_raw": "Mu",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R251C74"
+  },
+  {
+    "teacher_id": "T064",
+    "section_code": "5A",
+    "subject_code": "Mu",
+    "subject_short_raw": "Mu",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R251C77"
+  },
+  {
+    "teacher_id": "T064",
+    "section_code": "5B",
+    "subject_code": "Mu",
+    "subject_short_raw": "Mu",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R251C81"
+  },
+  {
+    "teacher_id": "T064",
+    "section_code": "5C",
+    "subject_code": "Mu",
+    "subject_short_raw": "Mu",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R251C84"
+  },
+  {
+    "teacher_id": "T064",
+    "section_code": "5-6 AL",
+    "subject_code": "Mu",
+    "subject_short_raw": "MU",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R251C88"
+  },
+  {
+    "teacher_id": "T064",
+    "section_code": "6A",
+    "subject_code": "Mu",
+    "subject_short_raw": "Mu",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R251C90"
+  },
+  {
+    "teacher_id": "T064",
+    "section_code": "6B",
+    "subject_code": "Mu",
+    "subject_short_raw": "Mu",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R251C94"
+  },
+  {
+    "teacher_id": "T064",
+    "section_code": "6C",
+    "subject_code": "Mu",
+    "subject_short_raw": "MU",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R251C98"
+  },
+  {
+    "teacher_id": "T064",
+    "section_code": "7A",
+    "subject_code": "Mu",
+    "subject_short_raw": "Mu",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R251C102"
+  },
+  {
+    "teacher_id": "T064",
+    "section_code": "7B",
+    "subject_code": "Mu",
+    "subject_short_raw": "Mu",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R251C107"
+  },
+  {
+    "teacher_id": "T064",
+    "section_code": "7C",
+    "subject_code": "Mu",
+    "subject_short_raw": "Mu",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R251C110"
+  },
+  {
+    "teacher_id": "T064",
+    "section_code": "8A",
+    "subject_code": "Mu",
+    "subject_short_raw": "Mu",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R251C113"
+  },
+  {
+    "teacher_id": "T064",
+    "section_code": "8B",
+    "subject_code": "Mu",
+    "subject_short_raw": "Mu",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R251C117"
+  },
+  {
+    "teacher_id": "T065",
+    "section_code": "7A",
+    "subject_code": "rt",
+    "subject_short_raw": "rt",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R255C102"
+  },
+  {
+    "teacher_id": "T065",
+    "section_code": "7B",
+    "subject_code": "rt",
+    "subject_short_raw": "rt",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R255C107"
+  },
+  {
+    "teacher_id": "T065",
+    "section_code": "7C",
+    "subject_code": "rt",
+    "subject_short_raw": "rt",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R255C110"
+  },
+  {
+    "teacher_id": "T065",
+    "section_code": "8A",
+    "subject_code": "rt",
+    "subject_short_raw": "rt",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R255C113"
+  },
+  {
+    "teacher_id": "T065",
+    "section_code": "8B",
+    "subject_code": "rt",
+    "subject_short_raw": "rt",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R255C117"
+  },
+  {
+    "teacher_id": "T065",
+    "section_code": "9A",
+    "subject_code": "rt",
+    "subject_short_raw": "AD",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R255C120"
+  },
+  {
+    "teacher_id": "T065",
+    "section_code": "9A",
+    "subject_code": "rt",
+    "subject_short_raw": "rt",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R255C123"
+  },
+  {
+    "teacher_id": "T065",
+    "section_code": "10A",
+    "subject_code": "rt",
+    "subject_short_raw": "AD",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R255C129"
+  },
+  {
+    "teacher_id": "T065",
+    "section_code": "10B",
+    "subject_code": "rt",
+    "subject_short_raw": "rt",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R255C132"
+  },
+  {
+    "teacher_id": "T065",
+    "section_code": "11A",
+    "subject_code": "rt",
+    "subject_short_raw": "RT",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R255C135"
+  },
+  {
+    "teacher_id": "T065",
+    "section_code": "11 AS",
+    "subject_code": "rt",
+    "subject_short_raw": "RT",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R255C140"
+  },
+  {
+    "teacher_id": "T065",
+    "section_code": "12A",
+    "subject_code": "rt",
+    "subject_short_raw": "RT",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R255C143"
+  },
+  {
+    "teacher_id": "T066",
+    "section_code": "2A",
+    "subject_code": "IS",
+    "subject_short_raw": "IS",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R259C39"
+  },
+  {
+    "teacher_id": "T066",
+    "section_code": "2C",
+    "subject_code": "IS",
+    "subject_short_raw": "IS",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R259C44"
+  },
+  {
+    "teacher_id": "T066",
+    "section_code": "1-2 AL",
+    "subject_code": "IS",
+    "subject_short_raw": "IS",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R259C48"
+  },
+  {
+    "teacher_id": "T066",
+    "section_code": "3B",
+    "subject_code": "IS",
+    "subject_short_raw": "IS",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R259C57"
+  },
+  {
+    "teacher_id": "T066",
+    "section_code": "4A",
+    "subject_code": "IS",
+    "subject_short_raw": "IS",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R259C62"
+  },
+  {
+    "teacher_id": "T066",
+    "section_code": "4B",
+    "subject_code": "IS",
+    "subject_short_raw": "IS",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R259C67"
+  },
+  {
+    "teacher_id": "T066",
+    "section_code": "5A",
+    "subject_code": "SSA",
+    "subject_short_raw": "SSA",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R259C78"
+  },
+  {
+    "teacher_id": "T066",
+    "section_code": "5B",
+    "subject_code": "SSA",
+    "subject_short_raw": "SSA",
+    "weekly_periods": 3,
+    "source_cell": "26-27A!R259C82"
+  },
+  {
+    "teacher_id": "T068",
+    "section_code": "9A",
+    "subject_code": "BS",
+    "subject_short_raw": "BS",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R267C122"
+  },
+  {
+    "teacher_id": "T068",
+    "section_code": "9B",
+    "subject_code": "Ec",
+    "subject_short_raw": "ECO",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R267C124"
+  },
+  {
+    "teacher_id": "T068",
+    "section_code": "10B",
+    "subject_code": "Ec",
+    "subject_short_raw": "EC",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R267C130"
+  },
+  {
+    "teacher_id": "T068",
+    "section_code": "10B",
+    "subject_code": "BS",
+    "subject_short_raw": "BS",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R267C132"
+  },
+  {
+    "teacher_id": "T068",
+    "section_code": "11A",
+    "subject_code": "Ec",
+    "subject_short_raw": "EC",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R267C133"
+  },
+  {
+    "teacher_id": "T068",
+    "section_code": "11A",
+    "subject_code": "BS",
+    "subject_short_raw": "BS",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R267C134"
+  },
+  {
+    "teacher_id": "T069",
+    "section_code": "11 AS",
+    "subject_code": "Ec",
+    "subject_short_raw": "EC",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R271C139"
+  },
+  {
+    "teacher_id": "T069",
+    "section_code": "11 AS",
+    "subject_code": "BS",
+    "subject_short_raw": "BS",
+    "weekly_periods": 6,
+    "source_cell": "26-27A!R271C141"
+  },
+  {
+    "teacher_id": "T069",
+    "section_code": "12A",
+    "subject_code": "Ec",
+    "subject_short_raw": "EC",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R271C143"
+  },
+  {
+    "teacher_id": "T069",
+    "section_code": "12A",
+    "subject_code": "BS",
+    "subject_short_raw": "BS",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R271C146"
+  },
+  {
+    "teacher_id": "T069",
+    "section_code": "12 A2",
+    "subject_code": "BS",
+    "subject_short_raw": "BS",
+    "weekly_periods": 4,
+    "source_cell": "26-27A!R271C152"
+  },
+  {
+    "teacher_id": "T069",
+    "section_code": "12 A2",
+    "subject_code": "Ec",
+    "subject_short_raw": "ECO",
+    "weekly_periods": 5,
+    "source_cell": "26-27A!R271C153"
+  },
+  {
+    "teacher_id": "T070",
+    "section_code": "3A",
+    "subject_code": "lb",
+    "subject_short_raw": "lb",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R275C50"
+  },
+  {
+    "teacher_id": "T070",
+    "section_code": "3B",
+    "subject_code": "lb",
+    "subject_short_raw": "lb",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R275C54"
+  },
+  {
+    "teacher_id": "T070",
+    "section_code": "3C",
+    "subject_code": "lb",
+    "subject_short_raw": "lb",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R275C58"
+  },
+  {
+    "teacher_id": "T070",
+    "section_code": "4A",
+    "subject_code": "lb",
+    "subject_short_raw": "lb",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R275C65"
+  },
+  {
+    "teacher_id": "T070",
+    "section_code": "4B",
+    "subject_code": "lb",
+    "subject_short_raw": "lb",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R275C66"
+  },
+  {
+    "teacher_id": "T070",
+    "section_code": "4C",
+    "subject_code": "lb",
+    "subject_short_raw": "lb",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R275C70"
+  },
+  {
+    "teacher_id": "T070",
+    "section_code": "5A",
+    "subject_code": "lb",
+    "subject_short_raw": "lb",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R275C79"
+  },
+  {
+    "teacher_id": "T070",
+    "section_code": "5B",
+    "subject_code": "lb",
+    "subject_short_raw": "lb",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R275C83"
+  },
+  {
+    "teacher_id": "T070",
+    "section_code": "5C",
+    "subject_code": "lb",
+    "subject_short_raw": "lb",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R275C86"
+  },
+  {
+    "teacher_id": "T070",
+    "section_code": "6A",
+    "subject_code": "lb",
+    "subject_short_raw": "lb",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R275C92"
+  },
+  {
+    "teacher_id": "T070",
+    "section_code": "6B",
+    "subject_code": "lb",
+    "subject_short_raw": "lb",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R275C96"
+  },
+  {
+    "teacher_id": "T070",
+    "section_code": "6C",
+    "subject_code": "lb",
+    "subject_short_raw": "LB",
+    "weekly_periods": 1,
+    "source_cell": "26-27A!R275C99"
+  },
+  {
+    "teacher_id": "T071",
+    "section_code": "7A",
+    "subject_code": "Ex",
+    "subject_short_raw": "Ex",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R279C102"
+  },
+  {
+    "teacher_id": "T071",
+    "section_code": "8A",
+    "subject_code": "Ex",
+    "subject_short_raw": "Ex",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R279C113"
+  },
+  {
+    "teacher_id": "T071",
+    "section_code": "9A",
+    "subject_code": "Ex",
+    "subject_short_raw": "Ex",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R279C120"
+  },
+  {
+    "teacher_id": "T071",
+    "section_code": "10B",
+    "subject_code": "Ex",
+    "subject_short_raw": "Ex",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R279C130"
+  },
+  {
+    "teacher_id": "T071",
+    "section_code": "11 AS",
+    "subject_code": "Ex",
+    "subject_short_raw": "EX",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R279C139"
+  },
+  {
+    "teacher_id": "T071",
+    "section_code": "12 A2",
+    "subject_code": "Ex",
+    "subject_short_raw": "EX",
+    "weekly_periods": 2,
+    "source_cell": "26-27A!R279C152"
+  }
+]

@@ -1,0 +1,582 @@
+[
+  {
+    "teacher_name": "Suzan Coetzee",
+    "subject_code": "En",
+    "weekly_periods": 22
+  },
+  {
+    "teacher_name": "Suzan Coetzee",
+    "subject_code": "Ma",
+    "weekly_periods": 5
+  },
+  {
+    "teacher_name": "Suzan Coetzee",
+    "subject_code": "Mu",
+    "weekly_periods": 2
+  },
+  {
+    "teacher_name": "Suzan Coetzee",
+    "subject_code": "rt",
+    "weekly_periods": 1
+  },
+  {
+    "teacher_name": "Aine Friel",
+    "subject_code": "En",
+    "weekly_periods": 22
+  },
+  {
+    "teacher_name": "Aine Friel",
+    "subject_code": "Ma",
+    "weekly_periods": 5
+  },
+  {
+    "teacher_name": "Aine Friel",
+    "subject_code": "Mu",
+    "weekly_periods": 2
+  },
+  {
+    "teacher_name": "Aine Friel",
+    "subject_code": "rt",
+    "weekly_periods": 1
+  },
+  {
+    "teacher_name": "Nadia Rahmoune",
+    "subject_code": "En",
+    "weekly_periods": 22
+  },
+  {
+    "teacher_name": "Nadia Rahmoune",
+    "subject_code": "Ma",
+    "weekly_periods": 5
+  },
+  {
+    "teacher_name": "Nadia Rahmoune",
+    "subject_code": "Mu",
+    "weekly_periods": 2
+  },
+  {
+    "teacher_name": "Nadia Rahmoune",
+    "subject_code": "rt",
+    "weekly_periods": 1
+  },
+  {
+    "teacher_name": "Ferdinand Gericke",
+    "subject_code": "En",
+    "weekly_periods": 21
+  },
+  {
+    "teacher_name": "Ferdinand Gericke",
+    "subject_code": "SSE",
+    "weekly_periods": 4
+  },
+  {
+    "teacher_name": "Marli Shaw",
+    "subject_code": "En",
+    "weekly_periods": 22
+  },
+  {
+    "teacher_name": "Marli Shaw",
+    "subject_code": "Ma",
+    "weekly_periods": 5
+  },
+  {
+    "teacher_name": "Marli Shaw",
+    "subject_code": "Mu",
+    "weekly_periods": 2
+  },
+  {
+    "teacher_name": "Marli Shaw",
+    "subject_code": "rt",
+    "weekly_periods": 1
+  },
+  {
+    "teacher_name": "Tania Harder",
+    "subject_code": "En",
+    "weekly_periods": 7
+  },
+  {
+    "teacher_name": "Tania Harder",
+    "subject_code": "ES",
+    "weekly_periods": 2
+  },
+  {
+    "teacher_name": "Grace Carlock",
+    "subject_code": "En",
+    "weekly_periods": 10
+  },
+  {
+    "teacher_name": "Grace Carlock",
+    "subject_code": "ER",
+    "weekly_periods": 1
+  },
+  {
+    "teacher_name": "Grace Carlock",
+    "subject_code": "ES",
+    "weekly_periods": 3
+  },
+  {
+    "teacher_name": "Grace Carlock",
+    "subject_code": "SSE",
+    "weekly_periods": 6
+  },
+  {
+    "teacher_name": "Grace Carlock",
+    "subject_code": "dv",
+    "weekly_periods": 1
+  },
+  {
+    "teacher_name": "Grace Carlock",
+    "subject_code": "Ma",
+    "weekly_periods": 5
+  },
+  {
+    "teacher_name": "Nathalie Stevens",
+    "subject_code": "En",
+    "weekly_periods": 20
+  },
+  {
+    "teacher_name": "Nathalie Stevens",
+    "subject_code": "ER",
+    "weekly_periods": 2
+  },
+  {
+    "teacher_name": "Nathalie Stevens",
+    "subject_code": "SSE",
+    "weekly_periods": 2
+  },
+  {
+    "teacher_name": "Nathalie Stevens",
+    "subject_code": "Ma",
+    "weekly_periods": 5
+  },
+  {
+    "teacher_name": "Agnes Blignaut",
+    "subject_code": "En",
+    "weekly_periods": 9
+  },
+  {
+    "teacher_name": "Agnes Blignaut",
+    "subject_code": "ES",
+    "weekly_periods": 2
+  },
+  {
+    "teacher_name": "Agnes Blignaut",
+    "subject_code": "SSE",
+    "weekly_periods": 10
+  },
+  {
+    "teacher_name": "Agnes Blignaut",
+    "subject_code": "dv",
+    "weekly_periods": 4
+  },
+  {
+    "teacher_name": "Sandra Swart",
+    "subject_code": "En",
+    "weekly_periods": 30
+  },
+  {
+    "teacher_name": "Marguerita",
+    "subject_code": "En",
+    "weekly_periods": 27
+  },
+  {
+    "teacher_name": "Marguerita",
+    "subject_code": "ES",
+    "weekly_periods": 2
+  },
+  {
+    "teacher_name": "Antonia Apolis",
+    "subject_code": "En",
+    "weekly_periods": 23
+  },
+  {
+    "teacher_name": "Antonia Apolis",
+    "subject_code": "ES",
+    "weekly_periods": 4
+  },
+  {
+    "teacher_name": "Antonia Apolis",
+    "subject_code": "SSE",
+    "weekly_periods": 4
+  },
+  {
+    "teacher_name": "Joanna Al Jawhari",
+    "subject_code": "En",
+    "weekly_periods": 21
+  },
+  {
+    "teacher_name": "Joanna Al Jawhari",
+    "subject_code": "ES",
+    "weekly_periods": 2
+  },
+  {
+    "teacher_name": "Joanna Al Jawhari",
+    "subject_code": "SSE",
+    "weekly_periods": 6
+  },
+  {
+    "teacher_name": "Shane Carroll",
+    "subject_code": "En",
+    "weekly_periods": 12
+  },
+  {
+    "teacher_name": "Shane Carroll",
+    "subject_code": "Hi",
+    "weekly_periods": 6
+  },
+  {
+    "teacher_name": "Jason Cooper",
+    "subject_code": "En",
+    "weekly_periods": 24
+  },
+  {
+    "teacher_name": "Jason Cooper",
+    "subject_code": "SSE",
+    "weekly_periods": 6
+  },
+  {
+    "teacher_name": "Eslam",
+    "subject_code": "IT",
+    "weekly_periods": 9
+  },
+  {
+    "teacher_name": "Eslam",
+    "subject_code": "Ma",
+    "weekly_periods": 18
+  },
+  {
+    "teacher_name": "Eslam",
+    "subject_code": "MS",
+    "weekly_periods": 4
+  },
+  {
+    "teacher_name": "Abeer El Ahmadieh",
+    "subject_code": "Bi SS",
+    "weekly_periods": 9
+  },
+  {
+    "teacher_name": "Abeer El Ahmadieh",
+    "subject_code": "Ma",
+    "weekly_periods": 18
+  },
+  {
+    "teacher_name": "Bashaer Bou Khater",
+    "subject_code": "Sc",
+    "weekly_periods": 26
+  },
+  {
+    "teacher_name": "Haneen",
+    "subject_code": "Sc",
+    "weekly_periods": 24
+  },
+  {
+    "teacher_name": "Rita Mahfouz",
+    "subject_code": "Sc",
+    "weekly_periods": 22
+  },
+  {
+    "teacher_name": "Rita Mahfouz",
+    "subject_code": "Ma",
+    "weekly_periods": 5
+  },
+  {
+    "teacher_name": "Rita Mahfouz",
+    "subject_code": "MS",
+    "weekly_periods": 2
+  },
+  {
+    "teacher_name": "Khalil Al Salim",
+    "subject_code": "Ch",
+    "weekly_periods": 21
+  },
+  {
+    "teacher_name": "Khalil Al Salim",
+    "subject_code": "Ch AP",
+    "weekly_periods": 1
+  },
+  {
+    "teacher_name": "Christine Estephan",
+    "subject_code": "Ma",
+    "weekly_periods": 18
+  },
+  {
+    "teacher_name": "Christine Estephan",
+    "subject_code": "MS",
+    "weekly_periods": 2
+  },
+  {
+    "teacher_name": "Rim Jaroudi",
+    "subject_code": "Ma",
+    "weekly_periods": 24
+  },
+  {
+    "teacher_name": "Rim Jaroudi",
+    "subject_code": "MS",
+    "weekly_periods": 2
+  },
+  {
+    "teacher_name": "Alaa Al Souki",
+    "subject_code": "Sc",
+    "weekly_periods": 4
+  },
+  {
+    "teacher_name": "Alaa Al Souki",
+    "subject_code": "Ma",
+    "weekly_periods": 22
+  },
+  {
+    "teacher_name": "Alaa Al Souki",
+    "subject_code": "MS",
+    "weekly_periods": 2
+  },
+  {
+    "teacher_name": "Tahani Ahmad",
+    "subject_code": "Ma",
+    "weekly_periods": 26
+  },
+  {
+    "teacher_name": "Tahani Ahmad",
+    "subject_code": "MS",
+    "weekly_periods": 2
+  },
+  {
+    "teacher_name": "Yunus Murat",
+    "subject_code": "Ma",
+    "weekly_periods": 27
+  },
+  {
+    "teacher_name": "Yunus Murat",
+    "subject_code": "MS",
+    "weekly_periods": 2
+  },
+  {
+    "teacher_name": "Mohamad Sulaiman",
+    "subject_code": "Ma",
+    "weekly_periods": 20
+  },
+  {
+    "teacher_name": "Mohamad Sulaiman",
+    "subject_code": "Ma AP",
+    "weekly_periods": 2
+  },
+  {
+    "teacher_name": "Mohamad Sulaiman",
+    "subject_code": "MS",
+    "weekly_periods": 2
+  },
+  {
+    "teacher_name": "Hussein Kameh",
+    "subject_code": "Ph",
+    "weekly_periods": 22
+  },
+  {
+    "teacher_name": "Hussein Kameh",
+    "subject_code": "Ph AP",
+    "weekly_periods": 2
+  },
+  {
+    "teacher_name": "Renata Kais",
+    "subject_code": "IT",
+    "weekly_periods": 26
+  },
+  {
+    "teacher_name": "Wael Kheshfe",
+    "subject_code": "IT",
+    "weekly_periods": 13
+  },
+  {
+    "teacher_name": "Hilda Mucharafieh",
+    "subject_code": "Bi",
+    "weekly_periods": 18
+  },
+  {
+    "teacher_name": "Hilda Mucharafieh",
+    "subject_code": "Bi AP",
+    "weekly_periods": 2
+  },
+  {
+    "teacher_name": "Hilda Mucharafieh",
+    "subject_code": "Bi SS",
+    "weekly_periods": 4
+  },
+  {
+    "teacher_name": "Hiba Hamoud",
+    "subject_code": "A3",
+    "weekly_periods": 2
+  },
+  {
+    "teacher_name": "Hiba Hamoud",
+    "subject_code": "Ar",
+    "weekly_periods": 27
+  },
+  {
+    "teacher_name": "Mirna Jomaa",
+    "subject_code": "A3",
+    "weekly_periods": 4
+  },
+  {
+    "teacher_name": "Mirna Jomaa",
+    "subject_code": "Ar",
+    "weekly_periods": 27
+  },
+  {
+    "teacher_name": "May Dib",
+    "subject_code": "Ar",
+    "weekly_periods": 30
+  },
+  {
+    "teacher_name": "Mrs Munira",
+    "subject_code": "A3",
+    "weekly_periods": 6
+  },
+  {
+    "teacher_name": "Mrs Munira",
+    "subject_code": "SSA",
+    "weekly_periods": 24
+  },
+  {
+    "teacher_name": "Kawther Khaled Hussein",
+    "subject_code": "Ar",
+    "weekly_periods": 30
+  },
+  {
+    "teacher_name": "Mohamad Jamil Kuzzo",
+    "subject_code": "Ar",
+    "weekly_periods": 17
+  },
+  {
+    "teacher_name": "Hiba Asha",
+    "subject_code": "A3",
+    "weekly_periods": 30
+  },
+  {
+    "teacher_name": "Amani Sleiman",
+    "subject_code": "Ar",
+    "weekly_periods": 30
+  },
+  {
+    "teacher_name": "Raheeq Mer3i",
+    "subject_code": "Ar",
+    "weekly_periods": 24
+  },
+  {
+    "teacher_name": "Raheeq Mer3i",
+    "subject_code": "IS",
+    "weekly_periods": 6
+  },
+  {
+    "teacher_name": "Nemah Hasn",
+    "subject_code": "Ar",
+    "weekly_periods": 18
+  },
+  {
+    "teacher_name": "Nemah Hasn",
+    "subject_code": "IS",
+    "weekly_periods": 12
+  },
+  {
+    "teacher_name": "Shaima El Temsah",
+    "subject_code": "IS",
+    "weekly_periods": 30
+  },
+  {
+    "teacher_name": "Ali El Temsah",
+    "subject_code": "IS",
+    "weekly_periods": 28
+  },
+  {
+    "teacher_name": "Mariam Al Blouchi",
+    "subject_code": "CV",
+    "weekly_periods": 4
+  },
+  {
+    "teacher_name": "Mariam Al Blouchi",
+    "subject_code": "SSA",
+    "weekly_periods": 21
+  },
+  {
+    "teacher_name": "Leena Qamareldeen",
+    "subject_code": "F3",
+    "weekly_periods": 27
+  },
+  {
+    "teacher_name": "Lamia Akermoun",
+    "subject_code": "F2",
+    "weekly_periods": 25
+  },
+  {
+    "teacher_name": "Nivine Youssef",
+    "subject_code": "F2",
+    "weekly_periods": 25
+  },
+  {
+    "teacher_name": "Karima Howari",
+    "subject_code": "F2",
+    "weekly_periods": 27
+  },
+  {
+    "teacher_name": "Maria Dinu",
+    "subject_code": "PE",
+    "weekly_periods": 28
+  },
+  {
+    "teacher_name": "Alexandra",
+    "subject_code": "PE",
+    "weekly_periods": 24
+  },
+  {
+    "teacher_name": "Laura Nistoroiu",
+    "subject_code": "dv",
+    "weekly_periods": 6
+  },
+  {
+    "teacher_name": "Daniel Varga",
+    "subject_code": "PE",
+    "weekly_periods": 18
+  },
+  {
+    "teacher_name": "Costel Vodita",
+    "subject_code": "PE",
+    "weekly_periods": 12
+  },
+  {
+    "teacher_name": "Jolio Lopez",
+    "subject_code": "Mu",
+    "weekly_periods": 24
+  },
+  {
+    "teacher_name": "Irina Murariu",
+    "subject_code": "rt",
+    "weekly_periods": 22
+  },
+  {
+    "teacher_name": "Lameen Rejeb",
+    "subject_code": "rt",
+    "weekly_periods": 28
+  },
+  {
+    "teacher_name": "Reem Abi Abdallah",
+    "subject_code": "Ec",
+    "weekly_periods": 3
+  },
+  {
+    "teacher_name": "Yareeva Bridgebokan",
+    "subject_code": "Ec",
+    "weekly_periods": 13
+  },
+  {
+    "teacher_name": "Yareeva Bridgebokan",
+    "subject_code": "BS",
+    "weekly_periods": 16
+  },
+  {
+    "teacher_name": "Issam Hassan",
+    "subject_code": "lb",
+    "weekly_periods": 39
+  },
+  {
+    "teacher_name": "Hani Chbaro",
+    "subject_code": "Ex",
+    "weekly_periods": 8
+  }
+]

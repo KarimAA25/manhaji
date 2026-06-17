@@ -1,0 +1,237 @@
+[
+  {
+    "id_hint": "t1",
+    "subject": "Layla — three things from April",
+    "category": "academic",
+    "student_name": "Layla Al-Habsi",
+    "from_label": "Ms Sandra Swart · Student Advisor",
+    "unread": true,
+    "messages": [
+      {
+        "ts": "2026-05-14T09:14:00Z",
+        "role": "school",
+        "from_name": "Ms Sandra Swart",
+        "from_label": "Student Advisor · 10A",
+        "body": "Dear Mr Al-Habsi,\n\nJust sharing Layla's April highlights and one area to support.\n\nLayla had a standout month in Chemistry and Mathematics — top of class on the equilibrium unit test and consistently strong on calculus. Her oral-communication rubric climbed from 3.4 to 4.0, the third month running, supported by her Model UN preparation.\n\nThe one to support: written Arabic. Her score dipped below 3.0 for the second month. Ms Khadija prepared a 3-week scaffold pack and Layla has 2 of 12 sessions done so far. Quiet encouragement at home goes a long way here.\n\nHappy to schedule a chat any time.\n\nBest,\nSandra"
+      },
+      {
+        "ts": "2026-05-14T11:32:00Z",
+        "role": "parent",
+        "from_name": "Mr Al-Habsi",
+        "from_label": "Parent",
+        "body": "Dear Ms Swart,\n\nThank you for the lovely note. Layla shared the scaffold pack with me — could we schedule a short chat next week to talk through her written-Arabic plan? Mornings work best.\n\nBest,\nMahmoud Al-Habsi",
+        "opened_at": "2026-05-14T12:08:00Z"
+      },
+      {
+        "ts": "2026-05-14T12:08:00Z",
+        "role": "school",
+        "from_name": "Ms Sandra Swart",
+        "from_label": "Student Advisor · 10A · via Outlook",
+        "body": "Of course — how about Wed 22 May at 09:30? A 15-min slot in my free period. I'll send a calendar invite if that works."
+      }
+    ]
+  },
+  {
+    "id_hint": "t2",
+    "subject": "Written-Arabic scaffold pack for Layla",
+    "category": "academic",
+    "student_name": "Layla Al-Habsi",
+    "from_label": "Ms Khadija · Arabic teacher",
+    "unread": false,
+    "messages": [
+      {
+        "ts": "2026-05-08T11:30:00Z",
+        "role": "school",
+        "from_name": "Ms Khadija",
+        "from_label": "Arabic teacher",
+        "body": "The pack is in Layla's locker. She'll start with prompt 1 this Friday. 15 minutes per session is plenty — no need to push longer. Friday check-ins through May.\n\nIf you want to see what she's writing, ask her to share the first scaffold this Sunday.\n\n— Khadija"
+      }
+    ]
+  },
+  {
+    "id_hint": "t3",
+    "subject": "Chemistry mid-term · 12 May",
+    "category": "calendar",
+    "student_name": "Layla Al-Habsi",
+    "from_label": "Manhaj · School calendar",
+    "unread": false,
+    "messages": [
+      {
+        "ts": "2026-05-05T09:00:00Z",
+        "role": "school",
+        "from_name": "School calendar",
+        "from_label": "Auto-update",
+        "body": "Layla's Chemistry mid-term sits on 12 May at P3 (Lab 1). Format: 50-question paper, 90 minutes.\n\nThe revision pack is available from Mr Salim — Layla picked one up last week.\n\nDon't forget to confirm any accommodations (extra time, reader) by Friday 8 May.",
+        "opened_at": "2026-05-05T18:20:00Z"
+      }
+    ]
+  },
+  {
+    "id_hint": "t4",
+    "subject": "Re: Omar's attendance — could we chat?",
+    "category": "academic",
+    "student_name": "Omar Al-Habsi",
+    "from_label": "Ms Sandra Swart · Student Advisor",
+    "unread": true,
+    "messages": [
+      {
+        "ts": "2026-05-14T09:14:00Z",
+        "role": "school",
+        "from_name": "Ms Sandra Swart",
+        "from_label": "Student Advisor",
+        "body": "Hi Mr Al-Habsi,\n\nOmar has missed 3 days this month without a note. Mr Saab raised a separate flag about disengagement in class on Tuesday.\n\nCould we arrange a short call this week so we're on the same page about how to support him? Manhaj's tracker pattern shows the absences cluster around Mondays + post-exam days — happy to talk through what we're seeing.\n\nBest,\nSandra"
+      }
+    ]
+  },
+  {
+    "id_hint": "t5",
+    "subject": "Football club · Term 3 sign-up",
+    "category": "admin",
+    "student_name": "Omar Al-Habsi",
+    "from_label": "Mr Yousef · PE",
+    "unread": false,
+    "messages": [
+      {
+        "ts": "2026-04-28T13:00:00Z",
+        "role": "school",
+        "from_name": "Mr Yousef",
+        "from_label": "PE / Football coach",
+        "body": "Term 3 football is open for sign-up. Practice runs Tue + Thu 16:00-17:30. Match-day Saturdays optional. Form due Friday 9 May.",
+        "opened_at": "2026-04-30T08:11:00Z"
+      },
+      {
+        "ts": "2026-04-30T08:30:00Z",
+        "role": "parent",
+        "from_name": "Mr Al-Habsi",
+        "from_label": "Parent",
+        "body": "Omar signed up. Match-day Saturdays count us in too. Thanks!",
+        "opened_at": "2026-04-30T09:15:00Z"
+      }
+    ]
+  },
+  {
+    "id_hint": "t6",
+    "subject": "Maths quiz · 14 May",
+    "category": "calendar",
+    "student_name": "Omar Al-Habsi",
+    "from_label": "Manhaj · School calendar",
+    "unread": false,
+    "messages": [
+      {
+        "ts": "2026-05-09T09:00:00Z",
+        "role": "school",
+        "from_name": "School calendar",
+        "from_label": "Auto-update",
+        "body": "Omar's Maths quiz lands on 14 May at P3. Topics: percentages, ratios, simple linear equations. 45-minute paper.",
+        "opened_at": "2026-05-09T19:42:00Z"
+      }
+    ]
+  },
+  {
+    "id_hint": "t7",
+    "subject": "Yasmin's spring concert · photos attached",
+    "category": "admin",
+    "student_name": "Yasmin Al-Habsi",
+    "from_label": "Ms Aida · KG2 class teacher",
+    "unread": false,
+    "messages": [
+      {
+        "ts": "2026-05-05T14:00:00Z",
+        "role": "school",
+        "from_name": "Ms Aida",
+        "from_label": "KG2 class teacher",
+        "body": "Yasmin had a wonderful time on stage today — sharing a few photos from the morning. She was particularly proud of remembering the second verse.\n\nThank you for the costume help.",
+        "opened_at": "2026-05-05T18:25:00Z"
+      }
+    ]
+  },
+  {
+    "id_hint": "t8",
+    "subject": "KG2 · Summer day-camp sign-up",
+    "category": "calendar",
+    "student_name": "Yasmin Al-Habsi",
+    "from_label": "KG admin",
+    "unread": false,
+    "messages": [
+      {
+        "ts": "2026-04-22T10:00:00Z",
+        "role": "school",
+        "from_name": "KG admin",
+        "from_label": "School administration",
+        "body": "Summer day-camp opens 15 July. Three weeks, OMR 40 optional add-on (included as a line item in the Term 3 invoice if you'd like to enrol Yasmin).\n\nReply by 15 June to confirm.",
+        "opened_at": "2026-04-23T07:50:00Z"
+      }
+    ]
+  },
+  {
+    "id_hint": "t9",
+    "subject": "Term 2 invoices · OMR 1,820 outstanding household total",
+    "category": "finance",
+    "student_name": "household",
+    "from_label": "Finance office",
+    "unread": true,
+    "messages": [
+      {
+        "ts": "2026-05-12T16:00:00Z",
+        "role": "school",
+        "from_name": "Finance office",
+        "from_label": "School administration",
+        "body": "Reminder that the remainder of your Term 2 invoices is due 25 May.\n\nLayla: OMR 750 outstanding.\nOmar: OMR 1,070 outstanding.\nYasmin: paid in full.\n\nHousehold total: OMR 1,820.\n\nPay via the Manhaj Invoices tab, bank transfer, or in person at the front desk. Receipts auto-emailed once processed."
+      }
+    ]
+  },
+  {
+    "id_hint": "t10",
+    "subject": "Parent-teacher evening · 18 May",
+    "category": "calendar",
+    "student_name": "household",
+    "from_label": "School calendar",
+    "unread": false,
+    "messages": [
+      {
+        "ts": "2026-05-05T09:00:00Z",
+        "role": "school",
+        "from_name": "School calendar",
+        "from_label": "Auto-update",
+        "body": "Parent-teacher evening on Wednesday 18 May from 16:00. You can book slots from your dashboard.\n\nMs Swart (Layla's advisor) has 3 slots remaining.\nMr Yousef (Omar's PE coach) has 5 slots remaining.\nMs Aida (Yasmin's class teacher) has 6 slots remaining.",
+        "opened_at": "2026-05-06T07:20:00Z"
+      }
+    ]
+  },
+  {
+    "id_hint": "t11",
+    "subject": "Eid Al-Adha · school closure 24-26 June",
+    "category": "admin",
+    "student_name": "household",
+    "from_label": "Principal's office",
+    "unread": false,
+    "messages": [
+      {
+        "ts": "2026-04-30T08:00:00Z",
+        "role": "school",
+        "from_name": "Principal's office",
+        "from_label": "Ms Sarah Al-Rashid",
+        "body": "School closes for the Eid Al-Adha holiday from 24 June (Thursday) through 26 June (Saturday). Classes resume Sunday 27 June.\n\nEnd-of-year ceremony 30 June, 18:00, school auditorium. All families welcome.",
+        "opened_at": "2026-05-01T09:15:00Z"
+      }
+    ]
+  },
+  {
+    "id_hint": "t12",
+    "subject": "May monthly reports · sent to all parents",
+    "category": "academic",
+    "student_name": "household",
+    "from_label": "Manhaj",
+    "unread": false,
+    "messages": [
+      {
+        "ts": "2026-05-03T16:00:00Z",
+        "role": "school",
+        "from_name": "Manhaj",
+        "from_label": "School administration",
+        "body": "April's monthly reports are now in your Dashboard for each of your children.\n\nLayla: strong month overall · one area to support (written Arabic).\nOmar: improving in Mathematics · attendance flag.\nYasmin: happy + settled · spring concert highlight.\n\nThree things to celebrate · one to support · two ideas for May. Open the Dashboard to read each in full.",
+        "opened_at": "2026-05-03T19:18:00Z"
+      }
+    ]
+  }
+]

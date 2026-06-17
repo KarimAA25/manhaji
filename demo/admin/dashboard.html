@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Manhaj — Principal Dashboard · ISO</title>
+  <link rel="stylesheet" href="../assets/styles.css"/>
+  <script src="../assets/gate.js"></script>
+  <style>
+    .hero-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:14px}
+    .mini{display:flex;flex-direction:column;justify-content:space-between;min-height:104px}
+    .mini .row{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-top:4px}
+    .mini .row span:last-child{color:var(--ink);font-weight:600}
+    .grid{display:grid;grid-template-columns:1.4fr 1fr;gap:14px;margin-bottom:14px}
+    .filters{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;align-items:center}
+    .filters select{padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:11.5px;background:#fff;font-family:inherit}
+    .heat-grid{display:grid;gap:2px;margin-top:4px;overflow-x:auto}
+    .heat-row{display:grid;gap:2px;grid-template-columns:60px repeat(var(--cols), minmax(28px, 1fr))}
+    .heat-cell{aspect-ratio:1;border-radius:3px;font-size:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;min-height:24px}
+    .heat-cell.empty{background:#FAFCFE;color:#CBD5E0;border:1px dashed #E5EAF0}
+    .heat-cell.gap{background:#FED7D7;color:#9B2C2C}
+    .heat-label{font-size:10.5px;color:var(--muted);display:flex;align-items:center;font-weight:600;padding:0 4px}
+    .heat-hdr{font-size:9.5px;color:var(--muted);text-align:center;font-weight:700;writing-mode:vertical-rl;transform:rotate(180deg);padding:6px 0}
+    .h1c{background:#C5D2E2;color:#2A4365} .h2c{background:#7B9AC2;color:#1A2440} .h3c{background:#3D5A80;color:#fff} .h4c{background:#0B2545;color:#fff}
+    .legend{display:flex;gap:8px;font-size:10px;color:var(--muted);margin-top:8px;align-items:center;flex-wrap:wrap}
+    .legend .sw{width:11px;height:11px;border-radius:2px;display:inline-block}
+    .summary-rows{display:flex;justify-content:space-around;text-align:center;margin:6px 0 14px}
+    .summary-rows .v{font-size:24px;font-weight:800;line-height:1}
+    .summary-rows .v.over{color:var(--danger)} .summary-rows .v.full{color:var(--warning)} .summary-rows .v.ok{color:var(--success)} .summary-rows .v.under{color:var(--accent)}
+    .summary-rows .l{font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-weight:700;margin-top:4px}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">M</div>
+      <div><div class="brand-name">Manhaj <span class="brand-sub">· International School of Oman</span></div></div>
+      <div class="nav">
+        <a class="active">Dashboard</a>
+        <a href="section-mapping.html">Sections</a>
+        <a href="attendance.html">Attendance</a>
+        <a class="disabled" title="Live timetable view — Tier 1">Schedule<span class="soon-pill">soon</span></a>
+        <a class="disabled" title="Teacher directory + load management — Tier 1">Staff<span class="soon-pill">soon</span></a>
+        <a class="disabled" title="Student roster + parent comms — Tier 1">Students<span class="soon-pill">soon</span></a>
+        <a class="disabled" title="Term + monthly report generation — Tier 1">Reports<span class="soon-pill">soon</span></a>
+      </div>
+    </div>
+    <div class="top-right">
+      <span style="font-size:12px">AY 2026/27 · Planning</span>
+      <div class="avatar">PR</div>
+    </div>
+  </div>
+
+  <div class="container">
+    <h1>Good morning, Principal — here's the staffing picture for next year.</h1>
+    <p class="sub">Live data · <span id="manifest-meta">loading…</span></p>
+
+    <div class="banner">
+      <b>Live data:</b> teacher names, weekly loads, sections and subjects — all from the school's own planning workbook.
+      <b>Sample data:</b> attendance, at-risk students, parent engagement (live once teachers begin daily registers).
+    </div>
+
+    <div class="banner" style="background:#FED7D7;border-color:#FC8181;color:#742A2A">
+      <b>41 sections need mapping</b> — Manhaj parsed your section codes (KG1A, 9A, 11 AS, …) but
+      doesn't know what they mean in your school's convention. Open <a href="section-mapping.html"><b>Section Mapping</b></a>
+      to review and confirm each one. Reports and scheduling stay greyed out until this is done.
+    </div>
+
+    <!-- HERO ROW -->
+    <div class="hero-row">
+      <div class="card mini">
+        <div>
+          <div class="card-label">Faculty</div>
+          <div class="big-num" id="hero-teachers">—</div>
+          <div class="delta" id="hero-teachers-sub">teachers planned</div>
+        </div>
+        <div class="row"><span>Filled roles</span><span id="hero-filled">—</span></div>
+        <div class="row"><span>Vacancies (NEW *)</span><span id="hero-vacancies">—</span></div>
+      </div>
+
+      <div class="card mini">
+        <div>
+          <div class="card-label">Sections</div>
+          <div class="big-num" id="hero-sections">—</div>
+          <div class="delta">across KG → G12</div>
+        </div>
+        <div class="row"><span>HS (G9–G12)</span><span id="hero-hs">—</span></div>
+        <div class="row"><span>MS (G6–G8)</span><span id="hero-ms">—</span></div>
+      </div>
+
+      <div class="card mini">
+        <div>
+          <div class="card-label">Load utilisation</div>
+          <div class="big-num" id="hero-util">—</div>
+          <div class="delta" id="hero-util-sub">school-wide</div>
+        </div>
+        <div class="row"><span>Over-cap teachers</span><span id="hero-over">—</span></div>
+        <div class="row"><span>Under-utilised</span><span id="hero-under">—</span></div>
+      </div>
+
+      <div class="card mini">
+        <div>
+          <div class="card-label">Subject coverage</div>
+          <div class="big-num" id="hero-gaps">—</div>
+          <div class="delta bad">gaps to resolve</div>
+        </div>
+        <div class="row"><span>Total periods/wk</span><span id="hero-total-periods">—</span></div>
+        <div class="row"><span>Subject codes</span><span id="hero-subjects">—</span></div>
+      </div>
+    </div>
+
+    <!-- ROW 1: load distribution + summary -->
+    <div class="grid">
+      <div class="card">
+        <div class="card-label">Teacher load distribution</div>
+        <div class="card-title">Weekly periods · assigned vs cap · top variance</div>
+        <div class="filters">
+          <select id="filter-dept">
+            <option value="">All departments</option>
+          </select>
+          <select id="filter-status">
+            <option value="">All teachers</option>
+            <option value="over">Over capacity</option>
+            <option value="full">At capacity</option>
+            <option value="under">Under-utilised (slack &gt; 4)</option>
+          </select>
+          <span style="margin-left:auto;font-size:11px;color:var(--muted)" id="load-count">—</span>
+        </div>
+        <div id="load-bars"></div>
+        <div style="margin-top:10px;font-size:11px;color:var(--muted)">
+          <b style="color:var(--ink)">AI suggestion (preview):</b>
+          rebalance <b id="ai-suggestion-src">—</b>'s overflow into <b id="ai-suggestion-dst">—</b>'s slack
+          would bring all teachers within ±10% of mean.
+          <span class="pill" style="margin-left:6px">Simulate →</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-label">Load status · summary</div>
+        <div class="card-title">How balanced is the AY 2026/27 plan</div>
+        <div class="summary-rows" id="summary-rows"></div>
+        <div class="card-label" style="margin-top:14px">Top over-capacity</div>
+        <div id="over-list"></div>
+        <div class="card-label" style="margin-top:14px">Most slack available</div>
+        <div id="slack-list"></div>
+      </div>
+    </div>
+
+    <!-- ROW 2: heatmap + gap finder -->
+    <div class="grid" style="grid-template-columns:1fr">
+      <div class="card">
+        <div class="card-label">Section × subject coverage</div>
+        <div class="card-title">Weekly periods scheduled per section · darker = more</div>
+        <div class="filters">
+          <select id="filter-grade-band">
+            <option value="">All grades</option>
+            <option value="KG">KG only</option>
+            <option value="primary">Primary (G1–G6)</option>
+            <option value="middle">Middle (G7–G8)</option>
+            <option value="hs">High school (G9–G12)</option>
+          </select>
+          <span style="margin-left:auto;font-size:11px;color:var(--muted)" id="heat-count">—</span>
+        </div>
+        <div id="heatmap" class="heat-grid"></div>
+        <div class="legend">
+          <span class="sw" style="background:#FAFCFE;border:1px dashed #E5EAF0"></span> Not scheduled
+          <span class="sw h1c"></span> 1–2/wk
+          <span class="sw h2c"></span> 3–4/wk
+          <span class="sw h3c"></span> 5–6/wk
+          <span class="sw h4c"></span> 7+/wk
+          <span class="sw gap"></span> Gap (subject required, none scheduled)
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 3: AI chat -->
+    <div class="ai-chat">
+      <div class="ai-icon">M</div>
+      <div class="ai-prompt">Ask Manhaj anything — e.g. <b>"who can take 2 more Math periods at G10?"</b> or <b>"why is G9 short of Physics?"</b></div>
+      <div class="ai-suggest">
+        <span class="pill">Find a sub</span>
+        <span class="pill">Rebalance Math</span>
+        <span class="pill">Why is Murariu full?</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Load all the JSON the ETL produced
+    Promise.all([
+      fetch('../data/processed/manifest.json').then(r => r.json()),
+      fetch('../data/processed/teachers.json').then(r => r.json()),
+      fetch('../data/processed/sections.json').then(r => r.json()),
+      fetch('../data/processed/subjects.json').then(r => r.json()),
+      fetch('../data/processed/load_matrix.json').then(r => r.json()),
+    ]).then(([manifest, teachers, sections, subjects, load]) => {
+      document.getElementById('manifest-meta').textContent =
+        `${teachers.length} teachers · ${sections.length} sections · ${load.length} assignments`;
+
+      // ===== Hero =====
+      const filled = teachers.filter(t => !/^NEW\b/i.test(t.name)).length;
+      const vacancies = teachers.length - filled;
+      document.getElementById('hero-teachers').textContent = teachers.length;
+      document.getElementById('hero-teachers-sub').textContent = `${filled} filled · ${vacancies} vacant`;
+      document.getElementById('hero-filled').textContent = filled;
+      document.getElementById('hero-vacancies').textContent = vacancies;
+
+      document.getElementById('hero-sections').textContent = sections.length;
+      const hs = sections.filter(s => ['9','10','11','12'].includes(s.grade_level)).length;
+      const ms = sections.filter(s => ['7','8'].includes(s.grade_level)).length;
+      document.getElementById('hero-hs').textContent = hs;
+      document.getElementById('hero-ms').textContent = ms;
+
+      const totalAssigned = teachers.reduce((s,t) => s + t.assigned_computed, 0);
+      const totalCap = teachers.reduce((s,t) => s + t.cap, 0);
+      const util = Math.round(100 * totalAssigned / totalCap);
+      document.getElementById('hero-util').textContent = util + '%';
+      document.getElementById('hero-util-sub').textContent = `${totalAssigned} / ${totalCap} periods`;
+      const over = teachers.filter(t => t.slack < 0).length;
+      const under = teachers.filter(t => t.slack > 4).length;
+      document.getElementById('hero-over').textContent = over;
+      document.getElementById('hero-under').textContent = under;
+      document.getElementById('hero-total-periods').textContent = totalAssigned;
+      document.getElementById('hero-subjects').textContent = subjects.length;
+
+      // ===== Subject map: code → name + dept =====
+      const subjMap = Object.fromEntries(subjects.map(s => [s.code, s]));
+
+      // ===== Map primary_subject string in teachers → dept (rough) =====
+      const subjStrToDept = {
+        'ENGLISH': 'English', 'MATH': 'Math', 'ISLAMIC': 'Social-Arabic',
+        'ARABIC': 'Arabic', 'ART': 'Recreational', 'PE': 'Recreational',
+        'SCIENCE': 'Science', 'BIO': 'Science', 'BIOLOGY': 'Science',
+        'CHEMISTRY': 'Science', 'PHYSICS': 'Science', 'ICT': 'Science',
+        'FRENCH': 'French', 'HISTORY': 'Social-English', 'ECONOMICS': 'Social-English',
+        'BUSINESS': 'Social-English', 'CIVICS': 'Social-Arabic', 'MUSIC': 'Recreational',
+      };
+      teachers.forEach(t => {
+        const key = (t.primary_subject || '').toUpperCase().trim();
+        t.department = subjStrToDept[key] || (
+          Object.entries(subjStrToDept).find(([k,_]) => key.includes(k))?.[1] || 'Other'
+        );
+      });
+
+      const depts = [...new Set(teachers.map(t => t.department))].sort();
+      const deptSel = document.getElementById('filter-dept');
+      depts.forEach(d => {
+        const o = document.createElement('option');
+        o.value = d; o.textContent = d;
+        deptSel.appendChild(o);
+      });
+
+      // ===== Summary tiles =====
+      const buckets = {over: 0, full: 0, ok: 0, under: 0};
+      teachers.forEach(t => {
+        if (t.slack < 0) buckets.over++;
+        else if (t.slack === 0) buckets.full++;
+        else if (t.slack > 4) buckets.under++;
+        else buckets.ok++;
+      });
+      document.getElementById('summary-rows').innerHTML = `
+        <div><div class="v over">${buckets.over}</div><div class="l">Over</div></div>
+        <div><div class="v full">${buckets.full}</div><div class="l">At cap</div></div>
+        <div><div class="v ok">${buckets.ok}</div><div class="l">Healthy</div></div>
+        <div><div class="v under">${buckets.under}</div><div class="l">Slack</div></div>`;
+
+      const overTop = teachers.filter(t => t.slack < 0).sort((a,b) => a.slack - b.slack).slice(0,5);
+      const slackTop = teachers.filter(t => t.slack > 4).sort((a,b) => b.slack - a.slack).slice(0,5);
+      const renderMini = list => list.map(t => `
+        <div style="display:flex;justify-content:space-between;font-size:11.5px;padding:4px 0;border-bottom:1px dashed var(--border)">
+          <span style="font-weight:600">${t.name}</span>
+          <span style="color:var(--muted)">${t.assigned_computed}/${t.cap}
+            <b style="color:${t.slack < 0 ? 'var(--danger)' : 'var(--accent)'}">(${t.slack >= 0 ? '+' : ''}${t.slack})</b></span>
+        </div>`).join('');
+      document.getElementById('over-list').innerHTML = renderMini(overTop) || '<div style="font-size:11px;color:var(--muted)">None</div>';
+      document.getElementById('slack-list').innerHTML = renderMini(slackTop) || '<div style="font-size:11px;color:var(--muted)">None</div>';
+
+      if (overTop[0] && slackTop[0]) {
+        document.getElementById('ai-suggestion-src').textContent = overTop[0].name;
+        document.getElementById('ai-suggestion-dst').textContent = slackTop[0].name;
+      }
+
+      // ===== Load bars =====
+      function renderLoad() {
+        const dept = document.getElementById('filter-dept').value;
+        const status = document.getElementById('filter-status').value;
+        let filtered = teachers.filter(t => !dept || t.department === dept);
+        if (status === 'over') filtered = filtered.filter(t => t.slack < 0);
+        else if (status === 'full') filtered = filtered.filter(t => t.slack === 0);
+        else if (status === 'under') filtered = filtered.filter(t => t.slack > 4);
+        // Sort by magnitude of |slack|, with over-cap first
+        filtered.sort((a, b) => {
+          if ((a.slack < 0) !== (b.slack < 0)) return a.slack < 0 ? -1 : 1;
+          return Math.abs(a.slack) - Math.abs(b.slack) > 0 ? -1 : 1;
+        });
+        document.getElementById('load-count').textContent = `${filtered.length} of ${teachers.length} teachers`;
+        const max = Math.max(...filtered.map(t => Math.max(t.assigned_computed, t.cap)), 35);
+        document.getElementById('load-bars').innerHTML = filtered.slice(0, 18).map(t => {
+          const pct = Math.min(100, 100 * t.assigned_computed / max);
+          const cls = t.slack < 0 ? 'over' : (t.slack === 0 ? 'full' : (t.slack > 4 ? 'under' : 'ok'));
+          return `
+            <div class="bar-row">
+              <div class="name">
+                <span>${t.name} · <span style="color:var(--muted);font-weight:400">${t.primary_subject}</span></span>
+                <span>${t.assigned_computed} / ${t.cap} max</span>
+              </div>
+              <div class="bar-track"><div class="bar-fill ${cls}" style="width:${pct}%"></div></div>
+            </div>`;
+        }).join('');
+        if (filtered.length > 18) {
+          document.getElementById('load-bars').innerHTML += `<div style="margin-top:6px;font-size:11px;color:var(--accent)">+ ${filtered.length - 18} more</div>`;
+        }
+      }
+      document.getElementById('filter-dept').addEventListener('change', renderLoad);
+      document.getElementById('filter-status').addEventListener('change', renderLoad);
+      renderLoad();
+
+      // ===== Heatmap =====
+      // For each section, sum weekly periods per subject
+      const cellMap = {}; // section → subject → periods
+      load.forEach(r => {
+        cellMap[r.section_code] = cellMap[r.section_code] || {};
+        cellMap[r.section_code][r.subject_code] = (cellMap[r.section_code][r.subject_code] || 0) + r.weekly_periods;
+      });
+
+      function bandFilter(s) {
+        const b = document.getElementById('filter-grade-band').value;
+        if (!b) return true;
+        if (b === 'KG') return s.grade_level.startsWith('KG');
+        if (b === 'primary') return ['1','2','3','4','5','6','1-2','3-4','5-6'].includes(s.grade_level);
+        if (b === 'middle') return ['7','8'].includes(s.grade_level);
+        if (b === 'hs') return ['9','10','11','12'].includes(s.grade_level);
+        return true;
+      }
+
+      function renderHeat() {
+        const filteredSections = sections.filter(bandFilter);
+        // Subject columns: only those that appear in the filtered section set
+        const subjCodes = new Set();
+        filteredSections.forEach(s => Object.keys(cellMap[s.code] || {}).forEach(c => subjCodes.add(c)));
+        const subjList = [...subjCodes].sort((a,b) => {
+          // Sort by department then by code
+          const da = (subjMap[a]?.department || 'z'), db = (subjMap[b]?.department || 'z');
+          return da.localeCompare(db) || a.localeCompare(b);
+        });
+        document.getElementById('heat-count').textContent =
+          `${filteredSections.length} sections × ${subjList.length} subjects`;
+
+        const cols = subjList.length;
+        const heat = document.getElementById('heatmap');
+        heat.style.setProperty('--cols', cols);
+
+        // Header row
+        const hdr = `<div class="heat-row" style="--cols:${cols}">
+            <div></div>
+            ${subjList.map(c => `<div class="heat-hdr" title="${subjMap[c]?.name_en || c}">${c}</div>`).join('')}
+          </div>`;
+
+        const rows = filteredSections.map(s => {
+          const cells = subjList.map(code => {
+            const v = (cellMap[s.code] && cellMap[s.code][code]) || 0;
+            if (v === 0) return `<div class="heat-cell empty">·</div>`;
+            const cls = v >= 7 ? 'h4c' : v >= 5 ? 'h3c' : v >= 3 ? 'h2c' : 'h1c';
+            return `<div class="heat-cell ${cls}" title="${s.code} · ${subjMap[code]?.name_en || code}: ${v}/wk">${v}</div>`;
+          }).join('');
+          return `<div class="heat-row" style="--cols:${cols}">
+            <div class="heat-label">${s.code}</div>${cells}</div>`;
+        }).join('');
+
+        heat.innerHTML = hdr + rows;
+      }
+      document.getElementById('filter-grade-band').addEventListener('change', renderHeat);
+      renderHeat();
+
+      // ===== Gaps: count subject-required-but-not-scheduled per HS section =====
+      const hsSections = sections.filter(s => ['9','10','11','12'].includes(s.grade_level));
+      let gapCount = 0;
+      hsSections.forEach(s => {
+        const subjThere = new Set(Object.keys(cellMap[s.code] || {}));
+        // For HS, compulsory English+Math+Arabic+Islamic at minimum should be scheduled
+        ['En','Ma','Ar','IS'].forEach(c => { if (!subjThere.has(c)) gapCount++; });
+      });
+      document.getElementById('hero-gaps').textContent = gapCount;
+    });
+  </script>
+</body>
+</html>

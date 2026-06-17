@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Manhaj — Monthly Report · Sample Student</title>
+  <link rel="stylesheet" href="../assets/styles.css"/>
+  <script src="../assets/gate.js"></script>
+  <style>
+    body{background:#F0F2F8}
+    .page{max-width:840px;margin:24px auto;background:#fff;border-radius:14px;
+      box-shadow:0 8px 30px rgba(15,30,60,.08);overflow:hidden}
+    .cover{background:linear-gradient(135deg,#0B2545 0%,#3D5A80 100%);color:#fff;padding:30px 36px}
+    .cover .row{display:flex;justify-content:space-between;align-items:center}
+    .cover .school-mark{display:flex;align-items:center;gap:12px}
+    .cover .logo{width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.18);
+      display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px}
+    .cover .school-name{font-size:13px;font-weight:600;opacity:.9}
+    .cover .month-tag{font-size:11px;text-transform:uppercase;letter-spacing:.1em;opacity:.7}
+    .cover h1{font-size:30px;margin:18px 0 6px;font-weight:800;letter-spacing:-.01em}
+    .cover .sub{font-size:14px;opacity:.85}
+    .cover .pills{display:flex;gap:8px;margin-top:20px;flex-wrap:wrap}
+    .cover .pill{background:rgba(255,255,255,.14);padding:5px 11px;border-radius:14px;font-size:11px;font-weight:600;cursor:default;border:0;color:#fff}
+    .body{padding:28px 36px 36px}
+    .section{margin-bottom:26px}
+    .sec-label{font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);
+      font-weight:700;margin-bottom:8px}
+    .sec-title{font-size:18px;font-weight:800;color:var(--primary);margin-bottom:14px}
+
+    .narrative{background:#F4F6FA;border-radius:12px;padding:18px 20px;font-size:13px;line-height:1.7;color:var(--ink)}
+    .narrative b{color:var(--primary)}
+    .narrative .by{font-size:11px;color:var(--muted);margin-top:10px;font-style:italic}
+
+    .perf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .perf-card{border:1px solid var(--border);border-radius:10px;padding:12px 14px;background:#FAFCFE}
+    .perf-subj{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:700}
+    .perf-grade{font-size:24px;font-weight:800;color:var(--ink);margin:4px 0}
+    .perf-trend{font-size:11px;font-weight:700;display:flex;align-items:center;gap:6px}
+    .perf-trend.up{color:var(--success)} .perf-trend.dn{color:var(--danger)} .perf-trend.flat{color:var(--muted)}
+    .perf-band{font-size:10.5px;color:var(--muted);margin-top:6px}
+    .perf-band b{color:var(--ink)}
+
+    /* Rubric radar */
+    .radar-wrap{display:grid;grid-template-columns:300px 1fr;gap:24px;align-items:center}
+    .radar-legend .li{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed var(--border);font-size:12px;align-items:center}
+    .radar-legend .li:last-child{border:0}
+    .radar-legend .li .label{font-weight:600;color:var(--ink);min-width:130px}
+    .radar-legend .li .bar{flex:1;height:6px;background:#EDF1F7;border-radius:3px;margin:0 12px;position:relative;overflow:hidden}
+    .radar-legend .li .fill{position:absolute;left:0;top:0;bottom:0;background:#3D5A80;border-radius:3px}
+    .radar-legend .li .pct{font-weight:700;color:var(--ink);min-width:42px;text-align:right;font-size:11.5px}
+
+    /* Rubric matrix table */
+    .rubric-table{width:100%;border-collapse:collapse;font-size:11.5px;margin-top:6px}
+    .rubric-table th{text-align:center;padding:8px 6px;background:var(--soft);font-size:10px;text-transform:uppercase;letter-spacing:.04em;font-weight:700;color:var(--muted)}
+    .rubric-table th:first-child{text-align:left}
+    .rubric-table td{padding:8px 6px;border-bottom:1px dashed var(--border);text-align:center}
+    .rubric-table td:first-child{text-align:left;font-weight:600}
+    .rs{display:inline-block;width:30px;height:24px;line-height:24px;border-radius:5px;font-weight:700;font-size:11px;color:#fff}
+    .rs1{background:#C53030} .rs2{background:#DD6B20} .rs3{background:#D69E2E} .rs4{background:#3D5A80} .rs5{background:#0B2545}
+
+    .plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+    .plan-card{border:1px solid var(--border);border-radius:10px;padding:14px;background:#fff}
+    .plan-icon{width:32px;height:32px;border-radius:8px;background:#0B2545;color:#fff;
+      display:flex;align-items:center;justify-content:center;font-weight:800;margin-bottom:8px}
+    .plan-card h4{margin:0 0 6px;font-size:13px;font-weight:700;color:var(--ink)}
+    .plan-card p{margin:0;font-size:11.5px;color:var(--muted);line-height:1.55}
+    .plan-card .link{font-size:11px;color:var(--accent);font-weight:600;margin-top:8px;display:inline-block}
+
+    .uni-band{background:linear-gradient(135deg,#FAFCFE,#F0F4FA);border:1px solid var(--border);
+      border-radius:12px;padding:18px 22px}
+    .uni-disclaimer{font-size:10px;color:var(--muted);font-style:italic;margin-bottom:10px}
+    .uni-row{display:flex;align-items:flex-start;gap:18px}
+    .uni-fit-num{font-size:30px;font-weight:800;color:var(--primary);line-height:1}
+    .uni-fit-tag{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;font-weight:700;margin-top:2px}
+    .uni-tier{font-size:12px;color:var(--ink);font-weight:600;margin-top:10px}
+    .uni-tier ul{margin:6px 0 0;padding-left:18px;line-height:1.7;font-weight:400;color:var(--muted)}
+    .uni-strongest{margin-top:14px;font-size:12px}
+    .uni-strongest b{color:var(--primary)}
+
+    .footer-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);
+      border-top:1px solid var(--border);padding:14px 36px;background:#FAFCFE}
+    .footer-meta a{color:var(--accent)}
+
+    .ip-banner{background:#FFF8E1;border:1px solid #F6E05E;color:#744210;padding:8px 16px;font-size:11px;margin:18px 36px 0;border-radius:8px;text-align:center}
+    .ip-banner b{color:#7B341E}
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="ip-banner">
+      <b>Manhaj IP:</b> the 6-axis rubric framework, the radar visualisation, the report card template
+      and the university-fit bands below are Manhaj-built — schools don't define these.
+    </div>
+
+    <!-- COVER -->
+    <div class="cover">
+      <div class="row">
+        <div class="school-mark">
+          <div class="logo">M</div>
+          <div>
+            <div class="school-name">International School of Oman</div>
+            <div class="month-tag">Monthly report · April 2026</div>
+          </div>
+        </div>
+        <div style="text-align:right;font-size:11px;opacity:.85">
+          <div>Grade 10 · Section A</div>
+          <div>ID: ISO-2843</div>
+        </div>
+      </div>
+      <h1>Layla Al-Habsi</h1>
+      <div class="sub">A snapshot of how Layla progressed this month — strengths, areas to build, and what's next.</div>
+      <div class="pills">
+        <span class="pill">10 subjects</span>
+        <span class="pill">24 graded items</span>
+        <span class="pill">Attendance 97%</span>
+        <span class="pill">Rubric composite 4.1 / 5</span>
+      </div>
+    </div>
+
+    <!-- BODY -->
+    <div class="body">
+
+      <!-- AI NARRATIVE -->
+      <div class="section">
+        <div class="sec-label">This month at a glance</div>
+        <div class="narrative">
+          Layla had a <b>strong month overall</b>, with notable progress in <b>Chemistry</b> and <b>Mathematics</b> &mdash;
+          her work on equilibrium problems showed real conceptual depth and she scored top of class on the unit test.
+          Her <b>oral communication</b> rubric score climbed from 3.4 to 4.0 this month, the third consecutive
+          monthly gain, supported by her engagement in the Model UN preparation sessions. We continue to flag
+          <b>written Arabic</b> as an area to build &mdash; this is the second month her written-expression score
+          dipped below 3.0, and the targeted plan below should help. Layla was absent once this month (medical)
+          and remained engaged in class throughout, including on the day she missed.
+          <div class="by">Drafted by Manhaj &middot; reviewed and approved by Ms Sandra Swart &middot; 8 May 2026</div>
+        </div>
+      </div>
+
+      <!-- PERFORMANCE GRID -->
+      <div class="section">
+        <div class="sec-label">Subject performance</div>
+        <div class="sec-title">Grades · trends · class context</div>
+        <div class="perf-grid">
+          <div class="perf-card">
+            <div class="perf-subj">Mathematics</div>
+            <div class="perf-grade">A</div>
+            <div class="perf-trend up">▲ +1 band vs March</div>
+            <div class="perf-band">Class avg <b>B</b> · percentile <b>78th</b></div>
+          </div>
+          <div class="perf-card">
+            <div class="perf-subj">English</div>
+            <div class="perf-grade">B+</div>
+            <div class="perf-trend flat">— flat</div>
+            <div class="perf-band">Class avg <b>B</b> · percentile <b>62nd</b></div>
+          </div>
+          <div class="perf-card">
+            <div class="perf-subj">Arabic</div>
+            <div class="perf-grade">C</div>
+            <div class="perf-trend dn">▼ down 1 band</div>
+            <div class="perf-band">Class avg <b>B-</b> · percentile <b>28th</b></div>
+          </div>
+          <div class="perf-card">
+            <div class="perf-subj">Chemistry</div>
+            <div class="perf-grade">A*</div>
+            <div class="perf-trend up">▲ +1 band</div>
+            <div class="perf-band">Class avg <b>B</b> · percentile <b>92nd</b></div>
+          </div>
+          <div class="perf-card">
+            <div class="perf-subj">Physics</div>
+            <div class="perf-grade">A</div>
+            <div class="perf-trend up">▲ +1 band</div>
+            <div class="perf-band">Class avg <b>B+</b> · percentile <b>75th</b></div>
+          </div>
+          <div class="perf-card">
+            <div class="perf-subj">Biology Self-Study</div>
+            <div class="perf-grade">B+</div>
+            <div class="perf-trend flat">— flat</div>
+            <div class="perf-band">Cohort avg <b>B</b> · percentile <b>58th</b></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RUBRIC RADAR -->
+      <div class="section">
+        <div class="sec-label">Manhaj rubric · 6-axis competency profile</div>
+        <div class="sec-title">Strengths &amp; areas to build · this month</div>
+        <div class="radar-wrap">
+          <div class="radar">
+            <svg viewBox="0 0 320 290" width="320" height="290" role="img" aria-labelledby="radar-title radar-desc">
+            <title id="radar-title">Manhaj 6-axis competency profile</title>
+            <desc id="radar-desc">Radar chart with six dimensions: Analytical 4.4, Creative 3.8, Oral 4.0, Homework 4.6, Participation 4.2, Written 2.8 (all out of 5).</desc>
+              <!-- Concentric rings (5 levels) -->
+              <polygon points="160,30 260,90 260,200 160,260 60,200 60,90" fill="none" stroke="#EDF1F7" stroke-width="1"/>
+              <polygon points="160,60 230,108 230,182 160,230 90,182 90,108" fill="none" stroke="#EDF1F7" stroke-width="1"/>
+              <polygon points="160,90 200,126 200,164 160,200 120,164 120,126" fill="none" stroke="#EDF1F7" stroke-width="1"/>
+              <polygon points="160,120 175,143 175,157 160,170 145,157 145,143" fill="none" stroke="#EDF1F7" stroke-width="1"/>
+              <!-- Axes -->
+              <line x1="160" y1="30" x2="160" y2="260" stroke="#EDF1F7"/>
+              <line x1="60" y1="90" x2="260" y2="200" stroke="#EDF1F7"/>
+              <line x1="60" y1="200" x2="260" y2="90" stroke="#EDF1F7"/>
+              <!-- Data polygon · scores: Analytical 4.4, Creative 3.8, Oral 4.0, Homework 4.6, Participation 4.2, Written 2.8 (out of 5) -->
+              <!-- Center 160,145, max radius 115 -->
+              <!-- top axis (up): Analytical 4.4 -> y = 145 - (4.4/5)*115 = 145 - 101 = 44 -->
+              <!-- ur axis: Creative 3.8 -> r=87 -->
+              <!-- lr axis: Oral 4.0 -> r=92 -->
+              <!-- bottom axis: Homework 4.6 -> r=106, y = 145+106 = 251 -->
+              <!-- ll axis: Participation 4.2 -> r=97 -->
+              <!-- ul axis: Written 2.8 -> r=64 -->
+              <polygon points="160,44 235,98 240,201 160,251 76,196 105,90"
+                fill="rgba(61,90,128,0.20)" stroke="#3D5A80" stroke-width="2.5"/>
+              <circle cx="160" cy="44" r="4" fill="#0B2545"/>
+              <circle cx="235" cy="98" r="4" fill="#0B2545"/>
+              <circle cx="240" cy="201" r="4" fill="#0B2545"/>
+              <circle cx="160" cy="251" r="4" fill="#0B2545"/>
+              <circle cx="76" cy="196" r="4" fill="#0B2545"/>
+              <circle cx="105" cy="90" r="4" fill="#C05621"/>
+              <!-- Labels -->
+              <text x="160" y="20" text-anchor="middle" font-size="11" font-weight="700" fill="#1A2440">Analytical 4.4</text>
+              <text x="275" y="92" text-anchor="middle" font-size="11" font-weight="700" fill="#1A2440">Creative 3.8</text>
+              <text x="275" y="208" text-anchor="middle" font-size="11" font-weight="700" fill="#1A2440">Oral 4.0</text>
+              <text x="160" y="278" text-anchor="middle" font-size="11" font-weight="700" fill="#1A2440">Homework 4.6</text>
+              <text x="45" y="208" text-anchor="middle" font-size="11" font-weight="700" fill="#1A2440">Participation 4.2</text>
+              <text x="50" y="92" text-anchor="middle" font-size="11" font-weight="700" fill="#C05621">Written 2.8</text>
+            </svg>
+          </div>
+          <div class="radar-legend">
+            <div class="li"><span class="label">Analytical reasoning</span>
+              <div class="bar"><div class="fill" style="width:88%"></div></div>
+              <span class="pct">4.4 / 5</span></div>
+            <div class="li"><span class="label">Creative expression</span>
+              <div class="bar"><div class="fill" style="width:76%"></div></div>
+              <span class="pct">3.8 / 5</span></div>
+            <div class="li"><span class="label">Oral communication</span>
+              <div class="bar"><div class="fill" style="width:80%"></div></div>
+              <span class="pct">4.0 / 5</span></div>
+            <div class="li"><span class="label">Homework consistency</span>
+              <div class="bar"><div class="fill" style="width:92%"></div></div>
+              <span class="pct">4.6 / 5</span></div>
+            <div class="li"><span class="label">Class participation</span>
+              <div class="bar"><div class="fill" style="width:84%"></div></div>
+              <span class="pct">4.2 / 5</span></div>
+            <div class="li"><span class="label">Written expression</span>
+              <div class="bar"><div class="fill" style="width:56%;background:#C05621"></div></div>
+              <span class="pct">2.8 / 5</span></div>
+          </div>
+        </div>
+        <div style="margin-top:14px;font-size:11px;color:var(--muted);font-style:italic">
+          Manhaj scores every subject against the same 6 universal axes so parents can compare strengths
+          consistently across subjects, term to term. Scale: 1 emerging &middot; 3 meeting &middot; 5 mastering.
+        </div>
+      </div>
+
+      <!-- RUBRIC MATRIX (subject × axis) -->
+      <div class="section">
+        <div class="sec-label">Rubric matrix · this month</div>
+        <div class="sec-title">How Layla scored on each axis, per subject</div>
+        <table class="rubric-table">
+          <thead><tr>
+            <th>Subject</th><th>Analytical</th><th>Creative</th><th>Oral</th><th>Written</th><th>Participation</th><th>Homework</th>
+          </tr></thead>
+          <tbody id="rubric-tbody"></tbody>
+        </table>
+        <div style="margin-top:10px;font-size:10.5px;color:var(--muted);font-style:italic">
+          Cells colour-coded by score: <span class="rs rs1">1</span> emerging &nbsp;
+          <span class="rs rs2">2</span> approaching &nbsp;
+          <span class="rs rs3">3</span> meeting &nbsp;
+          <span class="rs rs4">4</span> exceeding &nbsp;
+          <span class="rs rs5">5</span> mastering
+        </div>
+      </div>
+
+      <!-- IMPROVEMENT PLAN -->
+      <div class="section">
+        <div class="sec-label">Improvement plan · this month</div>
+        <div class="sec-title">Three concrete actions for Layla</div>
+        <div class="plan-grid">
+          <div class="plan-card">
+            <div class="plan-icon">1</div>
+            <h4>Written Arabic structure</h4>
+            <p>Three 15-minute essay-outline exercises per week using the Manhaj scaffolds. Sample prompts attached &mdash; Layla can pick from any.</p>
+            <a class="link">Open worksheet pack →</a>
+          </div>
+          <div class="plan-card">
+            <div class="plan-icon">2</div>
+            <h4>Build on Chemistry momentum</h4>
+            <p>Layla is ready for stretch material — the Cambridge IGCSE extension problem set on organic chemistry. 20 min / session.</p>
+            <a class="link">Open stretch pack →</a>
+          </div>
+          <div class="plan-card">
+            <div class="plan-icon">3</div>
+            <h4>Public-speaking opportunity</h4>
+            <p>Oral rubric score climbed three months running &mdash; recommend a 3-minute reflection slot in May's MUN debate.</p>
+            <a class="link">Sign up →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- UNIVERSITY FIT -->
+      <div class="section">
+        <div class="sec-label">University placement signal · early indicator</div>
+        <div class="sec-title">Where students with profiles like Layla's have landed</div>
+        <div class="uni-band">
+          <div class="uni-disclaimer">Based on Manhaj rubric profile + IGCSE projection compared against International School of Oman's alumni placement history. Shown as historical bands, not predictions. Refreshed monthly. Updated 2 May 2026. <b>Demo:</b> alumni dataset is illustrative; real signal lights up once school shares 5 years of placement data.</div>
+          <div class="uni-row">
+            <div>
+              <div class="uni-fit-num">82<span style="font-size:14px;color:var(--muted);font-weight:600">/100</span></div>
+              <div class="uni-fit-tag">Profile strength · top 31%</div>
+            </div>
+            <div style="flex:1">
+              <div class="uni-tier"><b>Historical placement tiers for this rubric profile:</b>
+                <ul>
+                  <li>Regional research universities (SQU, AUB, AUS, Khalifa) &mdash; 58% of similar alumni</li>
+                  <li>UK Russell Group / US R1 (Manchester, Edinburgh, UToronto) &mdash; 24% of similar alumni</li>
+                  <li>US selective + IB direct entry (NYU Abu Dhabi, UBC, Boston U.) &mdash; 11% of similar alumni</li>
+                </ul>
+              </div>
+              <div class="uni-strongest"><b>Strongest-fit fields:</b> Chemistry (biomedical, materials), Engineering (chemical, environmental). <b>Watch:</b> consistent written Arabic / IELTS Writing will be key for UK applications.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DELTA -->
+      <div class="section">
+        <div class="sec-label">Month-over-month delta</div>
+        <div class="sec-title">What changed since March</div>
+        <div class="grid-4">
+          <div class="card"><div class="card-label">Rubric composite</div><div class="big-num" style="color:var(--success);font-size:24px">+0.22</div><div class="delta">4.1 / 5</div></div>
+          <div class="card"><div class="card-label">Attendance</div><div class="big-num" style="font-size:24px;color:var(--muted)">— 97%</div><div class="delta">flat</div></div>
+          <div class="card"><div class="card-label">Homework on-time</div><div class="big-num" style="color:var(--success);font-size:24px">+5pp</div><div class="delta">96%</div></div>
+          <div class="card"><div class="card-label">Written-expression</div><div class="big-num" style="color:var(--danger);font-size:24px">-0.4</div><div class="delta bad">watch</div></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-meta">
+      <span>Generated by Manhaj &middot; reviewed and approved by Layla's teachers &middot; 8 May 2026</span>
+      <span>Questions? Reply to this email &middot; <a href="#">school contact</a></span>
+    </div>
+  </div>
+
+  <script>
+    // Render the rubric matrix using Layla's per-subject scores
+    const SUBJECTS = [
+      {name:'Mathematics',    scores:[4.6, 3.7, 3.9, 3.5, 4.0, 4.8]},
+      {name:'English',        scores:[4.2, 4.0, 4.2, 3.8, 4.3, 4.4]},
+      {name:'Arabic',         scores:[3.5, 3.5, 3.6, 2.8, 4.0, 4.5]},
+      {name:'Chemistry',      scores:[4.8, 4.0, 4.1, 3.0, 4.2, 4.7]},
+      {name:'Physics',        scores:[4.5, 3.6, 3.8, 2.6, 4.0, 4.5]},
+      {name:'Biology (SS)',   scores:[4.2, 3.4, 3.4, 2.6, 3.8, 4.6]},
+      {name:'Social Studies', scores:[4.0, 3.6, 4.2, 2.8, 4.3, 4.4]},
+      {name:'Islamic Studies',scores:[4.1, 3.0, 4.1, 3.0, 4.5, 4.7]},
+      {name:'PE',             scores:[3.6, 4.4, 4.5, 3.0, 4.6, 4.6]},
+      {name:'ICT',            scores:[4.7, 4.3, 3.7, 3.2, 4.0, 4.5]},
+    ];
+    function band(v) {
+      return v < 1.5 ? 'rs1' : v < 2.5 ? 'rs2' : v < 3.5 ? 'rs3' : v < 4.5 ? 'rs4' : 'rs5';
+    }
+    document.getElementById('rubric-tbody').innerHTML = SUBJECTS.map(s => {
+      const cells = s.scores.map(v => `<td><span class="rs ${band(v)}">${v.toFixed(1)}</span></td>`).join('');
+      return `<tr><td>${s.name}</td>${cells}</tr>`;
+    }).join('');
+  </script>
+</body>
+</html>

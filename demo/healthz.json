@@ -1,0 +1,7 @@
+{
+  "build": "tier-0-static",
+  "school": "International School of Oman",
+  "academic_year": "2026-2027",
+  "data_manifest": "data/processed/manifest.json",
+  "note": "Visit data_manifest to see the source-file sha256 + row counts the demo is rendering."
+}

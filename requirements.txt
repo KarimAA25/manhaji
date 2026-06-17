@@ -1,0 +1,14 @@
+# Manhaj — Python dependencies for the ETL + future server-side jobs
+# Install: pip install -r requirements.txt (inside a venv)
+
+# Excel reading (existing parser)
+openpyxl>=3.1,<4.0
+
+# Postgres driver (Supabase compat)
+psycopg2-binary>=2.9,<3.0
+
+# Env-var loading from .env (so DATABASE_URL stays out of git)
+python-dotenv>=1.0,<2.0
+
+# HTTP client for Supabase Storage uploads (etl/upload_source_to_supabase.py)
+requests>=2.31,<3.0

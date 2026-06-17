@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Manhaj — Section Mapping</title>
+  <link rel="stylesheet" href="../assets/styles.css"/>
+  <script src="../assets/gate.js"></script>
+  <style>
+    .map-tbl{width:100%;border-collapse:collapse;font-size:12px;background:#fff}
+    .map-tbl th{position:sticky;top:0;background:var(--soft);font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;
+      color:var(--ink);font-weight:700;padding:10px 8px;text-align:left;border-bottom:1px solid var(--border);z-index:2}
+    .map-tbl td{padding:6px 8px;border-bottom:1px dashed var(--border);vertical-align:middle}
+    .map-tbl tr:hover td{background:#FAFCFE}
+    .map-tbl tr.confirmed td{background:#F0FFF4}
+    .map-tbl tr.confirmed:hover td{background:#E6FCEC}
+    .map-tbl input,.map-tbl select{padding:5px 8px;border:1px solid var(--border);border-radius:6px;
+      font-size:12px;font-family:inherit;background:#fff;width:100%}
+    .map-tbl input:focus,.map-tbl select:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 2px rgba(61,90,128,.18)}
+    .map-tbl .code{font-weight:700;color:var(--primary);font-family:'SF Mono','Menlo',monospace;font-size:12.5px;white-space:nowrap}
+    .map-tbl .status{text-align:center;font-size:14px}
+    .map-tbl .status.pending{color:var(--warning)}
+    .map-tbl .status.confirmed{color:var(--success)}
+    .map-tbl .row-confirm{padding:5px 10px;font-size:11px;font-weight:700;border:1px solid var(--border);border-radius:6px;
+      background:#fff;cursor:pointer;color:var(--accent)}
+    .map-tbl .row-confirm:hover{background:var(--soft)}
+    .map-tbl .row-confirm.confirmed{background:var(--success);color:#fff;border-color:var(--success)}
+    .filter-bar{display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
+    .filter-bar .stat{font-size:12px;color:var(--muted);font-weight:600}
+    .filter-bar .stat b{color:var(--ink)}
+    .filter-bar select{padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;background:#fff;font-family:inherit}
+    .toolbar{display:flex;gap:10px;align-items:center;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);flex-wrap:wrap}
+    .progress{flex:1;min-width:120px;height:8px;background:var(--soft);border-radius:4px;overflow:hidden;position:relative}
+    .progress-fill{height:100%;background:linear-gradient(90deg,#2F855A,#48BB78);border-radius:4px;transition:width .3s}
+    .progress-text{font-size:11px;color:var(--muted);font-weight:600}
+
+    /* Modal for SQL output */
+    .modal-bg{display:none;position:fixed;inset:0;background:rgba(15,30,60,.55);z-index:998;backdrop-filter:blur(3px)}
+    .modal-bg.open{display:flex;align-items:center;justify-content:center}
+    .modal{background:#fff;border-radius:14px;width:780px;max-width:92vw;max-height:88vh;display:flex;flex-direction:column;
+      box-shadow:0 20px 60px rgba(15,30,60,.4)}
+    .modal-h{padding:18px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+    .modal-h h3{margin:0;font-size:15px;font-weight:700;color:var(--ink)}
+    .modal-h .close{cursor:pointer;font-size:20px;color:var(--muted);background:transparent;border:0;padding:0;line-height:1}
+    .modal-b{padding:18px 24px;overflow:auto;flex:1}
+    .modal-f{padding:14px 24px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end}
+    .sql-block{background:#0B2545;color:#C7D2DC;padding:16px;border-radius:8px;font-family:'SF Mono','Menlo',monospace;
+      font-size:11.5px;line-height:1.55;white-space:pre;overflow:auto;max-height:380px}
+    .sql-block .kw{color:#A0AEC0;font-weight:700}
+    .copied-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--success);color:#fff;
+      padding:10px 18px;border-radius:8px;font-size:12px;font-weight:600;box-shadow:0 8px 24px rgba(15,30,60,.2);
+      opacity:0;transition:opacity .2s;pointer-events:none;z-index:9999}
+    .copied-toast.show{opacity:1}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">M</div>
+      <div><div class="brand-name">Manhaj <span class="brand-sub">· International School of Oman</span></div></div>
+      <div class="nav">
+        <a href="dashboard.html">Dashboard</a>
+        <a class="active">Sections</a>
+        <a href="attendance.html">Attendance</a>
+        <a class="disabled" title="Live timetable view — Tier 1">Schedule<span class="soon-pill">soon</span></a>
+        <a class="disabled" title="Teacher directory + load management — Tier 1">Staff<span class="soon-pill">soon</span></a>
+        <a class="disabled" title="Student roster + parent comms — Tier 1">Students<span class="soon-pill">soon</span></a>
+        <a class="disabled" title="Term + monthly report generation — Tier 1">Reports<span class="soon-pill">soon</span></a>
+      </div>
+    </div>
+    <div class="top-right">
+      <span style="font-size:12px">AY 2026/27</span>
+      <div class="avatar">PR</div>
+    </div>
+  </div>
+
+  <div class="container">
+    <h1>Section mapping</h1>
+    <p class="sub">Tell Manhaj what each section code means. Once mapped, sections are usable across reports, scheduling, and parent-facing forms.</p>
+
+    <div class="banner">
+      Each school's section codes mean different things. Tell Manhaj how yours map — Manhaj's best guess is pre-filled, adjust where needed, then confirm.
+    </div>
+
+    <div class="card">
+      <div class="filter-bar">
+        <span class="stat"><b id="stat-confirmed">0</b> / <span id="stat-total">0</span> confirmed</span>
+        <div class="progress" style="max-width:200px"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+        <select id="filter">
+          <option value="all">All sections</option>
+          <option value="pending">Pending only</option>
+          <option value="confirmed">Confirmed only</option>
+        </select>
+        <button class="btn ghost" id="reset-suggestions">Re-suggest all from codes</button>
+      </div>
+
+      <div style="overflow-x:auto;max-height:60vh;overflow-y:auto;border:1px solid var(--border);border-radius:8px">
+        <table class="map-tbl" id="map-tbl">
+          <thead>
+            <tr>
+              <th style="width:90px">Code</th>
+              <th style="width:130px">Grade level</th>
+              <th style="width:90px">Label</th>
+              <th style="width:180px">Stream</th>
+              <th style="width:90px">Capacity</th>
+              <th>Notes (optional)</th>
+              <th style="width:60px;text-align:center">Status</th>
+              <th style="width:100px"></th>
+            </tr>
+          </thead>
+          <tbody id="map-tbody"></tbody>
+        </table>
+      </div>
+
+      <div class="toolbar">
+        <button class="btn ghost" id="confirm-visible">Confirm all visible</button>
+        <button class="btn primary" id="generate-sql">Generate SQL · Save mapping</button>
+        <span class="progress-text" id="reminder" style="margin-left:auto"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SQL output modal -->
+  <div class="modal-bg" id="modal-bg">
+    <div class="modal">
+      <div class="modal-h">
+        <h3>SQL to save your mapping</h3>
+        <button class="close" id="modal-close">&times;</button>
+      </div>
+      <div class="modal-b">
+        <p style="font-size:12.5px;color:var(--muted);margin:0 0 14px;line-height:1.55">
+          1. Click <b>Copy SQL</b> below.
+          2. Open your Supabase dashboard → SQL Editor → new query.
+          3. Paste (Cmd+V) and click <b>Run</b>.
+          4. You should see "Success. <span id="sql-row-count">N</span> rows affected." — that means your mapping is now saved in the database.
+        </p>
+        <div class="sql-block" id="sql-output"></div>
+      </div>
+      <div class="modal-f">
+        <button class="btn ghost" id="modal-close-2">Close</button>
+        <button class="btn primary" id="copy-sql">Copy SQL</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="copied-toast" id="toast">Copied to clipboard ✓</div>
+
+  <script>
+    const ACADEMIC_YEAR_LABEL = '2026-2027';
+
+    const GRADE_OPTIONS = [
+      { v: '',          l: '— pick —' },
+      { v: 'KG1',       l: 'KG1' },
+      { v: 'KG2',       l: 'KG2' },
+      { v: '1',         l: 'Grade 1' },
+      { v: '2',         l: 'Grade 2' },
+      { v: '3',         l: 'Grade 3' },
+      { v: '4',         l: 'Grade 4' },
+      { v: '5',         l: 'Grade 5' },
+      { v: '6',         l: 'Grade 6' },
+      { v: '7',         l: 'Grade 7' },
+      { v: '8',         l: 'Grade 8' },
+      { v: '9',         l: 'Grade 9' },
+      { v: '10',        l: 'Grade 10' },
+      { v: '11',        l: 'Grade 11' },
+      { v: '12',        l: 'Grade 12' },
+      { v: '1-2',       l: 'Combined 1-2' },
+      { v: '3-4',       l: 'Combined 3-4' },
+      { v: '5-6',       l: 'Combined 5-6' },
+      { v: 'other',     l: 'Other' },
+    ];
+
+    const STREAM_OPTIONS = [
+      { v: '',              l: '— pick —' },
+      { v: 'regular',       l: 'Regular' },
+      { v: 'AS',            l: 'AS Level (Cambridge)' },
+      { v: 'A2',            l: 'A2 / A-Level (Cambridge)' },
+      { v: 'AL_combined',   l: 'AL — Arabic Literature track' },
+      { v: 'AP',            l: 'AP (Advanced Placement)' },
+      { v: 'IB',            l: 'IB (Diploma)' },
+      { v: 'other',         l: 'Other' },
+    ];
+
+    // Same logic as parse_section_code in etl/parse_workbook.py — kept client-side
+    // so users see a sensible starting point and only correct the wrong ones.
+    function suggestFromCode(code) {
+      code = (code || '').trim();
+      if (code.startsWith('KG')) {
+        return { grade_level: code.slice(0, 3), label: code.slice(3), stream: 'regular' };
+      }
+      const m = code.match(/^([0-9]+(?:-[0-9]+)?)\s*(.*)$/);
+      if (!m) return { grade_level: '', label: '', stream: '' };
+      const [, grade, suffix] = m;
+      let stream = 'regular';
+      if (suffix === 'AS') stream = 'AS';
+      else if (suffix === 'A2') stream = 'A2';
+      else if (suffix === 'AL') stream = 'AL_combined';
+      else if (grade.includes('-') && suffix === 'AL') stream = 'AL_combined';
+      return { grade_level: grade, label: suffix, stream };
+    }
+
+    const state = {
+      sections: [],            // [{code, grade_level, label, stream, capacity, notes, confirmed}]
+      filter: 'all',
+    };
+
+    function buildSelect(opts, selectedVal) {
+      return opts.map(o =>
+        `<option value="${o.v}" ${o.v === selectedVal ? 'selected' : ''}>${o.l}</option>`
+      ).join('');
+    }
+
+    function render() {
+      const tbody = document.getElementById('map-tbody');
+      const filtered = state.sections.filter(s => {
+        if (state.filter === 'pending') return !s.confirmed;
+        if (state.filter === 'confirmed') return s.confirmed;
+        return true;
+      });
+      tbody.innerHTML = filtered.map((s, idx_visible) => {
+        const idx = state.sections.indexOf(s);
+        return `
+        <tr class="${s.confirmed ? 'confirmed' : 'pending'}" data-idx="${idx}">
+          <td class="code">${s.code}</td>
+          <td><select data-f="grade_level"><br>${buildSelect(GRADE_OPTIONS, s.grade_level)}</select></td>
+          <td><input type="text" data-f="label" value="${s.label || ''}" maxlength="6" placeholder="A, AS, AL"/></td>
+          <td><select data-f="stream">${buildSelect(STREAM_OPTIONS, s.stream)}</select></td>
+          <td><input type="number" data-f="capacity" value="${s.capacity || ''}" min="1" max="60" placeholder="—"/></td>
+          <td><input type="text" data-f="notes" value="${s.notes || ''}" placeholder="(optional)"/></td>
+          <td class="status ${s.confirmed ? 'confirmed' : 'pending'}">${s.confirmed ? '✓' : '⊙'}</td>
+          <td><button class="row-confirm ${s.confirmed ? 'confirmed' : ''}" data-action="toggle-confirm">${s.confirmed ? 'Confirmed' : 'Confirm row'}</button></td>
+        </tr>`;
+      }).join('');
+
+      // wire field change handlers
+      tbody.querySelectorAll('[data-f]').forEach(el => {
+        el.addEventListener('input', () => {
+          const tr = el.closest('tr');
+          const idx = +tr.dataset.idx;
+          state.sections[idx][el.dataset.f] = el.value;
+        });
+      });
+      // wire confirm button
+      tbody.querySelectorAll('[data-action="toggle-confirm"]').forEach(el => {
+        el.addEventListener('click', () => {
+          const tr = el.closest('tr');
+          const idx = +tr.dataset.idx;
+          state.sections[idx].confirmed = !state.sections[idx].confirmed;
+          render();
+          updateStats();
+        });
+      });
+
+      updateStats();
+    }
+
+    function updateStats() {
+      const total = state.sections.length;
+      const confirmed = state.sections.filter(s => s.confirmed).length;
+      document.getElementById('stat-total').textContent = total;
+      document.getElementById('stat-confirmed').textContent = confirmed;
+      const pct = total ? (100 * confirmed / total) : 0;
+      document.getElementById('progress-fill').style.width = pct + '%';
+
+      const reminder = document.getElementById('reminder');
+      if (confirmed === 0) {
+        reminder.textContent = 'Pre-filled with Manhaj suggestions. Edit if wrong, then confirm rows.';
+      } else if (confirmed < total) {
+        reminder.textContent = `${total - confirmed} sections still pending`;
+      } else {
+        reminder.textContent = 'All sections confirmed — generate SQL to save';
+      }
+    }
+
+    // ===== Wiring =====
+    document.getElementById('filter').addEventListener('change', e => {
+      state.filter = e.target.value;
+      render();
+    });
+
+    document.getElementById('reset-suggestions').addEventListener('click', () => {
+      if (!confirm('Reset all visible rows to Manhaj suggestions? (Confirmed rows are preserved.)')) return;
+      state.sections.forEach(s => {
+        if (!s.confirmed) {
+          const sug = suggestFromCode(s.code);
+          Object.assign(s, sug);
+        }
+      });
+      render();
+    });
+
+    document.getElementById('confirm-visible').addEventListener('click', () => {
+      const filtered = state.sections.filter(s => {
+        if (state.filter === 'pending') return !s.confirmed;
+        if (state.filter === 'confirmed') return s.confirmed;
+        return true;
+      });
+      filtered.forEach(s => s.confirmed = true);
+      render();
+    });
+
+    function sqlString(v) {
+      if (v === null || v === undefined || v === '') return 'NULL';
+      // Postgres single-quote escape
+      return "'" + String(v).replace(/'/g, "''") + "'";
+    }
+
+    function generateSQL() {
+      const confirmed = state.sections.filter(s => s.confirmed);
+      if (confirmed.length === 0) {
+        alert('No rows confirmed yet. Click "Confirm row" on at least one section first.');
+        return null;
+      }
+      const lines = [];
+      lines.push('-- Manhaj section mapping · saved from demo/admin/section-mapping.html');
+      lines.push('-- Generated: ' + new Date().toISOString());
+      lines.push(`-- ${confirmed.length} section(s) confirmed for AY ${ACADEMIC_YEAR_LABEL}`);
+      lines.push('BEGIN;');
+      lines.push('');
+      confirmed.forEach(s => {
+        const cap = s.capacity ? parseInt(s.capacity, 10) || 'NULL' : 'NULL';
+        lines.push(
+          `UPDATE sections SET ` +
+          `grade_level = ${sqlString(s.grade_level)}, ` +
+          `label = ${sqlString(s.label)}, ` +
+          `stream = ${sqlString(s.stream)}, ` +
+          `capacity = ${cap}, ` +
+          `notes = ${sqlString(s.notes)}, ` +
+          `is_mapped = true, ` +
+          `mapped_at = now() ` +
+          `WHERE code = ${sqlString(s.code)} ` +
+          `AND academic_year_id = (SELECT id FROM academic_years WHERE label = ${sqlString(ACADEMIC_YEAR_LABEL)} LIMIT 1);`
+        );
+      });
+      lines.push('');
+      lines.push('COMMIT;');
+      return { sql: lines.join('\n'), count: confirmed.length };
+    }
+
+    document.getElementById('generate-sql').addEventListener('click', () => {
+      const result = generateSQL();
+      if (!result) return;
+      document.getElementById('sql-output').textContent = result.sql;
+      document.getElementById('sql-row-count').textContent = result.count;
+      document.getElementById('modal-bg').classList.add('open');
+    });
+
+    document.getElementById('modal-close').addEventListener('click', () => {
+      document.getElementById('modal-bg').classList.remove('open');
+    });
+    document.getElementById('modal-close-2').addEventListener('click', () => {
+      document.getElementById('modal-bg').classList.remove('open');
+    });
+
+    document.getElementById('copy-sql').addEventListener('click', async () => {
+      const sql = document.getElementById('sql-output').textContent;
+      try {
+        await navigator.clipboard.writeText(sql);
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 1800);
+      } catch (e) {
+        alert('Could not copy to clipboard. Select the SQL block manually and copy.');
+      }
+    });
+
+    // ===== Load sections =====
+    fetch('../data/processed/sections.json')
+      .then(r => r.json())
+      .then(rawSections => {
+        // For each section, start with the Manhaj suggestion so the user sees a sensible default
+        state.sections = rawSections.map(s => {
+          const sug = suggestFromCode(s.code);
+          return {
+            code: s.code,
+            grade_level: sug.grade_level,
+            label: sug.label,
+            stream: sug.stream,
+            capacity: '',
+            notes: '',
+            confirmed: false,
+          };
+        });
+        render();
+      })
+      .catch(err => {
+        document.getElementById('map-tbody').innerHTML =
+          `<tr><td colspan="8" style="padding:20px;text-align:center;color:var(--danger)">Failed to load sections.json — ${err.message}</td></tr>`;
+      });
+  </script>
+</body>
+</html>

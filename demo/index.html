@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Manhaj — Demo</title>
+  <link rel="stylesheet" href="assets/styles.css"/>
+  <script src="assets/gate.js"></script>
+  <style>
+    .hero{max-width:880px;margin:60px auto;padding:0 28px;text-align:center}
+    .hero h1{font-size:36px;margin:0 0 10px;font-weight:800;letter-spacing:-.01em;color:var(--primary)}
+    .hero .tag{display:inline-block;background:var(--soft);color:var(--accent);font-size:11.5px;
+      padding:4px 12px;border-radius:14px;margin-bottom:18px;font-weight:600;text-transform:none;letter-spacing:0}
+    .hero p{font-size:15px;color:var(--muted);line-height:1.6;max-width:560px;margin:0 auto 36px}
+    .roles{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin:0 auto 36px;max-width:760px}
+    .role{background:#fff;border:1px solid var(--border);border-radius:14px;padding:24px;text-align:left;
+      transition:transform .15s ease, box-shadow .15s ease;text-decoration:none;color:var(--ink);display:block}
+    .role:hover{transform:translateY(-3px);box-shadow:0 12px 36px rgba(15,30,60,.10);text-decoration:none}
+    .role .icon{width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,#0B2545,#3D5A80);
+      color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;margin-bottom:14px}
+    .role h3{margin:0 0 6px;font-size:15px;font-weight:700;color:var(--ink)}
+    .role p{margin:0;font-size:12px;color:var(--muted);line-height:1.55;text-align:left}
+    .footer{font-size:11px;color:var(--muted);text-align:center;margin-top:50px}
+    .stats{display:flex;gap:32px;justify-content:center;margin:0 auto 36px;font-size:11.5px;color:var(--muted)}
+    .stats b{display:block;font-size:18px;color:var(--primary);font-weight:800}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">M</div>
+      <div><div class="brand-name">Manhaj <span class="brand-sub">· Demo build</span></div></div>
+    </div>
+    <div class="top-right"><span style="font-size:12px">May 2026</span></div>
+  </div>
+
+  <div class="hero">
+    <span class="tag">Live demo · International School of Oman pilot data</span>
+    <h1>One platform, three modules,<br/>one data spine.</h1>
+    <p>Admin, Classroom and Finance — sold as a single product, stitched together by a data layer
+       that schools running PowerSchool + Google Classroom + Excel can't replicate. Below is a live
+       demo running on the school's own 2026/27 timetable workbook.</p>
+
+    <div class="stats" id="stats">
+      <div><b>—</b><span>teachers loaded</span></div>
+      <div><b>—</b><span>sections planned</span></div>
+      <div><b>—</b><span>subject codes</span></div>
+      <div><b>—</b><span>load rows ingested</span></div>
+    </div>
+
+    <div class="roles">
+      <a class="role" href="admin/dashboard.html">
+        <div class="icon">A</div>
+        <h3>Principal &mdash; Admin module</h3>
+        <p>Teacher load distribution, slack / over-capacity alerts, section coverage. Real data,
+           parsed from the school's planning workbook.</p>
+      </a>
+      <a class="role" href="admin/section-mapping.html">
+        <div class="icon">S</div>
+        <h3>Admin &mdash; Section mapping</h3>
+        <p>Confirm what each section code (KG1A, 11 AS, etc.) means in your school's convention.
+           One-time setup; generates SQL to save into Supabase.</p>
+      </a>
+      <a class="role" href="parent/select-courses.html">
+        <div class="icon">P</div>
+        <h3>Parent &mdash; Course selection</h3>
+        <p>Bilingual EN / AR digital form for AY 2026/27. Replaces the four .doc circulars for G9-G12.
+           Demand rollup feeds section planning.</p>
+      </a>
+      <a class="role" href="parent/report.html">
+        <div class="icon">R</div>
+        <h3>Parent &mdash; Monthly report</h3>
+        <p>Sample monthly report driven by the Manhaj six-axis rubric framework &mdash; the
+           strengths/weaknesses signal nobody else in K-12 ships.</p>
+      </a>
+    </div>
+
+    <div class="footer">
+      Pilot working dir: <code>~/OneDrive-Personal/school-ops/</code> &middot;
+      Source workbook: <code>24-25 provisional_18-8-2024.xlsx</code>
+    </div>
+  </div>
+
+  <script>
+    fetch('data/processed/manifest.json').then(r => r.json()).then(m => {
+      const stats = document.getElementById('stats');
+      const c = m.counts;
+      stats.innerHTML = `
+        <div><b>${c.teachers}</b><span>teachers loaded</span></div>
+        <div><b>${c.sections}</b><span>sections planned</span></div>
+        <div><b>${c.subjects}</b><span>subject codes</span></div>
+        <div><b>${c.load_rows}</b><span>load rows ingested</span></div>`;
+    }).catch(() => {});
+  </script>
+</body>
+</html>

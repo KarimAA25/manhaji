@@ -1,0 +1,202 @@
+{
+  "9": {
+    "stage": "IGCSE",
+    "pick_count": 5,
+    "compulsory": [
+      "Ma",
+      "En",
+      "Ar",
+      "SSA",
+      "IS"
+    ],
+    "language_alt": {
+      "Ar": [
+        "F2",
+        "F3"
+      ]
+    },
+    "bundles": [
+      {
+        "label": "Science 1",
+        "options": [
+          "Ph",
+          "BS"
+        ]
+      },
+      {
+        "label": "Science 2",
+        "options": [
+          "Ch",
+          "dv"
+        ]
+      },
+      {
+        "label": "Science 3",
+        "options": [
+          "Bi",
+          "IT"
+        ]
+      },
+      {
+        "label": "Humanities/Arts",
+        "options": [
+          "Ec",
+          "Hi",
+          "rt"
+        ]
+      },
+      {
+        "label": "Activity",
+        "options": [
+          "PE",
+          "rt"
+        ]
+      }
+    ]
+  },
+  "10": {
+    "stage": "IGCSE",
+    "pick_count": 5,
+    "compulsory": [
+      "Ma",
+      "En",
+      "Ar",
+      "SSA",
+      "IS"
+    ],
+    "language_alt": {
+      "Ar": [
+        "F2",
+        "F3"
+      ]
+    },
+    "bundles": [
+      {
+        "label": "Science 1",
+        "options": [
+          "Ph",
+          "Bi"
+        ]
+      },
+      {
+        "label": "Science 2",
+        "options": [
+          "Ch",
+          "dv"
+        ]
+      },
+      {
+        "label": "Applied/Arts",
+        "options": [
+          "IT",
+          "BS",
+          "rt"
+        ]
+      },
+      {
+        "label": "Humanities",
+        "options": [
+          "Hi",
+          "Bi SS",
+          "Ec"
+        ]
+      },
+      {
+        "label": "Activity",
+        "options": [
+          "PE",
+          "rt"
+        ]
+      }
+    ]
+  },
+  "11": {
+    "stage": "AS",
+    "pick_count": 3,
+    "compulsory": [
+      "Ma",
+      "En",
+      "Ar",
+      "IS",
+      "CV"
+    ],
+    "language_alt": {},
+    "bundles": [
+      {
+        "label": "Science/Business 1",
+        "options": [
+          "Ph",
+          "BS"
+        ]
+      },
+      {
+        "label": "Science/Business 2",
+        "options": [
+          "Ch",
+          "Ec"
+        ]
+      },
+      {
+        "label": "Bio/IT",
+        "options": [
+          "Bi",
+          "IT"
+        ]
+      },
+      {
+        "label": "Activity",
+        "options": [
+          "PE",
+          "rt"
+        ]
+      }
+    ]
+  },
+  "12": {
+    "stage": "A2",
+    "pick_count": 3,
+    "compulsory": [
+      "Ma",
+      "En",
+      "CV",
+      "IS"
+    ],
+    "language_alt": {
+      "Ar": [
+        "F2",
+        "F3"
+      ]
+    },
+    "bundles": [
+      {
+        "label": "Science 1",
+        "options": [
+          "Ph",
+          "Bi"
+        ]
+      },
+      {
+        "label": "Science/Business",
+        "options": [
+          "Ch",
+          "Ec"
+        ]
+      },
+      {
+        "label": "Applied",
+        "options": [
+          "BS",
+          "Bi SS",
+          "IT"
+        ]
+      },
+      {
+        "label": "Activity",
+        "options": [
+          "rt",
+          "PE"
+        ]
+      }
+    ]
+  }
+}

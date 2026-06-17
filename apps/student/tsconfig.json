@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "plugins": [{ "name": "next" }],
+    "paths": {
+      "@/*": ["./*"],
+      "@manhaj/lib": ["../../packages/lib/src/index.ts"],
+      "@manhaj/lib/*": ["../../packages/lib/src/*"],
+      "@manhaj/ui": ["../../packages/ui/src/index.ts"],
+      "@manhaj/ui/*": ["../../packages/ui/src/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
+}

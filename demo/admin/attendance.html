@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Manhaj — Attendance · ISO</title>
+  <link rel="stylesheet" href="../assets/styles.css"/>
+  <script src="../assets/gate.js"></script>
+  <style>
+    .hero-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:14px}
+    .mini{display:flex;flex-direction:column;justify-content:space-between;min-height:104px}
+    .mini .row{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-top:4px}
+    .mini .row span:last-child{color:var(--ink);font-weight:600}
+
+    /* Heat strip */
+    .heat-strip{background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px 18px;margin-bottom:18px}
+    .heat-strip h3{margin:0 0 10px;font-size:13px;font-weight:700;color:var(--ink)}
+    .heat-row{display:grid;gap:3px;grid-template-columns:90px repeat(41,minmax(20px,1fr));align-items:center;font-size:10.5px}
+    .heat-cell{aspect-ratio:1;border-radius:3px;font-size:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;min-height:22px;cursor:default}
+    .heat-cell.good{background:#2F855A}  /* darkened from #48BB78 — WCAG 1.4.3 with white text */
+    .heat-cell.ok{background:#9AE6B4;color:#22543D}
+    .heat-cell.warn{background:#9C4221}  /* darkened from #D69E2E — WCAG 1.4.3 with white text */
+    .heat-cell.bad{background:#C53030}
+    .heat-label{font-size:11px;color:var(--muted);font-weight:600}
+    .legend{display:flex;gap:10px;font-size:10.5px;color:var(--muted);margin-top:10px;align-items:center;flex-wrap:wrap}
+    .legend .sw{width:11px;height:11px;border-radius:2px;display:inline-block}
+
+    /* Grids */
+    .grid-2{display:grid;grid-template-columns:1.4fr 1fr;gap:14px;margin-bottom:14px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:14px}
+
+    /* By-section table */
+    .att-tbl{width:100%;border-collapse:collapse;font-size:12px}
+    .att-tbl th{text-align:left;padding:8px 10px;background:var(--soft);color:var(--ink);font-weight:700;font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--border)}
+    .att-tbl td{padding:8px 10px;border-bottom:1px dashed var(--border);vertical-align:middle}
+    .att-tbl tr:hover td{background:#FAFCFE}
+    .att-tbl .pct{font-weight:700}
+    .att-tbl .pct.good{color:var(--success)} .att-tbl .pct.ok{color:#3D5A80} .att-tbl .pct.warn{color:var(--warning)} .att-tbl .pct.bad{color:var(--danger)}
+    .week-bar{display:flex;gap:2px;height:18px;width:80px}
+    .week-bar .day{flex:1;border-radius:2px;background:#48BB78;position:relative}
+    .week-bar .day.warn{background:#D69E2E}
+    .week-bar .day.bad{background:#C53030}
+
+    /* Absence list */
+    .abs-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px dashed var(--border);font-size:12px}
+    .abs-row:last-child{border:0}
+    .abs-name{flex:1;font-weight:600;color:var(--ink)}
+    .abs-meta{font-size:10.5px;color:var(--muted);margin-top:2px}
+    .badge{font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:4px;text-transform:uppercase;letter-spacing:.04em}
+    .badge.med{background:#BEE3F8;color:#2A4365}
+    .badge.fam{background:#FAF089;color:#744210}
+    .badge.unk{background:#FED7D7;color:#9B2C2C}
+    .badge.cont{background:#C6F6D5;color:#22543D}
+
+    /* AI alerts */
+    .ai-alert{padding:11px 14px;border-radius:8px;background:#FAFCFE;border-left:3px solid var(--accent);margin-bottom:10px;font-size:12px;line-height:1.55}
+    .ai-alert.high{border-left-color:var(--danger);background:#FFF5F5}
+    .ai-alert.med{border-left-color:var(--warning);background:#FFFAF0}
+    .ai-alert b{color:var(--ink)}
+    .ai-alert .meta{font-size:10.5px;color:var(--muted);margin-top:6px}
+
+    /* Sparkline */
+    .sparkline{width:100%;height:50px;margin-top:6px}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">M</div>
+      <div><div class="brand-name">Manhaj <span class="brand-sub">· International School of Oman</span></div></div>
+      <div class="nav">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="section-mapping.html">Sections</a>
+        <a class="active">Attendance</a>
+        <a class="disabled" title="Live timetable view — Tier 1">Schedule<span class="soon-pill">soon</span></a>
+        <a class="disabled" title="Teacher directory — Tier 1">Staff<span class="soon-pill">soon</span></a>
+        <a class="disabled" title="Student roster + parent comms — Tier 1">Students<span class="soon-pill">soon</span></a>
+        <a class="disabled" title="Report generation — Tier 1">Reports<span class="soon-pill">soon</span></a>
+      </div>
+    </div>
+    <div class="top-right">
+      <span style="font-size:12px">Tuesday · 27 May 2026</span>
+      <div class="avatar">PR</div>
+    </div>
+  </div>
+
+  <div class="container">
+    <h1>Attendance · today &amp; this week</h1>
+    <p class="sub">Daily register — updates as teachers submit attendance</p>
+
+    <div class="banner" style="background:#E6FFFA;border-color:#4FD1C5;color:#234E52">
+      <b>Preview only</b> — sample numbers. Live attendance data starts flowing once teachers begin submitting the daily register from the Manhaj teacher app.
+    </div>
+
+    <!-- HERO ROW -->
+    <div class="hero-row">
+      <div class="card mini">
+        <div>
+          <div class="card-label">School attendance today</div>
+          <div class="big-num">93.4%</div>
+          <div class="delta">+0.3pp vs 7-day avg</div>
+        </div>
+        <div class="row"><span>Marked</span><span>847 / 906</span></div>
+        <div class="row"><span>Unmarked</span><span>0 sections</span></div>
+      </div>
+
+      <div class="card mini">
+        <div>
+          <div class="card-label">Absent today</div>
+          <div class="big-num">59</div>
+          <div class="delta bad">+12 vs yesterday</div>
+        </div>
+        <div class="row"><span>Medical (notified)</span><span>34</span></div>
+        <div class="row"><span>Unauthorised</span><span>11</span></div>
+      </div>
+
+      <div class="card mini">
+        <div>
+          <div class="card-label">Late arrivals</div>
+          <div class="big-num">18</div>
+          <div class="delta">avg 12 min</div>
+        </div>
+        <div class="row"><span>Pattern flagged</span><span>6 students</span></div>
+        <div class="row"><span>1st time today</span><span>12</span></div>
+      </div>
+
+      <div class="card mini">
+        <div>
+          <div class="card-label">Sections at risk</div>
+          <div class="big-num" style="color:var(--danger)">3</div>
+          <div class="delta bad">attendance &lt; 88%</div>
+        </div>
+        <div class="row"><span>G8-B</span><span>86%</span></div>
+        <div class="row"><span>G11 AS</span><span>87%</span></div>
+      </div>
+    </div>
+
+    <!-- HEAT STRIP: today per section -->
+    <div class="heat-strip">
+      <h3>Today's attendance · all 41 sections</h3>
+      <div id="heat-strip-rows"></div>
+      <div class="legend">
+        <span class="sw" style="background:#48BB78"></span> &gt;= 95%
+        <span class="sw" style="background:#9AE6B4"></span> 90–94%
+        <span class="sw" style="background:#D69E2E"></span> 85–89%
+        <span class="sw" style="background:#C53030"></span> &lt; 85%
+      </div>
+    </div>
+
+    <!-- ROW: per-section detail + AI alerts -->
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-label">Top variance · today vs 30-day average</div>
+        <div class="card-title">Sections needing principal attention</div>
+        <table class="att-tbl" style="margin-top:8px">
+          <thead>
+            <tr>
+              <th>Section</th>
+              <th>Today %</th>
+              <th>vs 30-day avg</th>
+              <th>5-day pattern</th>
+              <th>Likely cause (AI)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>G8-B</b></td>
+              <td class="pct bad">86%</td>
+              <td>▼ 8pp</td>
+              <td><div class="week-bar"><div class="day"></div><div class="day"></div><div class="day warn"></div><div class="day bad"></div><div class="day bad"></div></div></td>
+              <td style="font-size:11.5px;color:var(--muted)">Math quiz announced Mon</td>
+            </tr>
+            <tr>
+              <td><b>G11 AS</b></td>
+              <td class="pct warn">87%</td>
+              <td>▼ 4pp</td>
+              <td><div class="week-bar"><div class="day"></div><div class="day"></div><div class="day"></div><div class="day warn"></div><div class="day warn"></div></div></td>
+              <td style="font-size:11.5px;color:var(--muted)">Late-arrival cluster — bus delay?</td>
+            </tr>
+            <tr>
+              <td><b>G6-A</b></td>
+              <td class="pct warn">88%</td>
+              <td>▼ 3pp</td>
+              <td><div class="week-bar"><div class="day"></div><div class="day warn"></div><div class="day"></div><div class="day"></div><div class="day warn"></div></div></td>
+              <td style="font-size:11.5px;color:var(--muted)">Cluster of medical absences</td>
+            </tr>
+            <tr>
+              <td>KG2-C</td>
+              <td class="pct ok">91%</td>
+              <td>— flat</td>
+              <td><div class="week-bar"><div class="day"></div><div class="day"></div><div class="day"></div><div class="day"></div><div class="day"></div></div></td>
+              <td style="font-size:11.5px;color:var(--muted)">Within normal range</td>
+            </tr>
+            <tr>
+              <td>5A</td>
+              <td class="pct ok">92%</td>
+              <td>— flat</td>
+              <td><div class="week-bar"><div class="day"></div><div class="day"></div><div class="day warn"></div><div class="day"></div><div class="day"></div></div></td>
+              <td style="font-size:11.5px;color:var(--muted)">Within normal range</td>
+            </tr>
+            <tr>
+              <td>10A</td>
+              <td class="pct good">96%</td>
+              <td>+1pp</td>
+              <td><div class="week-bar"><div class="day"></div><div class="day"></div><div class="day"></div><div class="day"></div><div class="day"></div></div></td>
+              <td style="font-size:11.5px;color:var(--muted)">Strong</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-label">AI-flagged patterns · this week</div>
+        <div class="card-title">Worth a principal look</div>
+
+        <div class="ai-alert high">
+          <b>G8-B Tuesday spike pattern</b> — 4 of last 6 weeks show ≥10% absent on Tuesdays. Coincides with scheduled math quiz day. <span style="color:var(--accent)">Suggest moving quiz to Wed?</span>
+          <div class="meta">14 absences this Tue · we're confident this is a real pattern, not random</div>
+        </div>
+
+        <div class="ai-alert med">
+          <b>Yara Saade (G7-B)</b> — 4 absences this month, all on Sundays. No medical notes. Recommend gentle parent comm.
+          <div class="meta">Latest absence: Sun 25 May · parent unreachable Sat</div>
+        </div>
+
+        <div class="ai-alert med">
+          <b>Late-arrival cluster · G11 AS</b> — 6 students from G11 AS arriving 10+ min late on Tue/Wed. Same neighbourhood per address data — likely shared transport.
+          <div class="meta">Pattern emerged 2 weeks ago</div>
+        </div>
+
+        <div class="ai-alert">
+          <b>School-wide drop on Fridays after exams</b> — 7-day avg attendance falls 3.2pp on day after major exams (n=11 events YTD). Considered normal; no action recommended.
+          <div class="meta">Spotted by Manhaj · refreshed 2h ago</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW: 30-day trend + today's absences list -->
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-label">School-wide attendance · last 30 days</div>
+        <div class="card-title">Daily AM register % · 93.4% today</div>
+        <svg class="sparkline" viewBox="0 0 600 80" preserveAspectRatio="none">
+          <line x1="0" y1="20" x2="600" y2="20" stroke="#EDF1F7"/>
+          <line x1="0" y1="40" x2="600" y2="40" stroke="#EDF1F7" stroke-dasharray="3"/>
+          <line x1="0" y1="60" x2="600" y2="60" stroke="#EDF1F7"/>
+          <polyline fill="none" stroke="#3D5A80" stroke-width="2"
+            points="0,30 20,28 40,35 60,40 80,32 100,45 120,55 140,50 160,38 180,70 200,42 220,48 240,52 260,33 280,45 300,38 320,40 340,33 360,52 380,30 400,38 420,42 440,28 460,35 480,45 500,32 520,48 540,33 560,38 580,32 600,28"/>
+          <circle cx="180" cy="70" r="4" fill="#C53030"/>
+          <text x="180" y="78" text-anchor="middle" font-size="9" fill="#C53030" font-weight="700">G8-B spike</text>
+        </svg>
+        <div style="font-size:11px;color:var(--muted);margin-top:6px"><b style="color:var(--ink)">Median:</b> 94.1% · <b style="color:var(--ink)">Worst day:</b> Tue 13 May (88.4% — flu cluster) · <b style="color:var(--ink)">Best:</b> Wed 21 May (97.2%)</div>
+      </div>
+
+      <div class="card">
+        <div class="card-label">Today's absences · first 6 of 59</div>
+        <div class="card-title">Sorted by section, oldest unaddressed first</div>
+        <div style="margin-top:6px">
+          <div class="abs-row">
+            <div style="flex:1">
+              <div class="abs-name">Yara Saade · G7-B</div>
+              <div class="abs-meta">4th this month — pattern flagged · No medical note</div>
+            </div>
+            <span class="badge unk">UNK</span>
+          </div>
+          <div class="abs-row">
+            <div style="flex:1">
+              <div class="abs-name">Karim Nasr · G9-A</div>
+              <div class="abs-meta">2nd consecutive day · Parent: "sick, fever"</div>
+            </div>
+            <span class="badge med">MED</span>
+            <span class="badge cont">CONTACTED</span>
+          </div>
+          <div class="abs-row">
+            <div style="flex:1">
+              <div class="abs-name">Lara Khoury · G6-A</div>
+              <div class="abs-meta">3rd this month — flagged for follow-up</div>
+            </div>
+            <span class="badge fam">FAM</span>
+          </div>
+          <div class="abs-row">
+            <div style="flex:1">
+              <div class="abs-name">Ahmad Tabet · G10-B</div>
+              <div class="abs-meta">Pre-notified · doctor appointment</div>
+            </div>
+            <span class="badge med">MED</span>
+            <span class="badge cont">CONTACTED</span>
+          </div>
+          <div class="abs-row">
+            <div style="flex:1">
+              <div class="abs-name">Omar Haddad · G11-C</div>
+              <div class="abs-meta">3rd consecutive Friday</div>
+            </div>
+            <span class="badge unk">UNK</span>
+          </div>
+          <div class="abs-row">
+            <div style="flex:1">
+              <div class="abs-name">Nour Al-Habsi · KG2-B</div>
+              <div class="abs-meta">Parent: family wedding</div>
+            </div>
+            <span class="badge fam">FAM</span>
+            <span class="badge cont">CONTACTED</span>
+          </div>
+        </div>
+        <div style="margin-top:12px;font-size:11px;color:var(--accent);font-weight:600">View all 59 absences →</div>
+      </div>
+    </div>
+
+    <!-- AI CHAT -->
+    <div class="ai-chat">
+      <div class="ai-icon">M</div>
+      <div class="ai-prompt">Ask Manhaj — e.g. <b>"draft parent messages for the 6 unauthorised absences"</b> or <b>"which G11 AS students were late twice this week?"</b></div>
+      <div class="ai-suggest">
+        <span class="pill">Draft parent comms (×11)</span>
+        <span class="pill">Explain G8-B spike</span>
+        <span class="pill">Flag late-arrival students</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Build the heat strip: 41 sections, today's attendance % (synthetic for mockup)
+    const SECTION_CODES = ['K1A','KG1B','KG2C','KG2A','KG2B','1A','1B','1C','2A','2B','2C','1-2 AL','3A','3B','3C','4A','4B','4C','3-4 AL','5A','5B','5C','5-6 AL','6A','6B','6C','7A','7B','7C','8A','8B','9A','9B','10A','10B','11A','11B','11 AS','12A','12B','12 A2'];
+    // Synthetic attendance — most 92-97, a few flagged
+    const ATT_PCT = {
+      'K1A': 96, 'KG1B': 94, 'KG2C': 91, 'KG2A': 93, 'KG2B': 90,
+      '1A': 95, '1B': 94, '1C': 92, '2A': 93, '2B': 96, '2C': 94, '1-2 AL': 92,
+      '3A': 95, '3B': 92, '3C': 94, '4A': 96, '4B': 93, '4C': 95, '3-4 AL': 91,
+      '5A': 92, '5B': 95, '5C': 94, '5-6 AL': 93,
+      '6A': 88, '6B': 93, '6C': 96,
+      '7A': 94, '7B': 93, '7C': 95, '8A': 92, '8B': 86,
+      '9A': 94, '9B': 93,
+      '10A': 96, '10B': 94,
+      '11A': 95, '11B': 93, '11 AS': 87,
+      '12A': 96, '12B': 94, '12 A2': 95
+    };
+    function bucket(p) {
+      if (p >= 95) return 'good';
+      if (p >= 90) return 'ok';
+      if (p >= 85) return 'warn';
+      return 'bad';
+    }
+    // Build a single row with 41 small cells
+    const rows = [];
+    rows.push(`<div class="heat-row"><div class="heat-label">Today</div>` +
+      SECTION_CODES.map(c => {
+        const p = ATT_PCT[c] || 93;
+        return `<div class="heat-cell ${bucket(p)}" title="${c}: ${p}%">${p}</div>`;
+      }).join('') + `</div>`);
+    document.getElementById('heat-strip-rows').innerHTML = rows.join('');
+  </script>
+</body>
+</html>

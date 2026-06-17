@@ -1,0 +1,118 @@
+{
+  "$schema": "./design-tokens.schema.md",
+  "_meta": {
+    "version": "1.0.0",
+    "shipped": "2026-05-26",
+    "owner": "manhaj-design",
+    "notes": "Canonical Manhaj design tokens. CSS variables (tokens.css) and TS constants (tokens.ts) are kept in sync with this file BY HAND. A future build step will auto-generate both."
+  },
+
+  "color": {
+    "primary":  "#0B2545",
+    "accent":   "#3D5A80",
+    "ink":      "#1A2440",
+    "muted":    "#5A6B82",
+    "border":   "#E5EAF0",
+    "soft":     "#EEF2F7",
+    "soft_hover": "#E1E8F0",
+    "bg":       "#F4F6FA",
+    "card":     "#FFFFFF",
+    "surface_subtle": "#FAFCFE",
+
+    "success":  "#2F855A",
+    "warning":  "#C05621",
+    "warn":     "#D69E2E",
+    "danger":   "#C53030",
+
+    "success_soft":     "#C6F6D5",
+    "success_soft_bg":  "#F0FFF4",
+    "success_text":     "#22543D",
+    "danger_soft":      "#FED7D7",
+    "danger_soft_border": "#FC8181",
+    "danger_text":      "#742A2A",
+    "warning_soft":     "#FFF8E1",
+    "warning_soft_border": "#F6E05E",
+    "warning_text":     "#744210",
+    "info_soft":        "#EBF4FF",
+    "info_text":        "#2A4365",
+
+    "muted_disabled": "#718096",
+
+    "heat_1_bg": "#C5D2E2",
+    "heat_2_bg": "#7B9AC2",
+    "heat_3_bg": "#3D5A80",
+    "heat_4_bg": "#0B2545",
+    "heat_1_text": "#2A4365",
+    "heat_2_text": "#1A2440",
+
+    "rs_1": "#C53030",
+    "rs_2": "#9C4221",
+    "rs_3": "#9C4221",
+    "rs_4": "#3D5A80",
+    "rs_5": "#0B2545"
+  },
+
+  "space": {
+    "0":  "0",
+    "1":  "4px",
+    "2":  "8px",
+    "3":  "12px",
+    "4":  "16px",
+    "5":  "20px",
+    "6":  "24px",
+    "8":  "32px",
+    "10": "40px",
+    "14": "56px"
+  },
+
+  "font_size": {
+    "xs":   "10px",
+    "sm":   "11px",
+    "base": "13px",
+    "md":   "14px",
+    "lg":   "16px",
+    "xl":   "20px",
+    "2xl":  "24px",
+    "3xl":  "30px",
+    "4xl":  "36px"
+  },
+
+  "font_weight": {
+    "normal":    400,
+    "medium":    500,
+    "semibold":  600,
+    "bold":      700,
+    "black":     800
+  },
+
+  "line_height": {
+    "tight": "1.0",
+    "snug":  "1.45",
+    "loose": "1.7"
+  },
+
+  "radius": {
+    "sm":   "4px",
+    "md":   "8px",
+    "lg":   "10px",
+    "xl":   "12px",
+    "2xl":  "14px",
+    "full": "9999px"
+  },
+
+  "shadow": {
+    "sm":  "0 1px 2px rgba(15,30,60,.04)",
+    "md":  "0 4px 12px rgba(15,30,60,.06)",
+    "lg":  "0 8px 24px rgba(15,30,60,.2)",
+    "xl":  "0 8px 30px rgba(15,30,60,.08)",
+    "2xl": "0 20px 60px rgba(15,30,60,.3)"
+  },
+
+  "breakpoint": {
+    "xs": "375px",
+    "sm": "480px",
+    "md": "640px",
+    "lg": "900px",
+    "xl": "1200px"
+  }
+}
