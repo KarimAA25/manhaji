@@ -5,7 +5,15 @@
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"],
+      "env": [
+        "SUPABASE_URL",
+        "SUPABASE_ANON_KEY",
+        "ANTHROPIC_API_KEY",
+        "APP_NAME",
+        "SCHOOL_NAME",
+        "ACADEMIC_YEAR"
+      ]
     },
     "dev": {
       "cache": false,
