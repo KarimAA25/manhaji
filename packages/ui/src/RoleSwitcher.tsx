@@ -6,7 +6,7 @@
  * Four pills: Admin, Teacher, Student, Parent. Clicking a pill routes to that
  * persona's base path and persists the choice in localStorage.
  *
- * Production behaviour: when NEXT_PUBLIC_DEMO_MODE !== "true", returns null
+ * Production behaviour: when DEMO_MODE !== "true", returns null
  * so real auth-driven routing handles persona selection instead.
  */
 
@@ -46,7 +46,7 @@ export default function RoleSwitcher() {
     if (fromUrl) writeActiveRole(fromUrl);
   }, [fromUrl]);
 
-  if (process.env.NEXT_PUBLIC_DEMO_MODE !== "true") return null;
+  if (process.env.DEMO_MODE !== "true") return null;
 
   function pick(role: Role) {
     if (role === active) return;

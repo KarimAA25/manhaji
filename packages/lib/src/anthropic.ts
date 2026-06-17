@@ -13,7 +13,7 @@
 
 import Anthropic from "@anthropic-ai/sdk";
 
-const SCHOOL_NAME = process.env.NEXT_PUBLIC_SCHOOL_NAME || "International School of Oman";
+const SCHOOL_NAME = process.env.SCHOOL_NAME || "International School of Oman";
 
 export const MANHAJ_SYSTEM_PROMPT = `You are Manhaj, an AI assistant embedded in a K-12 school operations platform. You speak with a principal of ${SCHOOL_NAME} — a busy educator who needs concise, actionable answers between meetings.
 

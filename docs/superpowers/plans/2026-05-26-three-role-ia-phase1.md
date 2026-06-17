@@ -342,7 +342,7 @@ Create `apps/web/app/components/RoleSwitcher.tsx`:
  * persona's base path and persists the choice in localStorage so the
  * next visit lands on the same persona.
  *
- * Production behaviour: when NEXT_PUBLIC_DEMO_MODE !== "true", returns null
+ * Production behaviour: when DEMO_MODE !== "true", returns null
  * so real auth-driven routing handles persona selection instead.
  */
 
@@ -384,7 +384,7 @@ export default function RoleSwitcher() {
   }, [pathname]);
 
   // Demo-mode flag: hide entirely in production.
-  if (process.env.NEXT_PUBLIC_DEMO_MODE !== "true") return null;
+  if (process.env.DEMO_MODE !== "true") return null;
 
   function pick(role: Role) {
     if (role === active) return;
@@ -488,7 +488,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 
 Open `apps/web/.env.local` (create if missing). Add:
 ```
-NEXT_PUBLIC_DEMO_MODE=true
+DEMO_MODE=true
 ```
 This flag drives `RoleSwitcher` visibility. Set to anything other than `"true"` in production env vars to hide the switcher.
 
@@ -1134,7 +1134,7 @@ export default async function AdminDashboard() {
   return (
     <div className="container">
       <h1>Good morning, Principal.</h1>
-      <p className="sub">Dashboard · AY {process.env.NEXT_PUBLIC_ACADEMIC_YEAR}</p>
+      <p className="sub">Dashboard · AY {process.env.ACADEMIC_YEAR}</p>
 
       <AiBriefingHeader summary={summary} />
 
@@ -1434,7 +1434,7 @@ Create `apps/web/app/student/layout.tsx`:
 
 import StudentNav from "./components/StudentNav";
 
-const SCHOOL_NAME = process.env.NEXT_PUBLIC_SCHOOL_NAME || "International School of Oman";
+const SCHOOL_NAME = process.env.SCHOOL_NAME || "International School of Oman";
 
 export default function StudentLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -1538,7 +1538,7 @@ export default function StudentDashboard() {
   return (
     <div className="container">
       <h1>Welcome, Layla.</h1>
-      <p className="sub">Your dashboard · AY {process.env.NEXT_PUBLIC_ACADEMIC_YEAR}</p>
+      <p className="sub">Your dashboard · AY {process.env.ACADEMIC_YEAR}</p>
 
       <AiBriefingHeader summary={summary} />
 
@@ -1950,7 +1950,7 @@ import "./parent.css";
 import ParentNav from "./components/ParentNav";
 import ChildSwitcher from "./components/ChildSwitcher";
 
-const SCHOOL_NAME = process.env.NEXT_PUBLIC_SCHOOL_NAME || "International School of Oman";
+const SCHOOL_NAME = process.env.SCHOOL_NAME || "International School of Oman";
 
 export default function ParentLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -2153,7 +2153,7 @@ export default function ParentDashboard() {
   return (
     <div className="container">
       <h1>Welcome, Mr Al-Habsi.</h1>
-      <p className="sub">Your dashboard · AY {process.env.NEXT_PUBLIC_ACADEMIC_YEAR}</p>
+      <p className="sub">Your dashboard · AY {process.env.ACADEMIC_YEAR}</p>
 
       <AiBriefingHeader summary={summary} />
 
@@ -2368,7 +2368,7 @@ Append a new entry at the top of `~/.claude/projects/-Users-eliasmouawad-Library
 - Plan: `docs/superpowers/plans/2026-05-26-three-role-ia-phase1.md`
 - Phase 1 = structural shape only. All 18 routes live; most tabs render `<PlaceholderPage />` with content briefs.
 - Gate persistence: `localStorage` (was `sessionStorage`). One unlock survives tabs + refreshes.
-- Role switcher: navy strip above the topbar, demo-mode only (`NEXT_PUBLIC_DEMO_MODE=true`).
+- Role switcher: navy strip above the topbar, demo-mode only (`DEMO_MODE=true`).
 - Deterministic summary composer in `lib/summary.ts`; Layer-2 prompt cache wires Phase 3.
 - ChildSwitcher hard-codes a 3-child demo household; real data wires in Phase 2.
 - `/parent/select-courses` → `/parent/courses` 308 redirect via `proxy.ts`.

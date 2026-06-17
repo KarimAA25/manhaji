@@ -79,11 +79,11 @@ that checkbox checked.
 
 | Name | Value | Notes |
 |---|---|---|
-| `NEXT_PUBLIC_SUPABASE_URL` | `https://dxrkbjftkfhlddqefmaq.supabase.co` | Safe to commit; browser-visible |
-| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | `sb_publishable_757UEjZSZRD81kd1Cmp2QQ_r0eQXl4H` | Safe to commit; browser-visible |
-| `NEXT_PUBLIC_APP_NAME` | `Manhaj` | |
-| `NEXT_PUBLIC_SCHOOL_NAME` | `International School of Oman` | |
-| `NEXT_PUBLIC_ACADEMIC_YEAR` | `2026-2027` | |
+| `SUPABASE_URL` | `https://dxrkbjftkfhlddqefmaq.supabase.co` | Safe to commit; browser-visible |
+| `SUPABASE_PUBLISHABLE_KEY` | `sb_publishable_757UEjZSZRD81kd1Cmp2QQ_r0eQXl4H` | Safe to commit; browser-visible |
+| `APP_NAME` | `Manhaj` | |
+| `SCHOOL_NAME` | `International School of Oman` | |
+| `ACADEMIC_YEAR` | `2026-2027` | |
 | `SUPABASE_SERVICE_ROLE_KEY` | *(your service-role key from Supabase Dashboard → Settings → API)* | ⚠️ Server-only. Paste here, NEVER in chat. |
 
 **Important about `SUPABASE_SERVICE_ROLE_KEY`:** in the Vercel UI there's

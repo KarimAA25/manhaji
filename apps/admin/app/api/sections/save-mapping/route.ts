@@ -28,7 +28,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { serverClient } from "@manhaj/lib/supabase";
 
-const SCHOOL_NAME = process.env.NEXT_PUBLIC_SCHOOL_NAME || "International School of Oman";
+const SCHOOL_NAME = process.env.SCHOOL_NAME || "International School of Oman";
 
 type IncomingRow = {
   code?: unknown;

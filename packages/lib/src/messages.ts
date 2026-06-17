@@ -9,7 +9,7 @@
 import { serverClient } from "./supabase";
 import { MOCK_THREADS, type Thread, type MessageCategory } from "./mock-messages";
 
-const SCHOOL_NAME = process.env.NEXT_PUBLIC_SCHOOL_NAME || "International School of Oman";
+const SCHOOL_NAME = process.env.SCHOOL_NAME || "International School of Oman";
 const DEMO_PARENT_EMAIL = "mahmoud.al-habsi@example.com";
 
 /**
@@ -19,9 +19,9 @@ const DEMO_PARENT_EMAIL = "mahmoud.al-habsi@example.com";
  * been applied yet on a fresh deploy), fall back to the 12 demo threads
  * in `mock-messages` so the demo stays visually rich. Any real thread in
  * Postgres wins — the fallback only fires when the RPC returns zero rows
- * or errors. Disable with NEXT_PUBLIC_MESSAGES_NO_FALLBACK=true.
+ * or errors. Disable with MESSAGES_NO_FALLBACK=true.
  */
-const DISABLE_MOCK_FALLBACK = process.env.NEXT_PUBLIC_MESSAGES_NO_FALLBACK === "true";
+const DISABLE_MOCK_FALLBACK = process.env.MESSAGES_NO_FALLBACK === "true";
 
 export type NewThreadPayload = {
   student_id:  string | null;   // null for household

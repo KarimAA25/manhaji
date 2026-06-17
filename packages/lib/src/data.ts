@@ -20,7 +20,7 @@
 
 import { serverClient } from "./supabase";
 
-const SCHOOL_NAME = process.env.NEXT_PUBLIC_SCHOOL_NAME || "International School of Oman";
+const SCHOOL_NAME = process.env.SCHOOL_NAME || "International School of Oman";
 
 export type Teacher = {
   id: string;

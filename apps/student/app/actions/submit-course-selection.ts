@@ -16,8 +16,8 @@
 import { serverClient } from "@manhaj/lib/supabase";
 import { OFFERINGS } from "@manhaj/lib/electives";
 
-const SCHOOL_NAME = process.env.NEXT_PUBLIC_SCHOOL_NAME || "International School of Oman";
-const AY_LABEL = process.env.NEXT_PUBLIC_ACADEMIC_YEAR || "2026-2027";
+const SCHOOL_NAME = process.env.SCHOOL_NAME || "International School of Oman";
+const AY_LABEL = process.env.ACADEMIC_YEAR || "2026-2027";
 
 export type SubmitResult =
   | { ok: true; form_id: string; student_id: string; picks_count: number; student_created: boolean }

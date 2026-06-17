@@ -9,8 +9,8 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-const URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const ANON = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
+const URL = process.env.SUPABASE_URL!;
+const ANON = process.env.SUPABASE_ANON_KEY!;
 
 /**
  * Refresh the auth session + return the current user (or null) so middleware

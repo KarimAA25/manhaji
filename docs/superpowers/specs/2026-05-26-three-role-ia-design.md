@@ -196,7 +196,7 @@ Renders at the very top of every authenticated route via `app/layout.tsx`.
 Behavior:
 - Active role persisted to `localStorage["manhaj.role"]`. Defaults to `"admin"` on first visit.
 - Clicking a pill routes to that persona's default tab (`/admin`, `/student`, `/parent`).
-- Hidden entirely in production once real auth wires up. The component reads an env flag `NEXT_PUBLIC_DEMO_MODE`; when false, returns null.
+- Hidden entirely in production once real auth wires up. The component reads an env flag `DEMO_MODE`; when false, returns null.
 - A11y: implemented as a `<nav aria-label="Switch persona">` with `aria-current="page"` on the active pill.
 
 Visual style: navy `#0B2545` background, white pills with `rgba(255,255,255,.65)` text for inactive, solid white with navy text for active. Sticky `position: sticky; top: 0; z-index: 60;` so it stays visible during scroll.
@@ -388,11 +388,11 @@ All new RPCs follow the same demo-mode anon-callable pattern as schema/008.
 
 | Risk | Mitigation |
 |---|---|
-| **Persona switcher confuses real users in prod.** | Hide entirely when `NEXT_PUBLIC_DEMO_MODE !== "true"`. Real auth lands users in their persona. |
+| **Persona switcher confuses real users in prod.** | Hide entirely when `DEMO_MODE !== "true"`. Real auth lands users in their persona. |
 | **Outlook BCC bypassed by spam filters.** | Configure SPF + DKIM + DMARC on `manhaj.app` and on the school's domain via the school's IT. Send a test batch in week 1. |
 | **Teachers reply from their personal email (not school).** | Validate inbound From against `teachers.school_email`. Reject + log if no match. |
 | **`localStorage` cleared by the browser → user re-prompted.** | Acceptable; the gate UX already handles re-prompt. Doesn't break anything. |
-| **Multi-child households whose children are at different schools.** | Out of scope for ISO pilot. Parent persona scopes to one school (driven by `NEXT_PUBLIC_SCHOOL_NAME`). |
+| **Multi-child households whose children are at different schools.** | Out of scope for ISO pilot. Parent persona scopes to one school (driven by `SCHOOL_NAME`). |
 | **Deterministic AI summary feels canned vs the live Claude version.** | Acceptable for pilot. Wire Claude in Phase 3 once spec is locked. |
 | **Phase 1 placeholders look unfinished.** | Each placeholder shows a labeled "in development" banner + a sample-data preview where the structure is meaningful. |
 

@@ -160,7 +160,7 @@ Add `teacher: "Teacher"` to LABELS and add teacher pill between Admin and Studen
  * Four pills: Admin, Teacher, Student, Parent. Clicking a pill routes to that
  * persona's base path and persists the choice in localStorage.
  *
- * Production behaviour: when NEXT_PUBLIC_DEMO_MODE !== "true", returns null
+ * Production behaviour: when DEMO_MODE !== "true", returns null
  * so real auth-driven routing handles persona selection instead.
  */
 
@@ -200,7 +200,7 @@ export default function RoleSwitcher() {
     if (fromUrl) writeActiveRole(fromUrl);
   }, [fromUrl]);
 
-  if (process.env.NEXT_PUBLIC_DEMO_MODE !== "true") return null;
+  if (process.env.DEMO_MODE !== "true") return null;
 
   function pick(role: Role) {
     if (role === active) return;
@@ -275,7 +275,7 @@ This is a server component. Remove all marketing content and Supabase calls. Ren
 
 import Link from "next/link";
 
-const SCHOOL_NAME = process.env.NEXT_PUBLIC_SCHOOL_NAME || "International School of Oman";
+const SCHOOL_NAME = process.env.SCHOOL_NAME || "International School of Oman";
 
 type CardProps = {
   emoji: string;
@@ -446,8 +446,8 @@ EOF
 import TeacherNav from "./components/TeacherNav";
 import AskManhajDrawer from "../admin/components/AskManhajDrawer";
 
-const SCHOOL_NAME = process.env.NEXT_PUBLIC_SCHOOL_NAME || "International School of Oman";
-const AY = process.env.NEXT_PUBLIC_ACADEMIC_YEAR || "2026-2027";
+const SCHOOL_NAME = process.env.SCHOOL_NAME || "International School of Oman";
+const AY = process.env.ACADEMIC_YEAR || "2026-2027";
 
 export default function TeacherLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -646,8 +646,8 @@ import AdminNav from "./components/AdminNav";
 import AdminAnalyzeInputTabs from "./components/AdminAnalyzeInputTabs";
 import AskManhajDrawer from "./components/AskManhajDrawer";
 
-const SCHOOL_NAME = process.env.NEXT_PUBLIC_SCHOOL_NAME || "International School of Oman";
-const AY = process.env.NEXT_PUBLIC_ACADEMIC_YEAR || "2026-2027";
+const SCHOOL_NAME = process.env.SCHOOL_NAME || "International School of Oman";
+const AY = process.env.ACADEMIC_YEAR || "2026-2027";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (

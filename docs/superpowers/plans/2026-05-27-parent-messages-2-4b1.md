@@ -329,7 +329,7 @@ cd ~/dev/manhaj && git add schema/010_messages.sql && git commit -m "schema/010:
 import { serverClient } from "./supabase";
 import type { Thread, MessageCategory } from "./mock-messages";
 
-const SCHOOL_NAME = process.env.NEXT_PUBLIC_SCHOOL_NAME || "International School of Oman";
+const SCHOOL_NAME = process.env.SCHOOL_NAME || "International School of Oman";
 const DEMO_PARENT_EMAIL = "mahmoud.al-habsi@example.com";
 
 export type NewThreadPayload = {

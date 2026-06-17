@@ -23,7 +23,7 @@ import { NextRequest } from "next/server";
 import { anthropicClient, MANHAJ_SYSTEM_PROMPT, CHAT_MODEL } from "@manhaj/lib/anthropic";
 import { serverClient } from "@manhaj/lib/supabase";
 
-const SCHOOL_NAME = process.env.NEXT_PUBLIC_SCHOOL_NAME || "International School of Oman";
+const SCHOOL_NAME = process.env.SCHOOL_NAME || "International School of Oman";
 
 // Limits — guards against runaway clients.
 const MAX_MESSAGES   = 20;        // hard cap on conversation length sent to Claude

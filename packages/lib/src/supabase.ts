@@ -21,14 +21,14 @@
 import { createBrowserClient, createServerClient, type CookieOptions } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
-const URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const ANON = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
+const URL = process.env.SUPABASE_URL!;
+const ANON = process.env.SUPABASE_ANON_KEY!;
 
 if (typeof window !== "undefined") {
   if (!URL || !ANON) {
     // eslint-disable-next-line no-console
     console.warn(
-      "[manhaj/supabase] NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY missing. " +
+      "[manhaj/supabase] SUPABASE_URL or SUPABASE_ANON_KEY missing. " +
       "Add them to .env.local in your app — see .env.example.",
     );
   }

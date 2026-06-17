@@ -206,7 +206,7 @@ grant execute on function manhaj_mark_thread_read_public(uuid) to anon, authenti
 import { serverClient } from "./supabase";
 import type { Thread } from "./mock-messages";   // reuse the existing type
 
-const SCHOOL_NAME = process.env.NEXT_PUBLIC_SCHOOL_NAME || "International School of Oman";
+const SCHOOL_NAME = process.env.SCHOOL_NAME || "International School of Oman";
 const DEMO_PARENT_EMAIL = "mahmoud.al-habsi@example.com";
 
 export async function listThreadsForParent(parentEmail?: string): Promise<Thread[]>;

@@ -424,7 +424,7 @@ import ParentNav from "./components/ParentNav";
 import ChildSwitcher from "./components/ChildSwitcher";
 import { ActiveChildProvider } from "@/lib/child";
 
-const SCHOOL_NAME = process.env.NEXT_PUBLIC_SCHOOL_NAME || "International School of Oman";
+const SCHOOL_NAME = process.env.SCHOOL_NAME || "International School of Oman";
 
 export default function ParentLayout({ children }: { children: React.ReactNode }) {
   return (

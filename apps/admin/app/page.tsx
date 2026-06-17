@@ -106,7 +106,7 @@ export default async function AdminDashboard() {
   return (
     <div className="container">
       <h1>Good morning, Principal.</h1>
-      <p className="sub">Dashboard · AY {process.env.NEXT_PUBLIC_ACADEMIC_YEAR}</p>
+      <p className="sub">Dashboard · AY {process.env.ACADEMIC_YEAR}</p>
 
       <AiBriefingHeader summary={summary} />
 
