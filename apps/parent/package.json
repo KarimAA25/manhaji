@@ -9,8 +9,8 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@manhaj/lib": "workspace:*",
-    "@manhaj/ui": "workspace:*",
+    "@manhaj/lib": "*",
+    "@manhaj/ui": "*",
     "next": "16.2.6",
     "react": "19.2.4",
     "react-dom": "19.2.4"
