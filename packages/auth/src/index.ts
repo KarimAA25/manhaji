@@ -51,13 +51,6 @@ export async function getSessionRole(): Promise<Role | null> {
   }
 }
 
-const ROLE_PASSWORDS: Record<string, Role> = {
-  [process.env.DEMO_PASSWORD_ADMIN!]: "admin",
-  [process.env.DEMO_PASSWORD_TEACHER!]: "teacher",
-  [process.env.DEMO_PASSWORD_STUDENT!]: "student",
-  [process.env.DEMO_PASSWORD_PARENT!]: "parent",
-};
-
 /**
  * Validate a demo password and, on match, write the session cookie.
  * Returns the matched role, or null if the password is wrong.
@@ -65,7 +58,15 @@ const ROLE_PASSWORDS: Record<string, Role> = {
  * TODO (§4.1): replace with Supabase magic-link + invitations table lookup.
  */
 export async function login(password: string): Promise<Role | null> {
-  const role = ROLE_PASSWORDS[password] ?? null;
+  // Build the map at call time so env vars are always read fresh.
+  const map: Partial<Record<string, Role>> = {
+    [process.env.DEMO_PASSWORD_ADMIN ?? ""]:   "admin",
+    [process.env.DEMO_PASSWORD_TEACHER ?? ""]: "teacher",
+    [process.env.DEMO_PASSWORD_STUDENT ?? ""]: "student",
+    [process.env.DEMO_PASSWORD_PARENT ?? ""]:  "parent",
+  };
+  // Empty-string key means the env var wasn't set — never match it.
+  const role = password ? (map[password] ?? null) : null;
   if (!role) return null;
   const session = await getSession();
   session.role = role;
