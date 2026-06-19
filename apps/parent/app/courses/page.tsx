@@ -13,7 +13,7 @@
  */
 
 import { useEffect, useMemo, useState } from "react";
-import { submitCourseSelection, type SubmitPayload, type SubmitResult } from "@/app/actions/submit-course-selection";
+import { submitCourseSelection, type SubmitPayload, type SubmitResult } from "../actions/submit-course-selection";
 import { OFFERINGS } from "@manhaj/lib/electives";
 import { labelFor } from "@manhaj/lib/subject-labels";
 
