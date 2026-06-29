@@ -755,3 +755,33 @@ Twelve TypeScript files form the unified data access layer for all four role app
 | `invoices` | `parent/invoices` (page + client) |
 | `assessments` | `teacher/page` |
 | `activities` | `parent/calendar` |
+
+---
+
+## 22. Vercel Build Fixes — TypeScript + Supabase Types (2026-06-29)
+
+First Vercel deployment attempt revealed two build blockers, both fixed and pushed in a single commit.
+
+### Build blocker 1 — Turbo workspace resolution
+
+Vercel auto-detected `turbo.json` and overrode the build command to `turbo run build`. Turbo then looked for `packageManager` in `apps/portal/package.json` (the Vercel root directory), couldn't find it there (it only exists in the monorepo root), and errored.
+
+**Fix:** In Vercel project settings → Build & Development Settings → Build Command → Override → `npx next build`. Bypasses Turbo entirely; Next.js builds portal directly.
+
+### Build blocker 2 — TypeScript errors from the newly-typed Supabase client
+
+`packages/lib/src/types/supabase.ts` was generated during the project audit (§14) but was stored wrapped in a JSON object (`{"types":"..."}`) rather than as plain TypeScript. Enabling the typed client then exposed 11 files with type errors. All fixed:
+
+| File | Error | Fix |
+|---|---|---|
+| `admin/students/StudentsPageClient.tsx` | `status: never`, missing `rubric`, `risk_score` | Added `rubric` (zeroed axes) and `risk_score: 0`; changed cast to `as StudentStatus` |
+| `apps/teacher/app/page.tsx` | Same pattern | Same fix + imported `StudentStatus` from `mock-students` |
+| `portal/student/_actions/applications.ts` | `.from("ps_drafts")` — table doesn't exist | → `personal_statements` |
+| `portal/teacher/_actions/lessons.ts` | `.from("lesson_plans")` — table doesn't exist | → `lessons`; aligned column names to actual schema (`topic`, `held_on`, `plan_kind`, etc.) |
+| `packages/lib/src/messages.ts` | 4 legacy message RPCs not in generated types (`manhaj_threads_for_parent_public`, etc.) | Cast `sb as any` for those `.rpc()` calls — RPCs exist in DB (schema/010), not yet reflected in types |
+| `admin/api/sections/save-mapping/route.ts` | `manhaj_save_section_mapping_public` RPC not in types | Same `as any` cast |
+| `packages/lib/src/queries/attendance.ts` | `.eq("date", ...)` and `.eq("period", ...)` — wrong column names; `section_id` passed as `string \| null` | `date` → `marked_on`; `period: number` → `bellPeriodId: string`; null guard added |
+| `packages/lib/src/queries/reports.ts` | `CommDraftRow.status: string` but DB returns `string \| null`; null used as index | `status` type → `string \| null`; added `if (!row.status) continue` |
+| `packages/lib/src/queries/students.ts` | `.eq("section_id", ...)` — column doesn't exist on `students` | → `current_section_id` |
+| `packages/lib/src/queries/timetable.ts` | `is_teaching: boolean \| null` not assignable to `boolean` | → `b.is_teaching ?? true` |
+| `packages/lib/src/types/supabase.ts` | File stored as `{"types":"..."}` JSON instead of plain TS | Extracted TypeScript string, rewrote file as raw `.ts` |
