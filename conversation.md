@@ -785,3 +785,68 @@ Vercel auto-detected `turbo.json` and overrode the build command to `turbo run b
 | `packages/lib/src/queries/students.ts` | `.eq("section_id", ...)` — column doesn't exist on `students` | → `current_section_id` |
 | `packages/lib/src/queries/timetable.ts` | `is_teaching: boolean \| null` not assignable to `boolean` | → `b.is_teaching ?? true` |
 | `packages/lib/src/types/supabase.ts` | File stored as `{"types":"..."}` JSON instead of plain TS | Extracted TypeScript string, rewrote file as raw `.ts` |
+
+---
+
+## 23. Wire Remaining Mock Pages to Real DB Data (2026-06-30)
+
+Continued the mock→DB migration. Every component that still rendered hardcoded fixture data was given a DB prop with a mock fallback (renders mock when DB returns 0 rows, so demo always looks rich).
+
+### Components wired
+
+| Component | Before | After |
+|---|---|---|
+| `admin/reports/components/PipelineFunnel.tsx` | `MOCK_PIPELINE` hardcoded | Accepts `pipeline: PipelineStat[]` prop; `ReportsPageClient` passes real array built from `pipelineCounts` |
+| `admin/reports/components/TemplatesShelf.tsx` | `MOCK_TEMPLATES` hardcoded | Accepts `templates: DbTemplate[]` prop; fetched via `getCommTemplates()` in `reports/page.tsx` |
+| `admin/reports/components/ComplianceLog.tsx` | `MOCK_AUDIT` hardcoded | Accepts `auditLog: DbAuditRow[]` prop; fetched via `getAuditLogRecent(50)` in `reports/page.tsx` |
+| `admin/faculty/components/FacultyRoster.tsx` | `MOCK_TEACHERS` hardcoded | Accepts `teachers?: TeacherWithLoad[]` prop; `FacultyPageClient` passes `source ?? undefined` |
+| `admin/students/components/QuickSearch.tsx` | Module-level `INDEX` built from `MOCK_STUDENTS` | Accepts `students?` prop from `StudentsPageClient`; index rebuilt via `useMemo` when prop changes |
+| `parent/api/calendar/feed.ics/route.ts` | `MOCK_EVENTS` | Calls `getActivitiesForYear(academicYearId)` → maps `ActivityEvent` to `CalendarEvent`; falls back to `MOCK_EVENTS` if DB empty or no AY |
+| `admin/app/page.tsx` | Imported `MOCK_SECTIONS as RPT_SECTIONS` for Reports card row | Removed import; Reports card now shows `pipelineCounts["review"]` from DB; "Next batch" → `"—"` |
+
+### Data flow changes
+
+**`admin/reports/page.tsx`** now fetches three things in parallel:
+```ts
+const [pipelineCounts, templates, auditLog] = await Promise.all([
+  getCommDraftPipelineCounts(),
+  getCommTemplates(),
+  getAuditLogRecent(50),
+]);
+```
+All three are passed as props to `ReportsPageClient`, which passes them down to the three sub-components.
+
+**`ReportsPageClient.tsx`** added two typed prop slots:
+```ts
+type DbTemplate = { id: string; template_code: string; name_en: string; channel: string; ... };
+type DbAuditRow  = { id: string; actor_label: string | null; action: string; ... };
+```
+Both are optional with `[]` defaults so the component still renders without them.
+
+### Left on mock (no DB equivalent seeded yet)
+
+- Admin Schedule page (`MOCK_ACTIONS` for conflict/gap counts) — no DB conflict tracking
+- `ContractsDashboard` — no `teacher_contracts` data seeded
+- `DepartmentBreakdown`, `EngagementHeatmap`, `OnboardingFunnel`, `PerformanceComposite` — aggregate views, no corresponding DB tables yet
+- `MOCK_INCIDENTS`, `MOCK_ADMISSIONS` — behaviour and admissions data not seeded
+
+---
+
+## 24. Test Users Created in DB (2026-06-30)
+
+Four auth users created directly via SQL (`auth.users` + `auth.identities`) and linked to their respective role tables. Each user has `email_confirmed_at` set so they can log in immediately without email verification.
+
+### Credentials
+
+| Role | Email | Password | Role table row |
+|---|---|---|---|
+| Admin (Principal) | `admin@manhaj.test` | `Admin2026!` | `school_admins` — role `principal`, status `active` |
+| Teacher | `teacher@manhaj.test` | `Teacher2026!` | `teachers` — `is_form_teacher = false` |
+| Parent | `parent@manhaj.test` | `Parent2026!` | `parents` — email stored |
+| Student | `student@manhaj.test` | `Student2026!` | `students` — `full_name_en = 'Demo Student'` |
+
+All linked to school `International School of Oman` (`94e4ca02-4c4e-4b54-86e7-6790b185a547`).
+
+### What you see when logged in
+
+DB-driven sections render empty (zeroed KPIs, empty tables, empty calendars) since no data is associated with these users. Mock-only components (schedule, demographics, admissions, heatmaps) still render their hardcoded fixture data as those don't query the DB per-user.
