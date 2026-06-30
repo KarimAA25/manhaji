@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { serverClient } from "@manhaj/lib/supabase";
 import { getRoleForUser } from "@manhaj/lib/queries/auth";
 import { setSessionRole } from "@manhaj/auth";
+import type { Role } from "@manhaj/lib/queries/auth";
 
 export async function loginWithPassword(formData: FormData) {
   const email    = ((formData.get("email")    as string | null) ?? "").trim();
@@ -13,12 +14,27 @@ export async function loginWithPassword(formData: FormData) {
   if (!email || !password) redirect("/login?error=missing");
 
   const db = await serverClient();
-  const { data, error } = await db.auth.signInWithPassword({ email, password });
 
-  if (error || !data.user) redirect("/login?error=credentials");
+  // Try GoTrue first — sets a real JWT cookie so RLS works for DB queries.
+  const { data } = await db.auth.signInWithPassword({ email, password });
 
-  const role = await getRoleForUser(data.user.id);
-  if (!role) redirect("/login?error=norole");
+  let role: Role | null = null;
+
+  if (data.user) {
+    // GoTrue auth succeeded — derive role from the role tables.
+    role = await getRoleForUser(data.user.id);
+  } else {
+    // GoTrue couldn't verify the password (common for users created via SQL).
+    // Fall back to our SECURITY DEFINER function that uses pgcrypto directly.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: rpcRole } = await (db as any).rpc("manhaj_verify_login", {
+      p_email:    email,
+      p_password: password,
+    });
+    role = (rpcRole as Role | null) ?? null;
+  }
+
+  if (!role) redirect("/login?error=credentials");
 
   await setSessionRole(role);
   redirect(`/${role}`);
