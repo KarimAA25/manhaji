@@ -29,7 +29,18 @@ const STAGE_LABELS: Record<string, string> = {
   sent: "Sent", opened: "Opened", replied: "Replied", bounced: "Bounced",
 };
 
-export default function ReportsPageClient({ pipelineCounts }: { pipelineCounts: Record<string, number> }) {
+type DbTemplate = { id: string; template_code: string; name_en: string; name_ar: string | null; channel: string; tone: string | null; is_manhaj_default: boolean | null; display_order: number | null };
+type DbAuditRow  = { id: string; actor_label: string | null; action: string; object_kind: string | null; object_id: string | null; occurred_at: string | null };
+
+export default function ReportsPageClient({
+  pipelineCounts,
+  templates = [],
+  auditLog  = [],
+}: {
+  pipelineCounts: Record<string, number>;
+  templates?: DbTemplate[];
+  auditLog?:  DbAuditRow[];
+}) {
   // Build PipelineStat[] from real counts so PipelineFunnel can receive real data in future
   const pipeline: PipelineStat[] = (["draft","review","ready","sent","opened","replied","bounced"] as const).map(stage => ({
     stage,
@@ -99,16 +110,16 @@ export default function ReportsPageClient({ pipelineCounts }: { pipelineCounts: 
       <FilterChipRow chips={chips} onToggle={k => setActive(prev => prev === k ? null : k)} />
 
       <KpiRow />
-      <PipelineFunnel />
+      <PipelineFunnel pipeline={pipeline} />
       <SectionProgress />
       <ScheduleNextBatch />
-      <TemplatesShelf />
+      <TemplatesShelf templates={templates} />
       <EngagementHeatmap />
       <SendHistory />
       <DeliveryDiagnostics />
       <AbTestResults />
       <DraftReview />
-      <ComplianceLog />
+      <ComplianceLog auditLog={auditLog} />
     </div>
   );
 }

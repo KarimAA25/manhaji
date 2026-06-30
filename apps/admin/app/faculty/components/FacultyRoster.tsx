@@ -2,6 +2,7 @@
 
 import { MOCK_TEACHERS } from "@manhaj/lib/mock-faculty";
 import type { TeacherStatus, ContractStatus } from "@manhaj/lib/mock-faculty";
+import type { TeacherWithLoad } from "@manhaj/lib/queries/teachers";
 
 function StatusPill({ status }: { status: TeacherStatus }) {
   const map: Record<TeacherStatus, { label: string; cls: string }> = {
@@ -24,7 +25,52 @@ function ContractBadge({ status }: { status: ContractStatus }) {
   return <span className={cls}>{label}</span>;
 }
 
-export default function FacultyRoster() {
+function loadStatus(t: TeacherWithLoad): TeacherStatus {
+  const assigned = t.weekly_period_assigned ?? 0;
+  const cap = t.weekly_period_cap ?? 28;
+  if (assigned > cap) return "over";
+  if (assigned < cap * 0.7) return "under";
+  return "ok";
+}
+
+export default function FacultyRoster({ teachers }: { teachers?: TeacherWithLoad[] }) {
+  if (teachers && teachers.length > 0) {
+    return (
+      <section className="fac-roster-card" aria-label="Faculty roster">
+        <header className="fac-section-head">
+          <h3>Faculty roster · {teachers.length} teachers</h3>
+          <p className="fac-section-sub">Name · department · primary subject · periods per week · load status.</p>
+        </header>
+        <div className="fac-roster-wrap">
+          <table className="fac-roster-tbl">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Primary subject</th>
+                <th className="fac-tbl-num">Periods/wk</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {teachers.map(t => (
+                <tr key={t.id}>
+                  <td className="fac-tbl-name">{t.full_name}</td>
+                  <td className="fac-tbl-dept">{t.primary_dept ?? "—"}</td>
+                  <td className="fac-tbl-subj">{t.primary_subject_text ?? "—"}</td>
+                  <td className="fac-tbl-num">{t.weekly_period_assigned ?? "—"}</td>
+                  <td><StatusPill status={loadStatus(t)} /></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="fac-roster-footer">
+          {teachers.length} teachers loaded from database
+        </div>
+      </section>
+    );
+  }
   return (
     <section className="fac-roster-card" aria-label="Faculty roster">
       <header className="fac-section-head">

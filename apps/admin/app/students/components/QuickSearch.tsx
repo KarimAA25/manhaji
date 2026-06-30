@@ -7,8 +7,10 @@
  * Phase 2.15 — matches the "Quick search · Cmd-K" block from students-deep-v2.html.
  */
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { MOCK_STUDENTS } from "@manhaj/lib/mock-students";
+
+type StudentEntry = { id: string; full_name: string; section_code: string; grade_band: string };
 
 type Result = {
   id:      string;
@@ -17,34 +19,34 @@ type Result = {
   kind:    "student" | "section";
 };
 
-function buildIndex(): Result[] {
+function buildIndex(source: StudentEntry[]): Result[] {
   const results: Result[] = [];
-  const sections = new Set<string>();
+  const sections = new Map<string, number>();
 
-  for (const s of MOCK_STUDENTS) {
+  for (const s of source) {
     results.push({
       id:    s.id,
       label: s.full_name,
       sub:   `${s.section_code} · ${s.grade_band} · ID ${s.id}`,
       kind:  "student",
     });
-    if (!sections.has(s.section_code)) {
-      sections.add(s.section_code);
-      results.push({
-        id:    `sec-${s.section_code}`,
-        label: `Section ${s.section_code}`,
-        sub:   `${MOCK_STUDENTS.filter(x => x.section_code === s.section_code).length} students`,
-        kind:  "section",
-      });
-    }
+    sections.set(s.section_code, (sections.get(s.section_code) ?? 0) + 1);
+  }
+  for (const [code, count] of sections) {
+    results.push({
+      id:    `sec-${code}`,
+      label: `Section ${code}`,
+      sub:   `${count} students`,
+      kind:  "section",
+    });
   }
 
   return results;
 }
 
-const INDEX = buildIndex();
-
-export default function QuickSearch() {
+export default function QuickSearch({ students }: { students?: StudentEntry[] }) {
+  const source = students && students.length > 0 ? students : MOCK_STUDENTS;
+  const INDEX = useMemo(() => buildIndex(source), [source]);
   const [query,   setQuery]   = useState("");
   const [open,    setOpen]    = useState(false);
   const [focused, setFocused] = useState(0);

@@ -146,7 +146,7 @@ export default function StudentsPageClient({ dbStudents }: { dbStudents: AdminSt
         sections={sectionOptions}
       />
 
-      <QuickSearch />
+      <QuickSearch students={students} />
       <CohortHeatmap rows={cohort} />
       <DemographicBreakdown />
       <ReEnrollmentFunnel />

@@ -1,7 +1,9 @@
 import { MOCK_PIPELINE } from "@manhaj/lib/mock-reports";
+import type { PipelineStat } from "@manhaj/lib/mock-reports";
 
-export default function PipelineFunnel() {
-  const max = Math.max(...MOCK_PIPELINE.map(p => p.count));
+export default function PipelineFunnel({ pipeline }: { pipeline?: PipelineStat[] }) {
+  const data = (pipeline && pipeline.length > 0) ? pipeline : MOCK_PIPELINE;
+  const max = Math.max(...data.map(p => p.count), 1);
   return (
     <section className="rep-pf-card" aria-label="Send pipeline">
       <header className="rep-pf-head">
@@ -9,7 +11,7 @@ export default function PipelineFunnel() {
         <p className="rep-pf-sub">Drafts → review → ready → sent → opened → replied → bounced.</p>
       </header>
       <ul className="rep-pf-list" role="list">
-        {MOCK_PIPELINE.map(p => {
+        {data.map(p => {
           const pct = max === 0 ? 0 : Math.round((p.count / max) * 100);
           return (
             <li key={p.stage} className={`rep-pf-row rep-pf-${p.stage}`}>

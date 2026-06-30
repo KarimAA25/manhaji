@@ -12,7 +12,6 @@ import { getStudentsForAdmin } from "@manhaj/lib/queries/students";
 import { getDailyAttendanceTrend, getSectionAttendanceStats, getChronicAbsentees } from "@manhaj/lib/queries/attendance";
 import { getCommDraftPipelineCounts } from "@manhaj/lib/queries/reports";
 import { MOCK_ACTIONS } from "@manhaj/lib/mock-schedule";
-import { MOCK_SECTIONS as RPT_SECTIONS } from "@manhaj/lib/mock-reports";
 
 export const dynamic = "force-dynamic";
 
@@ -58,7 +57,6 @@ export default async function AdminDashboard() {
   // Schedule still uses mock (no DB tracking for conflicts/gaps yet)
   const conflicts = MOCK_ACTIONS.filter(a => a.kind === "conflict").length;
   const gaps      = MOCK_ACTIONS.filter(a => a.kind === "gap").length;
-  const urgentRpt = RPT_SECTIONS.filter(r => r.days_to_due <= 1).length;
 
   const cards: TabSummary[] = [
     {
@@ -115,8 +113,8 @@ export default async function AdminDashboard() {
       big: String(sentCount),
       trend: { text: `▲ ${openRate}% opened this cycle`, tone: "up" },
       rows: [
-        { label: "Urgent (≤1 day)", value: urgentRpt > 0 ? String(urgentRpt) : "None" },
-        { label: "Next batch",       value: `${RPT_SECTIONS[0]?.days_to_due ?? 3}d` },
+        { label: "Awaiting review", value: String(pipelineCounts["review"] ?? 0) },
+        { label: "Next batch",      value: "—" },
       ],
     },
   ];

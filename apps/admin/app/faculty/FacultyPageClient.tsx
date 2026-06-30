@@ -107,7 +107,7 @@ export default function FacultyPageClient({ teachers }: { teachers: TeacherWithL
       <FilterChipRow chips={chips} onToggle={k => setActive(prev => prev === k ? null : k)} />
 
       <DepartmentBreakdown />
-      <FacultyRoster />
+      <FacultyRoster teachers={source ?? undefined} />
       <TeacherLoadHeatmap />
       <ContractsDashboard />
       <OnboardingFunnel />
