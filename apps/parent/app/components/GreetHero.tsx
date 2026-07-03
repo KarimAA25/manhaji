@@ -10,49 +10,30 @@
  * an aggregated household headline rather than a child-specific one.
  */
 
+import type { ReactNode } from "react";
 import {
-  DEMO_CHILDREN, getActiveChild, useActiveChild, ALL_CHILDREN_ID,
+  getActiveChild, useActiveChild, ALL_CHILDREN_ID,
 } from "@manhaj/lib/child";
 
 export default function GreetHero() {
-  const { activeId } = useActiveChild();
-  const child = getActiveChild(activeId);
+  const { activeId, children } = useActiveChild();
+  const child = getActiveChild(activeId, children);
   const isHousehold = activeId === ALL_CHILDREN_ID;
 
   if (isHousehold) {
-    // Household aggregate view — matches parent-multi-child.html greet-agg block:
-    // gradient hero with child-summary-grid (3 per-child panels: avatar, narrative, chips, open btn).
-    const childData = [
-      {
-        id:      DEMO_CHILDREN[0].id,
-        initial: DEMO_CHILDREN[0].initial,
-        name:    "Layla",
-        grade:   "10A · HS",
-        line:    <>Strong April. ▲ <b>Oral 4.0</b>, top of class in Chem. <b>Build</b>: written Arabic 2.8.</>,
-        chips:   [{ label: "Rubric 4.1", tone: "good" }, { label: "Att 97%", tone: "good" }],
-      },
-      {
-        id:      DEMO_CHILDREN[1].id,
-        initial: DEMO_CHILDREN[1].initial,
-        name:    "Omar",
-        grade:   "7B · MS",
-        line:    <>Improving in Mathematics. <b>Concern</b>: 3 unexplained absences. Ms Swart wants a chat — meeting drafted.</>,
-        chips:   [{ label: "Rubric 3.4", tone: "warn" }, { label: "Att 86%", tone: "bad" }],
-      },
-      {
-        id:      DEMO_CHILDREN[2].id,
-        initial: DEMO_CHILDREN[2].initial,
-        name:    "Yasmin",
-        grade:   "KG2 · Primary",
-        line:    <>Happy + settled. Loved the spring concert. No flags this month.</>,
-        chips:   [{ label: "All good", tone: "good" }, { label: "Att 99%", tone: "good" }],
-      },
-    ];
+    const childData = children.map(c => ({
+      id:      c.id,
+      initial: c.initial,
+      name:    c.full_name.split(" ")[0],
+      grade:   c.grade_label,
+      line:    null as ReactNode,
+      chips:   [] as { label: string; tone: string }[],
+    }));
 
     return (
       <section className="greet-agg" aria-label="Household monthly briefing">
         <div className="greet-agg-label">May 2026 · household snapshot</div>
-        <h1>Mr Al-Habsi — here&apos;s your three children at a glance.</h1>
+        <h1>Here&apos;s your {children.length === 1 ? "child" : `${children.length} children`} at a glance.</h1>
 
         <div className="child-summary-grid">
           {childData.map(c => (
@@ -78,7 +59,7 @@ export default function GreetHero() {
         </div>
 
         <div className="greet-agg-actions">
-          <button className="greet-btn">Read all 3 reports</button>
+          <button className="greet-btn">Read all {children.length} reports</button>
           <button className="greet-btn">Reply to school</button>
           <button className="greet-btn primary">Acknowledge all · 1 click</button>
         </div>

@@ -1,20 +1,13 @@
 "use client";
 
-/**
- * Active-child persistence for the parent persona.
- *
- * Phase 1 hard-codes a small demo household. Phase 2 replaces DEMO_CHILDREN
- * with a server-side fetch (manhaj_parent_children_public RPC).
- */
-
 export const ALL_CHILDREN_ID = "all" as const;
 export type ChildId = string | typeof ALL_CHILDREN_ID;
 
 export type DemoChild = {
   id: string;
   full_name: string;
-  initial: string;        // displayed in the avatar
-  grade_label: string;    // "10A · HS"
+  initial: string;
+  grade_label: string;
   alert_count?: number;
 };
 
@@ -26,12 +19,12 @@ export const DEMO_CHILDREN: DemoChild[] = [
 
 const STORAGE_KEY = "manhaj.parent.activeChild";
 
-export function readActiveChildId(): ChildId {
+export function readActiveChildId(childList: DemoChild[] = DEMO_CHILDREN): ChildId {
   if (typeof localStorage === "undefined") return ALL_CHILDREN_ID;
   const stored = localStorage.getItem(STORAGE_KEY);
   if (!stored) return ALL_CHILDREN_ID;
   if (stored === ALL_CHILDREN_ID) return ALL_CHILDREN_ID;
-  if (DEMO_CHILDREN.some(c => c.id === stored)) return stored;
+  if (childList.some(c => c.id === stored)) return stored;
   return ALL_CHILDREN_ID;
 }
 
@@ -40,26 +33,28 @@ export function writeActiveChildId(id: ChildId): void {
   localStorage.setItem(STORAGE_KEY, id);
 }
 
-// ---------------------------------------------------------------------------
-// React context for the active child — Phase 2.3
-// Provider lives in app/parent/layout.tsx; ChildSwitcher + per-page hooks
-// read from the same source so switching child triggers re-renders everywhere.
-// ---------------------------------------------------------------------------
-
 import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
 
 type ActiveChildState = {
   activeId: ChildId;
   setActive: (id: ChildId) => void;
+  children: DemoChild[];
 };
 
 const ActiveChildContext = createContext<ActiveChildState | null>(null);
 
-export function ActiveChildProvider({ children }: { children: ReactNode }) {
-  // Lazy init so we read localStorage exactly once on mount (SSR-safe).
+export function ActiveChildProvider({
+  children: reactChildren,
+  realChildren,
+}: {
+  children: ReactNode;
+  realChildren?: DemoChild[];
+}) {
+  const childList = realChildren && realChildren.length > 0 ? realChildren : DEMO_CHILDREN;
+
   const [activeId, setActiveId] = useState<ChildId>(() => {
     if (typeof window === "undefined") return ALL_CHILDREN_ID;
-    return readActiveChildId();
+    return readActiveChildId(childList);
   });
 
   const setActive = useCallback((id: ChildId) => {
@@ -68,8 +63,8 @@ export function ActiveChildProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <ActiveChildContext.Provider value={{ activeId, setActive }}>
-      {children}
+    <ActiveChildContext.Provider value={{ activeId, setActive, children: childList }}>
+      {reactChildren}
     </ActiveChildContext.Provider>
   );
 }
@@ -81,7 +76,7 @@ export function useActiveChild(): ActiveChildState {
 }
 
 /** Resolve the active child object — or null when the household view is active. */
-export function getActiveChild(activeId: ChildId): DemoChild | null {
+export function getActiveChild(activeId: ChildId, childList: DemoChild[] = DEMO_CHILDREN): DemoChild | null {
   if (activeId === ALL_CHILDREN_ID) return null;
-  return DEMO_CHILDREN.find(c => c.id === activeId) ?? null;
+  return childList.find(c => c.id === activeId) ?? null;
 }

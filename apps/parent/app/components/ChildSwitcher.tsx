@@ -12,18 +12,18 @@
  */
 
 import {
-  ALL_CHILDREN_ID, DEMO_CHILDREN, useActiveChild, type ChildId,
+  ALL_CHILDREN_ID, useActiveChild, type ChildId,
 } from "@manhaj/lib/child";
 
 export default function ChildSwitcher() {
-  const { activeId, setActive } = useActiveChild();
+  const { activeId, setActive, children } = useActiveChild();
 
   function pick(id: ChildId) {
     if (id === activeId) return;
     setActive(id);
   }
 
-  const showAll = DEMO_CHILDREN.length > 1;
+  const showAll = children.length > 1;
 
   return (
     <nav aria-label="Switch child" className="child-switcher">
@@ -41,7 +41,7 @@ export default function ChildSwitcher() {
           </span>
         </button>
       )}
-      {DEMO_CHILDREN.map(c => (
+      {children.map(c => (
         <button
           key={c.id}
           type="button"

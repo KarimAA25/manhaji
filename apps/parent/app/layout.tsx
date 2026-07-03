@@ -1,17 +1,12 @@
-/**
- * Layout for the parent app.
- *
- * Renders the Manhaj topbar with ParentNav, the sticky ChildSwitcher
- * underneath, and the parent-only mobile-first CSS scoped via parent.css.
- */
-
 import type { Metadata } from "next";
 import "@manhaj/ui/globals.css";
 import "@manhaj/ui/tokens.css";
 import "./parent.css";
 import ParentNav from "./components/ParentNav";
 import ChildSwitcher from "./components/ChildSwitcher";
-import { ActiveChildProvider } from "@manhaj/lib/child";
+import { ActiveChildProvider, type DemoChild } from "@manhaj/lib/child";
+import { getCurrentParentId } from "@manhaj/lib/queries/auth";
+import { getParentName, getParentChildren } from "@manhaj/lib/queries/parents";
 
 export const metadata: Metadata = {
   title: "Manhaj Parent — School Ops Platform",
@@ -21,14 +16,41 @@ export const metadata: Metadata = {
 
 const SCHOOL_NAME = process.env.SCHOOL_NAME || "International School of Oman";
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+function gradeLabel(gl: string | null): string {
+  if (!gl) return "";
+  const n = parseInt(gl, 10);
+  if (isNaN(n)) return gl;
+  if (n <= 6)  return "Primary";
+  if (n <= 9)  return "MS";
+  return "HS";
+}
+
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const parentId = await getCurrentParentId().catch(() => null);
+
+  const [parentName, dbChildren] = parentId
+    ? await Promise.all([
+        getParentName(parentId).catch(() => ""),
+        getParentChildren(parentId).catch(() => []),
+      ])
+    : ["", []];
+
+  const realChildren: DemoChild[] = dbChildren.map(c => ({
+    id: c.student_id,
+    full_name: c.full_name_en,
+    initial: c.initial,
+    grade_label: c.section_code + (c.grade_level ? ` · ${gradeLabel(c.grade_level)}` : ""),
+  }));
+
+  const displayName = parentName || "Mr Al-Habsi";
+
   return (
     <html lang="en">
       <head>
       </head>
       <body>
         <a href="#main-content" className="skip-link">Skip to main content</a>
-        <ActiveChildProvider>
+        <ActiveChildProvider realChildren={realChildren.length > 0 ? realChildren : undefined}>
           <header className="topbar">
             <div className="brand">
               <div className="logo">M</div>
@@ -40,8 +62,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               <ParentNav />
             </div>
             <div className="top-right">
-              <span style={{ fontSize: 12 }}>Mr Al-Habsi</span>
-              <div className="avatar" title="Parent">P</div>
+              <span style={{ fontSize: 12 }}>{displayName}</span>
+              <div className="avatar" title="Parent">{displayName.charAt(0).toUpperCase()}</div>
             </div>
           </header>
           <ChildSwitcher />
