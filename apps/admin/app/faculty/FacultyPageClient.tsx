@@ -9,6 +9,7 @@ import {
 } from "@manhaj/lib/mock-faculty";
 import { facultyAdminSummary } from "@manhaj/lib/summary";
 import type { TeacherWithLoad } from "@manhaj/lib/queries/teachers";
+import type { TeacherDayLoad } from "@manhaj/lib/queries/timetable";
 
 import { AiBriefingHeader } from "@manhaj/ui";
 import { BreadcrumbLensBar, type Lens } from "@manhaj/ui";
@@ -22,7 +23,7 @@ import PerformanceComposite from "./components/PerformanceComposite";
 import FacultyAskManhaj     from "./components/FacultyAskManhaj";
 import TeacherLoadHeatmap   from "../schedule/components/TeacherLoadHeatmap";
 
-export default function FacultyPageClient({ teachers }: { teachers: TeacherWithLoad[] }) {
+export default function FacultyPageClient({ teachers, loads }: { teachers: TeacherWithLoad[]; loads: TeacherDayLoad[] }) {
   const source = teachers.length > 0 ? teachers : null;
 
   const total = source ? source.length : MOCK_TEACHERS.length;
@@ -106,9 +107,9 @@ export default function FacultyPageClient({ teachers }: { teachers: TeacherWithL
 
       <FilterChipRow chips={chips} onToggle={k => setActive(prev => prev === k ? null : k)} />
 
-      <DepartmentBreakdown />
+      <DepartmentBreakdown teachers={source ?? undefined} />
       <FacultyRoster teachers={source ?? undefined} />
-      <TeacherLoadHeatmap />
+      <TeacherLoadHeatmap loads={loads.length > 0 ? loads : undefined} />
       <ContractsDashboard />
       <OnboardingFunnel />
       <PerformanceComposite />

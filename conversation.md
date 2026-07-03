@@ -935,3 +935,36 @@ redirect(`/${role}`);
 | Student | `student@manhaj-demo.com` | `Student2026!` |
 
 SQL-verified: `SELECT manhaj_verify_login(email, password)` returns correct role for all four.
+
+---
+
+## 11. Admin Faculty Page — DB Wiring
+
+### Components wired
+
+**`DepartmentBreakdown.tsx`**
+- Now accepts `teachers?: TeacherWithLoad[]`
+- When teachers provided, groups by `primary_dept`, computes `teacher_count`, `avg_load`, `over_capacity_count`, `with_slack_count` per dept
+- Falls back to `MOCK_DEPARTMENTS` when no DB data
+
+**`TeacherLoadHeatmap.tsx`** (`apps/admin/app/schedule/components/`)
+- Now accepts `loads?: TeacherDayLoad[]`
+- When provided, normalizes to `{ teacher: full_name, by_day, total }` shape; derives day columns from DB keys
+- Falls back to `MOCK_TEACHER_LOADS` + static `DAYS` when no DB data
+
+**`apps/admin/app/faculty/page.tsx`**
+- Now fetches `getTeacherDailyLoads(academicYearId)` in parallel with `getTeachersWithLoad`
+- Passes `loads` to `FacultyPageClient`
+
+**`FacultyPageClient.tsx`**
+- Accepts `loads: TeacherDayLoad[]` prop
+- Passes `teachers={source ?? undefined}` to `DepartmentBreakdown`
+- Passes `loads={loads.length > 0 ? loads : undefined}` to `TeacherLoadHeatmap`
+
+### Components left on mock (no DB tables yet)
+
+| Component | Missing data |
+|---|---|
+| `ContractsDashboard` | No `teacher_contracts` table |
+| `OnboardingFunnel` | No `hiring_pipeline` table |
+| `PerformanceComposite` | No `performance_reviews` table |
