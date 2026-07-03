@@ -8,8 +8,8 @@ export const dynamic = "force-dynamic";
 export default async function AdminFacultyPage() {
   const academicYearId = await getCurrentAcademicYearId();
   const [teachers, loads] = await Promise.all([
-    academicYearId ? getTeachersWithLoad(academicYearId) : Promise.resolve([]),
-    academicYearId ? getTeacherDailyLoads(academicYearId) : Promise.resolve([]),
+    academicYearId ? getTeachersWithLoad(academicYearId).catch(() => []) : Promise.resolve([]),
+    academicYearId ? getTeacherDailyLoads(academicYearId).catch(() => []) : Promise.resolve([]),
   ]);
   return <FacultyPageClient teachers={teachers} loads={loads} />;
 }

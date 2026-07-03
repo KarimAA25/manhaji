@@ -5,9 +5,9 @@ export const dynamic = "force-dynamic";
 
 export default async function AdminReportsPage() {
   const [pipelineCounts, templates, auditLog] = await Promise.all([
-    getCommDraftPipelineCounts(),
-    getCommTemplates(),
-    getAuditLogRecent(50),
+    getCommDraftPipelineCounts().catch(() => ({} as Record<string, number>)),
+    getCommTemplates().catch(() => []),
+    getAuditLogRecent(50).catch(() => []),
   ]);
   return <ReportsPageClient pipelineCounts={pipelineCounts} templates={templates} auditLog={auditLog} />;
 }

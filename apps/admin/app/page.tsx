@@ -28,13 +28,13 @@ export default async function AdminDashboard() {
   const twoWeeksAgo = new Date(today.getTime() - 14 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
 
   const [dbStudents, dailyTrend, priorWeekTrend, sectionStats, chronicAbsentees, pipelineCounts, uncoveredAbsences] = await Promise.all([
-    academicYearId ? getStudentsForAdmin(academicYearId) : Promise.resolve([]),
-    academicYearId ? getDailyAttendanceTrend(academicYearId, weekAgo, to) : Promise.resolve([]),
-    academicYearId ? getDailyAttendanceTrend(academicYearId, twoWeeksAgo, weekAgo) : Promise.resolve([]),
-    getSectionAttendanceStats(weekAgo, to),
-    academicYearId ? getChronicAbsentees(academicYearId, 10) : Promise.resolve([]),
-    getCommDraftPipelineCounts(),
-    getApprovedAbsencesNeedingCoverage(to),
+    academicYearId ? getStudentsForAdmin(academicYearId).catch(() => []) : Promise.resolve([]),
+    academicYearId ? getDailyAttendanceTrend(academicYearId, weekAgo, to).catch(() => []) : Promise.resolve([]),
+    academicYearId ? getDailyAttendanceTrend(academicYearId, twoWeeksAgo, weekAgo).catch(() => []) : Promise.resolve([]),
+    getSectionAttendanceStats(weekAgo, to).catch(() => []),
+    academicYearId ? getChronicAbsentees(academicYearId, 10).catch(() => []) : Promise.resolve([]),
+    getCommDraftPipelineCounts().catch(() => ({} as Record<string, number>)),
+    getApprovedAbsencesNeedingCoverage(to).catch(() => []),
   ]);
 
   const summary = composeSummary("admin", data);
