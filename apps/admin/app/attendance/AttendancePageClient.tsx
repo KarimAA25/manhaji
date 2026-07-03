@@ -7,9 +7,9 @@ import {
   ATT_SUBJECTS, ATT_BENCHMARK, ATT_CAL_OMAR, ATT_LESSONS,
   ATT_DRAFT_OMAR, ATT_ROLL_10A,
 } from "@manhaj/lib/mock-attendance";
-import type { SectionWeekRow, ChronicRow, DailyPoint } from "@manhaj/lib/mock-attendance";
+import type { SectionWeekRow, ChronicRow, DailyPoint, DayOfWeekRow, PeriodAvg, SubjectMiss, BenchmarkRow } from "@manhaj/lib/mock-attendance";
 import { attendanceCohortSummary } from "@manhaj/lib/summary";
-import type { DailyAttendanceStat, SectionAttendanceStat, ChronicAbsenteeRow } from "@manhaj/lib/queries/attendance";
+import type { DailyAttendanceStat, SectionAttendanceStat, ChronicAbsenteeRow, DowAttendanceRow, PeriodAttendanceRow, SubjectAbsenceRow, BenchmarkAttendanceRow } from "@manhaj/lib/queries/attendance";
 
 import { AiBriefingHeader } from "@manhaj/ui";
 import { BreadcrumbLensBar, type Lens } from "@manhaj/ui";
@@ -32,6 +32,10 @@ type Props = {
   dailyTrend: DailyAttendanceStat[];
   sectionStats: SectionAttendanceStat[];
   chronicAbsentees: ChronicAbsenteeRow[];
+  dowRows: DowAttendanceRow[];
+  periodRows: PeriodAttendanceRow[];
+  subjectRows: SubjectAbsenceRow[];
+  benchmarkRows: BenchmarkAttendanceRow[];
 };
 
 function mapSectionRows(stats: SectionAttendanceStat[]): SectionWeekRow[] {
@@ -57,7 +61,7 @@ function mapChronicRows(rows: ChronicAbsenteeRow[]): ChronicRow[] {
   }));
 }
 
-export default function AttendancePageClient({ dailyTrend, sectionStats, chronicAbsentees }: Props) {
+export default function AttendancePageClient({ dailyTrend, sectionStats, chronicAbsentees, dowRows, periodRows, subjectRows, benchmarkRows }: Props) {
   const hasRealData = dailyTrend.length > 0;
 
   // KPI computations from real data
@@ -116,13 +120,15 @@ export default function AttendancePageClient({ dailyTrend, sectionStats, chronic
       <div className="att-block-cohort-only">
         <TrendChart points={trendPoints} markers={ATT_EVENTS} target={95} title="Attendance trend · last 30 school days" />
       </div>
-      <DayOfWeekHeatmap rows={ATT_DOW} />
-      <PeriodBars rows={ATT_PERIODS} />
+      <DayOfWeekHeatmap rows={dowRows.length > 0 ? (dowRows as unknown as DayOfWeekRow[]) : ATT_DOW} />
+      <PeriodBars rows={periodRows.length > 0
+        ? periodRows.filter(r => r.period >= 1 && r.period <= 7).map(r => ({ period: r.period as PeriodAvg["period"], pct: r.pct }))
+        : ATT_PERIODS} />
       <AiCausesCards rows={ATT_CAUSES} />
       <SectionHeatStrip rows={sectionRows.length > 0 ? sectionRows : []} />
-      <SubjectCorrelation rows={ATT_SUBJECTS} />
+      <SubjectCorrelation rows={subjectRows.length > 0 ? (subjectRows as SubjectMiss[]) : ATT_SUBJECTS} />
       <ChronicAbsenteesTable rows={chronicRows.length > 0 ? chronicRows : []} />
-      <BenchmarkBars rows={ATT_BENCHMARK} />
+      <BenchmarkBars rows={benchmarkRows.length > 0 ? (benchmarkRows as BenchmarkRow[]) : ATT_BENCHMARK} />
 
       <PerStudentCalendarHeat weeks={ATT_CAL_OMAR} studentName="Omar Saadi" sectionCode="11 AS" />
       <LessonsMissedList rows={ATT_LESSONS} studentName="Omar" />

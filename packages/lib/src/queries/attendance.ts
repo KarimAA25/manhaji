@@ -138,6 +138,138 @@ export async function getAttendanceSummaryForStudent(
   return data;
 }
 
+export type DowAttendanceRow = {
+  week_label: string;
+  mon: number; tue: number; wed: number; thu: number; fri: number;
+};
+
+export type PeriodAttendanceRow = { period: number; pct: number };
+
+export type SubjectAbsenceRow = { subject: string; hours_missed: number };
+
+export type BenchmarkAttendanceRow = { label: string; pct: number; tone: "us" | "neutral" | "target" };
+
+export async function getAttendancePatterns(from: string, to: string): Promise<{
+  dow: DowAttendanceRow[];
+  byPeriod: PeriodAttendanceRow[];
+}> {
+  const db = await serverClient();
+  const { data, error } = await db
+    .from("attendance_marks")
+    .select("marked_on, status, bell_periods ( period_number, is_teaching )")
+    .gte("marked_on", from)
+    .lte("marked_on", to);
+  if (error) throw new Error(error.message);
+
+  const dowCells = new Map<string, { total: number; present: number }>();
+  const weekOrder: string[] = [];
+  const periodCells = new Map<number, { total: number; present: number }>();
+  const DOW_KEYS = ["sun","mon","tue","wed","thu","fri","sat"] as const;
+
+  for (const row of data ?? []) {
+    const d = new Date(row.marked_on + "T00:00:00Z");
+    const utcDay = d.getUTCDay();
+    if (utcDay === 0 || utcDay === 6) continue;
+    const monday = new Date(d.getTime() - (utcDay - 1) * 86400000);
+    const wl = `W/c ${monday.getUTCDate()} ${monday.toLocaleString("en-GB", { month: "short", timeZone: "UTC" })}`;
+    const dowKey = DOW_KEYS[utcDay];
+    const cellKey = `${wl}|${dowKey}`;
+    const dc = dowCells.get(cellKey) ?? { total: 0, present: 0 };
+    dc.total++;
+    if (row.status === "present" || row.status === "late") dc.present++;
+    dowCells.set(cellKey, dc);
+    if (!weekOrder.includes(wl)) weekOrder.push(wl);
+
+    const bp = row.bell_periods as { period_number: number | null; is_teaching: boolean | null } | null;
+    if (bp?.period_number && bp.is_teaching !== false) {
+      const pc = periodCells.get(bp.period_number) ?? { total: 0, present: 0 };
+      pc.total++;
+      if (row.status === "present" || row.status === "late") pc.present++;
+      periodCells.set(bp.period_number, pc);
+    }
+  }
+
+  const toPct = (c: { total: number; present: number } | undefined) =>
+    c && c.total > 0 ? Math.round((c.present / c.total) * 1000) / 10 : 0;
+
+  const dow = weekOrder.map(wl => ({
+    week_label: wl,
+    mon: toPct(dowCells.get(`${wl}|mon`)),
+    tue: toPct(dowCells.get(`${wl}|tue`)),
+    wed: toPct(dowCells.get(`${wl}|wed`)),
+    thu: toPct(dowCells.get(`${wl}|thu`)),
+    fri: toPct(dowCells.get(`${wl}|fri`)),
+  }));
+
+  const byPeriod = Array.from(periodCells.entries())
+    .map(([period, c]) => ({ period, pct: toPct(c) }))
+    .sort((a, b) => a.period - b.period);
+
+  return { dow, byPeriod };
+}
+
+export async function getSubjectAbsences(from: string, to: string): Promise<SubjectAbsenceRow[]> {
+  const db = await serverClient();
+  const [{ data: marks, error: markErr }, { data: slots, error: slotErr }] = await Promise.all([
+    db.from("attendance_marks")
+      .select("section_id, bell_period_id")
+      .eq("status", "absent")
+      .gte("marked_on", from)
+      .lte("marked_on", to),
+    db.from("timetable_slots")
+      .select("section_id, bell_period_id, subjects ( name_en )")
+      .not("subject_id", "is", null),
+  ]);
+  if (markErr) throw new Error(markErr.message);
+  if (slotErr) throw new Error(slotErr.message);
+
+  const lookup = new Map<string, string>();
+  for (const s of slots ?? []) {
+    const sub = s.subjects as { name_en: string } | null;
+    if (sub?.name_en && s.section_id && s.bell_period_id) {
+      lookup.set(`${s.section_id}|${s.bell_period_id}`, sub.name_en);
+    }
+  }
+
+  const bySubject = new Map<string, number>();
+  for (const m of marks ?? []) {
+    if (!m.section_id || !m.bell_period_id) continue;
+    const subj = lookup.get(`${m.section_id}|${m.bell_period_id}`);
+    if (!subj) continue;
+    bySubject.set(subj, (bySubject.get(subj) ?? 0) + 1);
+  }
+
+  return Array.from(bySubject.entries())
+    .map(([subject, count]) => ({ subject, hours_missed: count }))
+    .sort((a, b) => b.hours_missed - a.hours_missed)
+    .slice(0, 10);
+}
+
+export async function getAttendanceBenchmarks(from: string, to: string): Promise<BenchmarkAttendanceRow[]> {
+  const durationMs = new Date(to).getTime() - new Date(from).getTime();
+  const prevTo   = new Date(new Date(from).getTime() - 86400000).toISOString().slice(0, 10);
+  const prevFrom = new Date(new Date(from).getTime() - durationMs - 86400000).toISOString().slice(0, 10);
+
+  const db = await serverClient();
+  const [{ data: curr }, { data: prev }] = await Promise.all([
+    db.from("attendance_marks").select("status").gte("marked_on", from).lte("marked_on", to),
+    db.from("attendance_marks").select("status").gte("marked_on", prevFrom).lte("marked_on", prevTo),
+  ]);
+
+  const avgPct = (rows: { status: string }[] | null) => {
+    if (!rows?.length) return 0;
+    const present = rows.filter(r => r.status === "present" || r.status === "late").length;
+    return Math.round((present / rows.length) * 1000) / 10;
+  };
+
+  const currentPct = avgPct(curr);
+  const prevPct    = avgPct(prev);
+  const result: BenchmarkAttendanceRow[] = [{ label: "This period", pct: currentPct, tone: "us" }];
+  if (prevPct > 0) result.push({ label: "Previous period", pct: prevPct, tone: "neutral" });
+  result.push({ label: "Target (95%)", pct: 95.0, tone: "target" });
+  return result;
+}
+
 export async function getAbsencesRequiringCoverage(sectionId: string, date: string) {
   const db = await serverClient();
   // Used by substitute-sheet builder to find uncovered absent slots
