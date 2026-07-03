@@ -10,6 +10,7 @@ import { getCurrentTeacherId, getCurrentAcademicYearId } from "@manhaj/lib/queri
 import { getTeacherWithSections } from "@manhaj/lib/queries/teachers";
 import { getStudentsForSections } from "@manhaj/lib/queries/students";
 import { getAssessmentsForTeacher } from "@manhaj/lib/queries/assessments";
+import { getTeacherTimetable } from "@manhaj/lib/queries/timetable";
 
 export const dynamic = "force-dynamic";
 
@@ -24,7 +25,7 @@ const SWART_ATT: TrendPoint[] = [
   { date: "05-22", pct: 95 }, { date: "05-23", pct: 96 },
 ];
 
-const SPOTLIGHT = [
+const MOCK_SPOTLIGHT = [
   { name: "Rania Khalifa",  section: "10A", note: "EAL flag · Written rubric dropped to 2.9 · needs scaffolding support",  tone: "warn" },
   { name: "Hala Mohsen",    section: "9A",  note: "Chronic absentee · 6 days missed · missed post-exam review session",      tone: "bad" },
   { name: "Tariq Said",     section: "10A", note: "Steady improvement in oral participation · acknowledge publicly",          tone: "good" },
@@ -45,7 +46,10 @@ export default async function TeacherAnalyzePage() {
     .map(r => (r.sections as { id: string } | null)?.id)
     .filter((id): id is string => id != null);
 
-  const dbStudents = sectionIds.length > 0 ? await getStudentsForSections(sectionIds) : [];
+  const [dbStudents, timetableSlots] = await Promise.all([
+    sectionIds.length > 0 ? getStudentsForSections(sectionIds).catch(() => []) : Promise.resolve([]),
+    teacherId && academicYearId ? getTeacherTimetable(teacherId, academicYearId).catch(() => []) : Promise.resolve([]),
+  ]);
 
   // Map DB students to TeacherStudentRow shape (assessment/att fields default for now)
   const students: TeacherStudentRow[] = dbStudents.length > 0
@@ -75,7 +79,7 @@ export default async function TeacherAnalyzePage() {
     : SWART_SECTIONS;
 
   const rawAssessments = teacherId && sectionIds.length > 0
-    ? await getAssessmentsForTeacher(teacherId, sectionIds)
+    ? await getAssessmentsForTeacher(teacherId, sectionIds).catch(() => [])
     : [];
 
   const sectionCountMap = students.reduce<Record<string, number>>((acc, s) => {
@@ -94,6 +98,18 @@ export default async function TeacherAnalyzePage() {
         return sec?.code ?? "—";
       }).filter(Boolean).join(" · ")
     : "10A · 9A · 10A MUN · 12 A2";
+
+  // Derive spotlight from real student risk flags; fall back to mock when no DB students
+  const spotlight = dbStudents.length > 0 ? (() => {
+    const highRisk = dbStudents.filter(s => s.risk_flags.some(f => f.severity === "high")).slice(0, 1);
+    const medRisk  = dbStudents.filter(s => !s.risk_flags.some(f => f.severity === "high") && s.risk_flags.some(f => f.severity === "medium")).slice(0, 1);
+    const noRisk   = dbStudents.filter(s => s.risk_flags.length === 0).slice(0, 1);
+    return [
+      ...highRisk.map(s => ({ name: s.full_name_en, section: s.section_code, note: s.risk_flags.map(f => f.category).join(" · "), tone: "bad" })),
+      ...medRisk.map(s => ({ name: s.full_name_en, section: s.section_code, note: s.risk_flags.map(f => f.category).join(" · "), tone: "warn" })),
+      ...noRisk.map(s => ({ name: s.full_name_en, section: s.section_code, note: "No active risk flags", tone: "good" })),
+    ];
+  })() : MOCK_SPOTLIGHT;
 
   return (
     <div className="container">
@@ -130,7 +146,7 @@ export default async function TeacherAnalyzePage() {
       </div>
 
       <h3 className="ta-section-head">My week</h3>
-      <TeacherMyWeek />
+      <TeacherMyWeek slots={timetableSlots.length > 0 ? timetableSlots : undefined} />
 
       <h3 className="ta-section-head">Attendance · my classes · last 17 days</h3>
       <TrendChart points={SWART_ATT} target={95} title="Attendance · my sections" />
@@ -171,7 +187,7 @@ export default async function TeacherAnalyzePage() {
 
       <h3 className="ta-section-head">Student spotlight · needs attention</h3>
       <div className="ta-spotlight-card">
-        {SPOTLIGHT.map((s, i) => (
+        {spotlight.map((s, i) => (
           <div key={i} className={`ta-spotlight-row ta-spotlight-${s.tone}`}>
             <div className="ta-spotlight-name">{s.name} <span className="ta-spotlight-section">{s.section}</span></div>
             <div className="ta-spotlight-note">{s.note}</div>

@@ -1,9 +1,4 @@
-/**
- * Admin · Schedule · Ms Swart · my week.
- *
- * Per-teacher week grid showing only Ms Swart's periods.
- * HoD / teacher lens framing.
- */
+import type { PeriodSlot } from "@manhaj/lib/queries/timetable";
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri"] as const;
 const PERIODS = ["P1", "P2", "P3", "P4", "P5", "P6"] as const;
@@ -26,41 +21,74 @@ const SWART_WEEK: Partial<Record<Period, Partial<Record<Day, Cell | undefined>>>
   P6: { Thu: { subject: "English", section: "12 A2", room: "R204" }, Fri: { subject: "English", section: "11 AS", room: "R204" } },
 };
 
-// Count total periods
-const totalPeriods = Object.values(SWART_WEEK).reduce((acc, row) => {
-  return acc + Object.values(row ?? {}).filter(Boolean).length;
-}, 0);
+function normDay(d: string): Day {
+  const map: Record<string, Day> = {
+    monday: "Mon", tuesday: "Tue", wednesday: "Wed", thursday: "Thu", friday: "Fri",
+    mon: "Mon", tue: "Tue", wed: "Wed", thu: "Thu", fri: "Fri",
+  };
+  return map[d.toLowerCase()] ?? (d as Day);
+}
 
-export default function TeacherMyWeek() {
+type Props = { slots?: PeriodSlot[] };
+
+export default function TeacherMyWeek({ slots }: Props) {
+  let grid: Partial<Record<string, Partial<Record<Day, Cell>>>> = SWART_WEEK;
+  let displayPeriods: readonly string[] = PERIODS;
+  let totalPeriods: number;
+  let subtitle: string;
+
+  if (slots && slots.length > 0) {
+    const liveGrid: Partial<Record<string, Partial<Record<Day, Cell>>>> = {};
+    const periodSet = new Set<string>();
+    for (const s of slots) {
+      if (!s.is_teaching) continue;
+      const day    = normDay(s.day);
+      const period = s.period;
+      periodSet.add(period);
+      if (!liveGrid[period]) liveGrid[period] = {};
+      liveGrid[period]![day] = {
+        subject: s.subject ?? "—",
+        section: s.teacher ?? "",   // teacher field holds section label in getTeacherTimetable
+        room:    s.room   ?? "—",
+      };
+    }
+    grid           = liveGrid;
+    displayPeriods = [...periodSet].sort();
+    totalPeriods   = slots.filter(s => s.is_teaching).length;
+    subtitle       = `${totalPeriods} periods this week`;
+  } else {
+    totalPeriods = Object.values(SWART_WEEK).reduce((acc, row) =>
+      acc + Object.values(row ?? {}).filter(Boolean).length, 0);
+    subtitle = `English · ${totalPeriods} periods this week · teacher lens`;
+  }
+
   return (
-    <section className="tmw-card" aria-label="Ms Swart · my week">
+    <section className="tmw-card" aria-label="My week">
       <header className="tmw-head">
         <div>
-          <h3>Ms Swart · my week</h3>
-          <p className="tmw-sub">
-            English · {totalPeriods} periods this week · teacher lens
-          </p>
+          <h3>{slots && slots.length > 0 ? "My week" : "Ms Swart · my week"}</h3>
+          <p className="tmw-sub">{subtitle}</p>
         </div>
-        <div className="tmw-toggle">
-          <span className="tmw-toggle-pill active">Ms Swart</span>
-          <span className="tmw-toggle-pill">Mr Saab</span>
-          <span className="tmw-toggle-pill">Mr Salim</span>
-        </div>
+        {!(slots && slots.length > 0) && (
+          <div className="tmw-toggle">
+            <span className="tmw-toggle-pill active">Ms Swart</span>
+            <span className="tmw-toggle-pill">Mr Saab</span>
+            <span className="tmw-toggle-pill">Mr Salim</span>
+          </div>
+        )}
       </header>
 
-      <div className="tmw-grid" role="grid" aria-label="Ms Swart weekly timetable">
-        {/* Header row */}
+      <div className="tmw-grid" role="grid" aria-label="Weekly timetable">
         <div className="tmw-corner" aria-hidden="true" />
         {DAYS.map(d => (
           <div key={d} className="tmw-col-head" role="columnheader">{d}</div>
         ))}
 
-        {/* Period rows */}
-        {PERIODS.map(p => (
+        {displayPeriods.map(p => (
           <>
             <div key={`${p}-rh`} className="tmw-row-head" role="rowheader">{p}</div>
             {DAYS.map(d => {
-              const cell = SWART_WEEK[p]?.[d];
+              const cell = grid[p]?.[d];
               return (
                 <div
                   key={`${p}-${d}`}
