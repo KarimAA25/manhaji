@@ -2,7 +2,7 @@
 
 import type { Thread } from "@manhaj/lib/mock-messages";
 import { formatRelative } from "@manhaj/lib/mock-messages";
-import { DEMO_CHILDREN } from "@manhaj/lib/child";
+import { useActiveChild } from "@manhaj/lib/child";
 
 export default function InboxList({
   threads, activeThreadId, onSelect, multiChild,
@@ -12,6 +12,7 @@ export default function InboxList({
   onSelect:       (threadId: string) => void;
   multiChild:     boolean;
 }) {
+  const { children } = useActiveChild();
   if (threads.length === 0) {
     return <div className="msg-inbox-empty">No messages match the current filter.</div>;
   }
@@ -19,11 +20,11 @@ export default function InboxList({
     <ul className="msg-inbox-list" role="list">
       {threads.map(t => {
         const isActive = t.id === activeThreadId;
-        const demoChild = t.child_id !== "household"
-          ? DEMO_CHILDREN.find(c => c.id === t.child_id)
+        const realChild = t.child_id !== "household"
+          ? children.find(c => c.id === t.child_id)
           : undefined;
-        const childLabel = t.child_id === "household" ? "Household" : demoChild?.full_name?.split(" ")[0] ?? "?";
-        const childInitial = t.child_id === "household" ? "⌂" : demoChild?.initial ?? "?";
+        const childLabel = t.child_id === "household" ? "Household" : realChild?.full_name?.split(" ")[0] ?? "?";
+        const childInitial = t.child_id === "household" ? "⌂" : realChild?.initial ?? "?";
         return (
           <li key={t.id}>
             <button

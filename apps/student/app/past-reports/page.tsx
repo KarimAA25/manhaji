@@ -5,9 +5,9 @@ import StudentReportArchive from "./components/StudentReportArchive";
 export const dynamic = "force-dynamic";
 
 export default async function StudentPastReportsPage() {
-  const studentId = await getCurrentStudentId();
+  const studentId = await getCurrentStudentId().catch(() => null);
   const reports = studentId
-    ? await getReportArchive({ studentId })
+    ? await getReportArchive({ studentId }).catch(() => [])
     : [];
 
   return (

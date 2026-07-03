@@ -14,21 +14,31 @@ import type { ReactNode } from "react";
 import {
   getActiveChild, useActiveChild, ALL_CHILDREN_ID,
 } from "@manhaj/lib/child";
+import { useParentDash } from "../ParentDashboardClient";
 
 export default function GreetHero() {
   const { activeId, children } = useActiveChild();
   const child = getActiveChild(activeId, children);
+  const dash  = useParentDash();
   const isHousehold = activeId === ALL_CHILDREN_ID;
 
   if (isHousehold) {
-    const childData = children.map(c => ({
-      id:      c.id,
-      initial: c.initial,
-      name:    c.full_name.split(" ")[0],
-      grade:   c.grade_label,
-      line:    null as ReactNode,
-      chips:   [] as { label: string; tone: string }[],
-    }));
+    const childData = children.map(c => {
+      const stat = dash?.by_child[c.id];
+      const rubricLabel = stat?.rubric_avg ? `Rubric ${stat.rubric_avg.toFixed(1)}` : null;
+      const attLabel    = stat?.att_pct    ? `Att ${stat.att_pct}%`                 : null;
+      return {
+        id:      c.id,
+        initial: c.initial,
+        name:    c.full_name.split(" ")[0],
+        grade:   c.grade_label,
+        line:    null as ReactNode,
+        chips:   [
+          ...(rubricLabel ? [{ label: rubricLabel, tone: (stat?.rubric_avg ?? 0) >= 3.5 ? "good" : "warn" }] : []),
+          ...(attLabel    ? [{ label: attLabel,    tone: (stat?.att_pct    ?? 0) >= 90  ? "good" : "bad"  }] : []),
+        ] as { label: string; tone: string }[],
+      };
+    });
 
     return (
       <section className="greet-agg" aria-label="Household monthly briefing">
@@ -90,10 +100,14 @@ export default function GreetHero() {
       </div>
 
       <div className="greet-hero-chips">
-        <span>★ Top of class · Chemistry</span>
-        <span>▲ Oral 3.4 → 4.0 over 3 months</span>
-        <span>● MUN finalist citation</span>
-        <span>Attendance 97% · 1 medical absence</span>
+        {child && dash?.by_child[child.id]?.rubric_avg
+          ? <span>Rubric avg {dash.by_child[child.id].rubric_avg.toFixed(1)}</span>
+          : <span>★ Top of class · Chemistry</span>
+        }
+        {child && dash?.by_child[child.id]?.att_pct
+          ? <span>Attendance {dash.by_child[child.id].att_pct}% · {dash.by_child[child.id].att_absences} absence{dash.by_child[child.id].att_absences === 1 ? "" : "s"}</span>
+          : <span>Attendance 97% · 1 medical absence</span>
+        }
         {grade && <span>{grade}</span>}
       </div>
 

@@ -1,10 +1,10 @@
 "use client";
 
 import { formatOmr, type ChildInvoices } from "@manhaj/lib/mock-invoices";
-import { DEMO_CHILDREN, useActiveChild } from "@manhaj/lib/child";
+import { useActiveChild } from "@manhaj/lib/child";
 
 export default function HouseholdRows({ rows }: { rows: ChildInvoices[] }) {
-  const { setActive } = useActiveChild();
+  const { setActive, children } = useActiveChild();
   return (
     <section className="houserows-card" aria-label="Per child invoices">
       <header className="houserows-head">
@@ -13,7 +13,7 @@ export default function HouseholdRows({ rows }: { rows: ChildInvoices[] }) {
       </header>
       <div className="houserows-list">
         {rows.map(r => {
-          const meta = DEMO_CHILDREN.find(c => c.id === r.child_id);
+          const meta = children.find(c => c.id === r.child_id);
           const isPaid = r.outstanding === 0;
           return (
             <button

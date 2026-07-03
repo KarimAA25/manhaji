@@ -132,3 +132,170 @@ export async function getRubricAvgForStudents(
     };
   });
 }
+
+// ---------------------------------------------------------------------------
+// Today's timetable slot for a set of sections
+// ---------------------------------------------------------------------------
+
+export type ChildCurrentSlot = {
+  period:  string;
+  subject: string;
+  teacher: string | null;
+  room:    string | null;
+  start:   string;   // "HH:MM"
+  end:     string;
+};
+
+export async function getTodaySlotsForSections(
+  sectionIds: string[],
+  academicYearId: string,
+  todayDow: string,       // "monday" | "tuesday" | …
+  currentTime: string,    // "HH:MM" — used to find the active/next period
+): Promise<Record<string, ChildCurrentSlot | null>> {
+  if (sectionIds.length === 0) return {};
+  const db = await serverClient();
+
+  const [{ data: bells }, { data: slots }] = await Promise.all([
+    db.from("bell_periods")
+      .select("id, period_label, day_of_week, starts_at, ends_at, is_teaching")
+      .eq("academic_year_id", academicYearId)
+      .eq("day_of_week", todayDow)
+      .eq("is_teaching", true)
+      .order("starts_at"),
+    db.from("timetable_slots")
+      .select(`
+        bell_period_id, section_id,
+        subjects ( name_en ),
+        teachers ( display_name, full_name ),
+        rooms ( code )
+      `)
+      .eq("academic_year_id", academicYearId)
+      .in("section_id", sectionIds),
+  ]);
+
+  type SlotRow = { bell_period_id: string; section_id: string | null; subjects: unknown; teachers: unknown; rooms: unknown };
+  type BellRow = { id: string; period_label: string | null; starts_at: string; ends_at: string };
+
+  // Index slots: section_id → Map<bell_period_id, slot>
+  const slotsBySec = new Map<string, Map<string, SlotRow>>();
+  for (const s of (slots ?? []) as SlotRow[]) {
+    if (!s.section_id) continue;
+    if (!slotsBySec.has(s.section_id)) slotsBySec.set(s.section_id, new Map());
+    slotsBySec.get(s.section_id)!.set(s.bell_period_id, s);
+  }
+
+  const result: Record<string, ChildCurrentSlot | null> = {};
+  for (const sectionId of sectionIds) {
+    const secSlots = slotsBySec.get(sectionId);
+    if (!secSlots) { result[sectionId] = null; continue; }
+
+    // Find current or next teaching period
+    let chosen: BellRow | null = null;
+    for (const bell of (bells ?? []) as BellRow[]) {
+      const start = (bell.starts_at as string).slice(0, 5);
+      const end   = (bell.ends_at   as string).slice(0, 5);
+      if (currentTime >= start && currentTime < end) { chosen = bell; break; }
+      if (currentTime < start && !chosen) chosen = bell; // first upcoming
+    }
+
+    if (!chosen) { result[sectionId] = null; continue; }
+    const slot = secSlots.get(chosen.id) as SlotRow | undefined;
+    if (!slot) { result[sectionId] = null; continue; }
+
+    const sub = slot.subjects as { name_en: string } | null;
+    const tch = slot.teachers as { display_name: string | null; full_name: string } | null;
+    const rm  = slot.rooms    as { code: string } | null;
+    if (!sub) { result[sectionId] = null; continue; }
+
+    result[sectionId] = {
+      period:  chosen.period_label ?? "",
+      subject: sub.name_en,
+      teacher: tch ? (tch.display_name ?? tch.full_name) : null,
+      room:    rm?.code ?? null,
+      start:   (chosen.starts_at as string).slice(0, 5),
+      end:     (chosen.ends_at   as string).slice(0, 5),
+    };
+  }
+  return result;
+}
+
+// ---------------------------------------------------------------------------
+// Next upcoming exam for a set of sections
+// ---------------------------------------------------------------------------
+
+export type ChildNextExam = {
+  label:      string;
+  held_on:    string;
+  subject:    string;
+  days_until: number;
+};
+
+export async function getNextExamForSections(
+  sectionIds: string[],
+  from: string,   // today ISO date
+): Promise<Record<string, ChildNextExam | null>> {
+  if (sectionIds.length === 0) return {};
+  const db = await serverClient();
+  const { data, error } = await db
+    .from("assessments")
+    .select("section_id, label, held_on, subjects ( name_en )")
+    .in("section_id", sectionIds)
+    .gte("held_on", from)
+    .order("held_on");
+  if (error) return {};
+
+  const result: Record<string, ChildNextExam | null> = {};
+  for (const sectionId of sectionIds) result[sectionId] = null;
+
+  const today = new Date(from);
+  for (const row of data ?? []) {
+    if (!row.section_id || result[row.section_id]) continue; // take first per section
+    const sub = row.subjects as { name_en: string } | null;
+    const daysUntil = Math.round(
+      (new Date(row.held_on!).getTime() - today.getTime()) / 86400000
+    );
+    result[row.section_id] = {
+      label:      row.label,
+      held_on:    row.held_on!,
+      subject:    sub?.name_en ?? row.label,
+      days_until: daysUntil,
+    };
+  }
+  return result;
+}
+
+// ---------------------------------------------------------------------------
+// Course selection status for a set of students
+// ---------------------------------------------------------------------------
+
+export type ChildCourseSelection = {
+  status:       string;
+  picks_count:  number;
+  submitted_at: string | null;
+};
+
+export async function getCourseSelectionsForStudents(
+  studentIds: string[],
+  academicYearId: string,
+): Promise<Record<string, ChildCourseSelection | null>> {
+  if (studentIds.length === 0) return {};
+  const db = await serverClient();
+  const { data, error } = await db
+    .from("course_selection_forms")
+    .select("student_id, status, submitted_at, course_selection_picks ( form_id )")
+    .in("student_id", studentIds)
+    .eq("academic_year_id", academicYearId);
+  if (error) return {};
+
+  const result: Record<string, ChildCourseSelection | null> = {};
+  for (const studentId of studentIds) result[studentId] = null;
+  for (const row of data ?? []) {
+    const picks = (row.course_selection_picks as Array<{ form_id: string }> | null) ?? [];
+    result[row.student_id] = {
+      status:       row.status as string,
+      picks_count:  picks.length,
+      submitted_at: row.submitted_at,
+    };
+  }
+  return result;
+}

@@ -44,7 +44,7 @@ export default function DashStatRow() {
         </div>
         <div className="dash-stat-card">
           <div className="dash-stat-l">School messages</div>
-          <div className="dash-stat-v bad">4</div>
+          <div className={`dash-stat-v${(dash?.unread_count ?? 0) > 0 ? " bad" : ""}`}>{dash?.unread_count ?? 0}</div>
           <div className="dash-stat-d">unread across children</div>
         </div>
       </div>
@@ -77,7 +77,7 @@ export default function DashStatRow() {
       </div>
       <div className="dash-stat-card">
         <div className="dash-stat-l">School messages</div>
-        <div className="dash-stat-v bad">2</div>
+        <div className={`dash-stat-v${(dash?.unread_count ?? 0) > 0 ? " bad" : ""}`}>{dash?.unread_count ?? 0}</div>
         <div className="dash-stat-d">unread</div>
       </div>
     </div>

@@ -144,6 +144,30 @@ export async function getStudentWithEnrollment(studentId: string) {
   return data;
 }
 
+export type StudentProfile = {
+  full_name_en: string;
+  current_section_id: string | null;
+  section_code: string | null;
+  grade_level: string | null;
+};
+
+export async function getStudentProfile(studentId: string): Promise<StudentProfile | null> {
+  const db = await serverClient();
+  const { data } = await db
+    .from("students")
+    .select("full_name_en, current_section_id, sections:current_section_id ( code, grade_level )")
+    .eq("id", studentId)
+    .single();
+  if (!data) return null;
+  const sec = data.sections as { code: string; grade_level: string } | null;
+  return {
+    full_name_en: data.full_name_en,
+    current_section_id: data.current_section_id,
+    section_code: sec?.code ?? null,
+    grade_level: sec?.grade_level ?? null,
+  };
+}
+
 export async function getStudentsWithRiskFlags(academicYearId: string) {
   const db = await serverClient();
   const { data, error } = await db

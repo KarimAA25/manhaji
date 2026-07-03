@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ALL_CHILDREN_ID, DEMO_CHILDREN } from "@manhaj/lib/child";
+import { ALL_CHILDREN_ID, useActiveChild } from "@manhaj/lib/child";
 import { MESSAGE_RECIPIENTS, type MessageRecipient } from "@manhaj/lib/mock-messages";
 
 export type NewMessagePayload = {
@@ -19,6 +19,7 @@ export default function NewMessageComposer({
   onSend:         (payload: NewMessagePayload) => void;
   defaultChildId: string;
 }) {
+  const { children } = useActiveChild();
   const [to, setTo] = useState<string>(MESSAGE_RECIPIENTS[0].id);
   const [childId, setChildId] = useState<string>(defaultChildId === ALL_CHILDREN_ID ? "household" : defaultChildId);
   const [subject, setSubject] = useState("");
@@ -63,7 +64,7 @@ export default function NewMessageComposer({
             <span className="msg-field-label">About</span>
             <select value={childId} onChange={e => setChildId(e.target.value)}>
               <option value="household">Household-wide</option>
-              {DEMO_CHILDREN.map(c => (
+              {children.map(c => (
                 <option key={c.id} value={c.id}>{c.full_name}</option>
               ))}
             </select>

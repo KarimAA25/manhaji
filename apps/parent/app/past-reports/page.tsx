@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 export default async function ParentPastReportsPage() {
   const parentId = await getCurrentParentId();
   const reports = parentId
-    ? await getReportArchive({ parentId })
+    ? await getReportArchive({ parentId }).catch(() => [])
     : [];
   return <PastReportsClient reports={reports} />;
 }

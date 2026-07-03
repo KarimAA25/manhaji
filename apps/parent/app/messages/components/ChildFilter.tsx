@@ -1,13 +1,13 @@
 "use client";
 
-import { ALL_CHILDREN_ID, DEMO_CHILDREN, useActiveChild } from "@manhaj/lib/child";
+import { ALL_CHILDREN_ID, useActiveChild } from "@manhaj/lib/child";
 import type { Thread } from "@manhaj/lib/mock-messages";
 
 export default function ChildFilter({ threads }: { threads: Thread[] }) {
-  const { activeId, setActive } = useActiveChild();
+  const { activeId, setActive, children } = useActiveChild();
 
   const counts = new Map<string, number>();
-  for (const c of DEMO_CHILDREN) counts.set(c.id, 0);
+  for (const c of children) counts.set(c.id, 0);
   for (const t of threads) {
     if (t.child_id !== "household") {
       counts.set(t.child_id, (counts.get(t.child_id) ?? 0) + 1);
@@ -25,7 +25,7 @@ export default function ChildFilter({ threads }: { threads: Thread[] }) {
       >
         All<span className="msg-cat-count">{allCount}</span>
       </button>
-      {DEMO_CHILDREN.map(c => (
+      {children.map(c => (
         <button
           key={c.id} type="button"
           className={`msg-child-pill ${activeId === c.id ? "active" : ""}`}

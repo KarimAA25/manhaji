@@ -63,3 +63,25 @@ export async function getCurrentParentId(): Promise<string | null> {
     .single();
   return data?.id ?? null;
 }
+
+export async function getCurrentAdminId(): Promise<string | null> {
+  const db = await serverClient();
+  const { data: { user } } = await db.auth.getUser();
+  if (!user) return null;
+  const { data } = await db
+    .from("school_admins")
+    .select("id")
+    .eq("user_id", user.id)
+    .single();
+  return data?.id ?? null;
+}
+
+export async function getAdminName(adminId: string): Promise<string> {
+  const db = await serverClient();
+  const { data } = await db
+    .from("school_admins")
+    .select("full_name")
+    .eq("id", adminId)
+    .single();
+  return data?.full_name ?? "";
+}

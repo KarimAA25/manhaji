@@ -1,18 +1,15 @@
 "use client";
 
-/**
- * Parent · household mode · Quick actions row.
- *
- * Phase 2.15 — matches the "Quick actions across the household" section from
- * parent-multi-child.html: 3 action cards (pay all · book meeting · sync cals).
- * Only shown in the ALL_CHILDREN_ID household view.
- */
-
 import { useActiveChild, ALL_CHILDREN_ID } from "@manhaj/lib/child";
+import { useParentDash } from "../ParentDashboardClient";
 
 export default function QuickActionsRow() {
   const { activeId } = useActiveChild();
+  const dash = useParentDash();
   if (activeId !== ALL_CHILDREN_ID) return null;
+
+  const outstanding = dash?.outstanding_total ?? 0;
+  const totalLabel  = outstanding > 0 ? `OMR ${outstanding.toLocaleString()}` : "OMR 0";
 
   return (
     <>
@@ -20,19 +17,19 @@ export default function QuickActionsRow() {
       <div className="qa-row">
         <div className="qa-card">
           <div className="qa-card-lbl">Action</div>
-          <div className="qa-card-title">Pay household balance · OMR 1,820</div>
-          <div className="qa-card-sub">Layla OMR 750 · Omar OMR 1,070</div>
+          <div className="qa-card-title">Pay household balance · {totalLabel}</div>
+          <div className="qa-card-sub">{outstanding > 0 ? `${outstanding.toLocaleString()} outstanding` : "No outstanding balance"}</div>
           <button className="qa-btn primary">One-tap pay all</button>
         </div>
         <div className="qa-card">
           <div className="qa-card-lbl">Action</div>
-          <div className="qa-card-title">Book Omar&apos;s parent meeting</div>
-          <div className="qa-card-sub">Ms Swart · 18 May parent-teacher evening</div>
+          <div className="qa-card-title">Book a parent meeting</div>
+          <div className="qa-card-sub">Request a slot with your child&apos;s teacher</div>
           <button className="qa-btn primary">Pick a slot</button>
         </div>
         <div className="qa-card">
           <div className="qa-card-lbl">Action</div>
-          <div className="qa-card-title">Sync all 3 calendars</div>
+          <div className="qa-card-title">Sync calendars</div>
           <div className="qa-card-sub">Apple / Google · one ICS feed per household</div>
           <button className="qa-btn ghost">Set up sync</button>
         </div>

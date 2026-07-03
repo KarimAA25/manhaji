@@ -6,6 +6,6 @@ export const dynamic = "force-dynamic";
 
 export default async function ParentInvoicesPage() {
   const parentId  = await getCurrentParentId();
-  const dbInvoices = parentId ? await getInvoicesForParent(parentId) : [];
+  const dbInvoices = parentId ? await getInvoicesForParent(parentId).catch(() => []) : [];
   return <InvoicesPageClient dbInvoices={dbInvoices} />;
 }

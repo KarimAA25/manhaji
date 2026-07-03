@@ -1,9 +1,17 @@
 import StudentNav from "@manhaj/student/app/components/StudentNav";
 import { LogoutButton } from "@manhaj/auth/components";
+import { getCurrentStudentId } from "@manhaj/lib/queries/auth";
+import { getStudentProfile } from "@manhaj/lib/queries/students";
 
 const SCHOOL_NAME = process.env.SCHOOL_NAME || "International School of Oman";
 
-export default function StudentLayout({ children }: { children: React.ReactNode }) {
+export default async function StudentLayout({ children }: { children: React.ReactNode }) {
+  const studentId = await getCurrentStudentId().catch(() => null);
+  const profile = studentId ? await getStudentProfile(studentId).catch(() => null) : null;
+  const displayName = profile?.full_name_en ?? "Layla Al-Habsi";
+  const sectionCode = profile?.section_code ?? "10A";
+  const initials = displayName.split(" ").map((w: string) => w[0]).filter(Boolean).slice(0, 2).join("").toUpperCase();
+
   return (
     <>
       <a href="#main-content" className="skip-link">Skip to main content</a>
@@ -19,8 +27,8 @@ export default function StudentLayout({ children }: { children: React.ReactNode 
         </div>
         <div className="top-right">
           <LogoutButton />
-          <span style={{ fontSize: 12 }}>Layla Al-Habsi · 10A</span>
-          <div className="avatar" title="Student">LA</div>
+          <span style={{ fontSize: 12 }}>{displayName} · {sectionCode}</span>
+          <div className="avatar" title="Student">{initials || "LA"}</div>
         </div>
       </header>
       <main id="main-content" tabIndex={-1}>{children}</main>

@@ -75,13 +75,40 @@ function firstName(fullName: string): string {
 }
 
 export default function InvoicesPageClient({ dbInvoices }: { dbInvoices: InvoiceWithLines[] }) {
-  const { activeId } = useActiveChild();
+  const { activeId, children } = useActiveChild();
   const hasRealData  = dbInvoices.length > 0;
 
   if (hasRealData) {
-    const childRows  = mapToChildInvoices(dbInvoices);
-    const household  = householdSnapshot(childRows);
-    const summary    = invoiceParentSummary(childRows, ALL_CHILDREN_ID, household);
+    const childRows = mapToChildInvoices(dbInvoices);
+    const household = householdSnapshot(childRows);
+    const summary   = invoiceParentSummary(childRows, activeId, household);
+
+    if (activeId !== ALL_CHILDREN_ID) {
+      const row = childRows.find(c => c.child_id === activeId);
+      if (!row) {
+        return (
+          <div className="container">
+            <h1>Invoices</h1>
+            <p className="sub">No invoices for this child.</p>
+          </div>
+        );
+      }
+      const child = children.find(c => c.id === activeId);
+      const focused = row.installments.find(i => i.status === "partial")
+        ?? row.installments.find(i => i.status === "scheduled")
+        ?? row.installments[0];
+      return (
+        <div className="container">
+          <h1>Invoices · {row.child_name}</h1>
+          <p className="sub">{child?.grade_label ?? ""} · AY 2025–26</p>
+          <InvoiceAlert summary={summary} />
+          <BalanceHero mode="single" summary={summary} child={row} />
+          <InstallmentCards rows={row.installments} />
+          {focused && <FeeBreakdown installment={focused} />}
+          <PaymentHistory rows={[]} />
+        </div>
+      );
+    }
 
     const allInstallments = childRows.flatMap(c =>
       c.installments.map(i => ({ ...i, label: `${i.label} · ${firstName(c.child_name)}` })),

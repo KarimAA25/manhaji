@@ -13,6 +13,6 @@ import MessagesClient from "./MessagesClient";
 export const dynamic = "force-dynamic";
 
 export default async function ParentMessagesPage() {
-  const threads = await listThreadsForParent();
+  const threads = await listThreadsForParent().catch(() => []);
   return <MessagesClient initialThreads={threads} />;
 }

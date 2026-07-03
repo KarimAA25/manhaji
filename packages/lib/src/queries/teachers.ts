@@ -40,6 +40,16 @@ export async function getTeachersWithLoad(academicYearId: string): Promise<Teach
   });
 }
 
+export async function getTeacherName(teacherId: string): Promise<string> {
+  const db = await serverClient();
+  const { data } = await db
+    .from("teachers")
+    .select("full_name, display_name")
+    .eq("id", teacherId)
+    .single();
+  return data?.display_name ?? data?.full_name ?? "";
+}
+
 export async function getAllTeachers() {
   const db = await serverClient();
   const { data, error } = await db

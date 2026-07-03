@@ -1,6 +1,6 @@
 import { getCurrentAcademicYearId } from "@manhaj/lib/queries/auth";
 import { getActivitiesForYear } from "@manhaj/lib/queries/activities";
-import type { CalendarEvent, EventType } from "@manhaj/lib/mock-calendar";
+import { MOCK_EVENTS, type CalendarEvent, type EventType } from "@manhaj/lib/mock-calendar";
 import CalendarClient from "./CalendarClient";
 
 export const dynamic = "force-dynamic";
@@ -18,7 +18,7 @@ export default async function ParentCalendarPage() {
   const academicYearId = await getCurrentAcademicYearId();
 
   const activities = academicYearId
-    ? await getActivitiesForYear(academicYearId)
+    ? await getActivitiesForYear(academicYearId).catch(() => [])
     : [];
 
   // Map activities to CalendarEvent shape that CalendarClient expects
@@ -43,5 +43,5 @@ export default async function ParentCalendarPage() {
     };
   });
 
-  return <CalendarClient events={events} />;
+  return <CalendarClient events={events.length > 0 ? events : MOCK_EVENTS} />;
 }
