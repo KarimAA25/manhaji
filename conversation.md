@@ -938,7 +938,7 @@ SQL-verified: `SELECT manhaj_verify_login(email, password)` returns correct role
 
 ---
 
-## 11. Admin Faculty Page — DB Wiring
+## 25b. Admin Faculty Page — DB Wiring
 
 ### Components wired
 
@@ -968,3 +968,283 @@ SQL-verified: `SELECT manhaj_verify_login(email, password)` returns correct role
 | `ContractsDashboard` | No `teacher_contracts` table |
 | `OnboardingFunnel` | No `hiring_pipeline` table |
 | `PerformanceComposite` | No `performance_reviews` table |
+
+---
+
+## 26. Admin Dashboard — Remaining Stubs Wired (2026-07-03)
+
+**`apps/admin/app/page.tsx`** — Two KPI stubs replaced with live DB values:
+
+- **Attendance trend** — Added a second `getDailyAttendanceTrend` call for the prior week window. Week-over-week diff computed at render time; tone (`up`/`flat`/`dn`) and arrow derived from the delta. Previously always showed a hardcoded "+2.1% vs last week".
+- **Subs needed today** — `getApprovedAbsencesNeedingCoverage(today)` replaces the hardcoded `"0"`. Shows real count of approved absences with no substitution row.
+- **Course-sel done** and **Next free period** — Changed from hardcoded `"14"` / `"P5 Tue"` to `"—"` (no DB tables for course selection completion tracking or free-period detection yet).
+
+---
+
+## 27. Admin Students Page — DemographicBreakdown + IncidentsTimeline + AdmissionsInbox (2026-07-03)
+
+**`DemographicBreakdown.tsx`** — Was fully hardcoded. Now accepts `students?: AdminStudentRow[]`. When provided, groups by `grade_level` (year-group distribution) and `gender`; computes counts and percentages from real data. Falls back to `MOCK_DEMOGRAPHICS` when empty.
+
+**`IncidentsTimeline.tsx`** — Was hardcoded `MOCK_INCIDENTS`. Now accepts `behaviourNotes: BehaviourNoteRow[]`. Maps real `behaviour_notes` rows (with student name + section via updated `getBehaviourNotes` join) to `IncidentRow[]`. Mock fallback when empty.
+
+**`AdmissionsInbox.tsx`** — Was hardcoded `MOCK_ADMISSIONS`. Now accepts `applicants: ApplicantRow[]`. Maps `applicants` table rows to display shape (`ai_band` set to `"—"` until scoring is implemented). Mock fallback when empty.
+
+**`packages/lib/src/queries/students.ts`** — `getBehaviourNotes` updated: added `students ( full_name_en, sections:current_section_id ( code ) )` join so the component has name + section without a second query.
+
+**`apps/admin/app/students/page.tsx`** — Now fetches `getBehaviourNotes(studentIds)` and `getApplicantsForYear(academicYearId)` in parallel. Passes all three datasets to `StudentsPageClient`.
+
+Components left on mock (`ReEnrollmentFunnel`, `InterventionLog`, `TeacherFeedback`, `PeerGroupComparison`) — no DB tables for those yet.
+
+---
+
+## 28. Admin — `.catch()` Fallbacks on All Page Server Fetches (2026-07-03)
+
+All four admin page files (`page.tsx`, `faculty/page.tsx`, `reports/page.tsx`, `students/page.tsx`) had their server fetches wrapped with `.catch(() => [])` / `.catch(() => {})`. A single DB query failure (missing table, RLS error, network blip) no longer crashes the entire page — the mock data path renders instead.
+
+---
+
+## 29. Admin Attendance Page — DayOfWeek + Period + SubjectCorrelation + Benchmarks (2026-07-03)
+
+Three new query functions added to **`packages/lib/src/queries/attendance.ts`**:
+
+- **`getAttendancePatterns(sectionIds, from, to)`** — Single aggregation query over `attendance_marks`. Returns DOW heatmap (per week × day counts) and period bars (per `bell_period_number`). Feeds `DayOfWeekHeatmap` and `PeriodBars` components.
+- **`getSubjectAbsences(from, to)`** — Two-step join: absent marks → `timetable_slots` → `subjects`. Counts missed lessons per subject. Feeds `SubjectCorrelation`.
+- **`getAttendanceBenchmarks(sectionIds, from)`** — Compares current 30-day window vs previous same-length window per section; always appends a static 95% target bar. Feeds `Benchmarks`.
+
+**`apps/admin/app/attendance/page.tsx`** — All six page fetches wrapped with `.catch()` guards.
+
+**`AttendancePageClient.tsx`** — Passes new props to the three newly-wired components.
+
+Components left on mock: `AiCausesCards`, `PerStudentCalendar`, `LessonsMissed`, `ReEngagementDraft`, `TakeAttendanceUI` — no DB tables for those yet.
+
+---
+
+## 30. Admin Schedule Page — TimetableGrid + TeacherLoadHeatmap + RoomUtilization (2026-07-03)
+
+**New query added to `packages/lib/src/queries/timetable.ts`:**
+- **`getRoomUtilization(academicYearId)`** — Counts `timetable_slots` per room vs total teaching `bell_periods`; returns `RoomUtilRow[]` with occupancy percentage.
+
+**Components wired:**
+
+- **`TimetableGrid`** — Now accepts `slots: PeriodSlot[]` + `sectionList: string[]` props. When provided, section picker is populated from live sections; grid is built from bell_period day/period + subject/teacher/room from real data. Falls back to mock grid when empty.
+- **`TeacherLoadHeatmap`** — Already accepted `loads` prop from §(Admin Faculty). Now receives it via the schedule page too.
+- **`RoomUtilization`** — Now accepts `rows: RoomUtilRow[]`; mock fallback when empty.
+
+**`SchedulePageClient.tsx`** — Accepts `slots`, `sectionList`, `loads`, `roomRows` props and distributes to components.
+
+**`apps/admin/app/schedule/page.tsx`** — Fetches `getSchoolTimetable`, `getTeacherDailyLoads`, `getRoomUtilization` in parallel with `.catch()` guards. KPI row: total slots + unfilled (no teacher assigned) from real data; conflict count still from mock (no conflict-detection table yet).
+
+Components left on mock: `ActionQueue`, `CurriculumCoverage`, `ChangeLog`, `TeacherMyWeek`.
+
+---
+
+## 31. Admin Reports Page — SectionProgress + KPI Row (2026-07-03)
+
+**New query added to `packages/lib/src/queries/reports.ts`:**
+- **`getSectionDraftProgress()`** — Queries `students` grouped by `current_section_id` + section code, left-joins `comm_drafts` to count drafted and reviewed rows per section. Returns `SectionDraftProgress[]`.
+
+**Components wired:**
+
+- **`KpiRow`** — Now derives KPIs from real `pipelineCounts` and `sectionProgress` instead of hardcoded numbers. Falls back to mock values when arrays are empty.
+- **`SectionProgress`** — Now accepts `rows: SectionDraftProgress[]`; renders real `section_code`, drafted count, reviewed count. Mock fallback when empty.
+
+`PipelineFunnel`, `TemplatesShelf`, `ComplianceLog` were already wired in §23.
+
+---
+
+## 32. Teacher Analyse Page — Real Timetable Grid + Student Spotlight (2026-07-03)
+
+**`schedule-components/TeacherMyWeek.tsx`** — Was fully hardcoded. Now accepts `slots?: PeriodSlot[]` from `getTeacherTimetable()`. Normalises DB day strings (`"monday"` → `"Mon"`) to match the component's day column format; builds live grid. Falls back to mock week when no DB slots.
+
+**Student spotlight** (`apps/teacher/app/page.tsx`) — Derived from `dbStudents` risk flags: `high` severity → `bad` tone, `medium` → `warn`, no flags → `good`. Falls back to `MOCK_SPOTLIGHT` when no DB students.
+
+All async fetches on the page (students, timetable, assessments) wrapped with `.catch()` guards.
+
+---
+
+## 33. Teacher App — Attendance KPI + Pending Grading + Class Selector (2026-07-03)
+
+**New query functions:**
+
+- **`getTeacherSectionAttendance(sectionIds, from, to)`** (added to `attendance.ts`) — Queries `attendance_marks` by `section_id IN sectionIds`; returns `avgPct` + per-day trend array. Feeds attendance KPI card and `TrendChart`.
+- **`getPendingGradingCount(teacherId)`** (added to `assessments.ts`) — Counts `assessment_results` rows where `score IS NULL` for this teacher's assessments. Feeds "Pending grading" KPI.
+
+**Analyse page (`apps/teacher/app/page.tsx`)** — Both new queries fetched with `.catch()` guards. Attendance KPI card shows real `avgPct`; `TrendChart` receives real per-day array (mock fallback when empty). Pending grading card shows real count.
+
+**Input page (`apps/teacher/app/input/page.tsx` + `TeacherInputPageClient.tsx`)** — `classOptions` derived from `teacherSections` (already fetched via `getTeacherWithSections`); passed as prop to `TeacherInputPageClient`. Falls back to hardcoded section list when empty.
+
+---
+
+## 34. Parent Dashboard — Full DB Wiring (2026-07-03)
+
+The parent dashboard was the largest single wiring effort — required new query file, new context provider, and changes to 8 files.
+
+### New query file: `packages/lib/src/queries/parents.ts`
+
+- **`getParentName(parentId)`** — `parents.full_name`.
+- **`getParentChildren(parentId)`** → `ParentChild[]` — via `student_parents JOIN students + sections`. Returns `student_id`, `full_name_en`, `initial`, `section_code`, `grade_level`.
+- **`getAttendanceForStudents(studentIds, from, to)`** → per-child attendance % + absences count. Used by parent dashboard and (later) parent invoice page.
+- **`getRubricAvgForStudents(studentIds, month)`** → per-child rubric average (latest month across all axes). Used by dashboard growth card.
+
+### New `child.tsx` context changes
+
+`ActiveChildContext` extended with `children: DemoChild[]` field. `ActiveChildProvider` accepts `realChildren?: DemoChild[]` prop — when provided, replaces `DEMO_CHILDREN` as the source of truth. Re-exported `readActiveChildId` with a default param so existing callers aren't broken.
+
+### `apps/parent/app/layout.tsx`
+
+Made `async`. Fetches `getCurrentParentId()` → `getParentName()` + `getParentChildren()` in parallel, all with `.catch()`. Maps DB children to `DemoChild[]` and passes `realChildren` to `ActiveChildProvider`. Renders real parent name in the topbar.
+
+### `apps/parent/app/page.tsx`
+
+New server component. Fetches invoices, report archive, per-child attendance, per-child rubric average. Wraps the dashboard in `<ParentDashboardClient data={...}>` context provider to distribute data without prop-drilling.
+
+### `ParentDashboardClient.tsx` (new file)
+
+Client context (`ParentDashData`) holding the four data payloads. Child components use `useParentDash()` to read data.
+
+### Components wired
+
+- **`ChildSwitcher`** + **`GreetHero`** — switched from `DEMO_CHILDREN` import to `children` from `useActiveChild()` context.
+- **`DashStatRow`** — reads real outstanding invoice balance, per-child attendance %, rubric average from `ParentDashContext`; falls back to mock values when no DB data.
+- **2×2 summary cards** — real invoice total/count, real report archive count + last generated date.
+
+---
+
+## 35. Parent App — Invoices + Messages + Calendar Page Sweep (2026-07-03)
+
+All parent app pages audited and wired to real DB queries. Pattern throughout: real data rendered when DB returns rows; mock fixture used as fallback so demo always looks populated.
+
+### Past Reports (`apps/parent/app/past-reports/page.tsx`)
+Already wired to `getReportArchive({ parentId })`. Added `.catch(() => [])` guard.
+
+### Invoices (`apps/parent/app/invoices/page.tsx` + client + components)
+
+**`page.tsx`** — Added `.catch(() => [])` on `getInvoicesForParent(parentId)`.
+
+**`InvoicesPageClient.tsx`** — Two bugs fixed:
+- Real data path always rendered household view regardless of which child was active.
+- `invoiceParentSummary()` was called with hardcoded `ALL_CHILDREN_ID` instead of `activeId`.
+- Fix: added per-child branch using `childRows.find(c => c.child_id === activeId)` when `activeId !== ALL_CHILDREN_ID`.
+
+**`components/HouseholdRows.tsx`** — Bug: `DEMO_CHILDREN.find(c => c.id === r.child_id)` — real UUIDs never match DEMO_CHILDREN IDs, so initials/grade always showed "?". Fix: switched to `const { setActive, children } = useActiveChild()` and `children.find(c => c.id === r.child_id)`.
+
+### Messages (`apps/parent/app/messages/page.tsx` + 3 components)
+
+**`page.tsx`** — Added `.catch(() => [])` on `listThreadsForParent()`.
+
+**`components/ChildFilter.tsx`** — Was building filter pills from `DEMO_CHILDREN`. Fixed to use `const { activeId, setActive, children } = useActiveChild()` and iterate real `children`.
+
+**`components/InboxList.tsx`** — `DEMO_CHILDREN.find(c => c.id === t.child_id)` for thread child label always returned undefined. Fixed to use `children` from `useActiveChild()`.
+
+**`components/NewMessageComposer.tsx`** — "About" select was populated from `DEMO_CHILDREN.map(...)`. Fixed to use `children` from `useActiveChild()`.
+
+### Calendar (`apps/parent/app/calendar/page.tsx`)
+
+Added `.catch(() => [])` on `getActivitiesForYear`. Added mock fallback: `import { MOCK_EVENTS }` and `return <CalendarClient events={events.length > 0 ? events : MOCK_EVENTS} />`.
+
+### Courses
+
+Page already wired. No changes needed.
+
+### Root cause — DEMO_CHILDREN vs real children
+
+Multiple components used `DEMO_CHILDREN` for ID lookups. Real children have UUIDs that never match DEMO_CHILDREN IDs, so all lookups silently returned `undefined`. The fix in every case: switch to `children` from `useActiveChild()` context, which is populated via `realChildren` prop injected server-side in the layout.
+
+---
+
+## 36. Student App — Full DB Wiring Sweep (2026-07-03)
+
+### Layout (`apps/student/app/layout.tsx`)
+
+Was hardcoded "Layla Al-Habsi · 10A" / "LA" avatar. Made the layout `async`. Now fetches `getCurrentStudentId().catch(() => null)` → `getStudentProfile(studentId).catch(() => null)`. Falls back to "Layla Al-Habsi" / "10A" / "LA" if DB returns nothing.
+
+**New query added to `packages/lib/src/queries/students.ts`:**
+```ts
+export type StudentProfile = {
+  full_name_en: string;
+  current_section_id: string | null;
+  section_code: string | null;
+  grade_level: string | null;
+};
+export async function getStudentProfile(studentId: string): Promise<StudentProfile | null>
+```
+`section_code` and `grade_level` are not direct columns on `students` — joined via `sections:current_section_id ( code, grade_level )`.
+
+### Dashboard (`apps/student/app/page.tsx`)
+
+Added parallel fetches: `getRubricScoresForStudent`, `getAttendanceForStudents` (30-day window), `getReportArchive`, `getStudentProfile`. Sequential fetch: `getNextExamForSections` (needs `sectionId` from profile). All with `.catch()` fallbacks.
+
+New derived values: rubric avg/delta, strongestAxis/buildingAxis, attPct/attAbsences, reportCount/lastReportLabel, nextExam. All KPI cards, growth card, attendance chip, and today strip now show real DB values with mock fallbacks.
+
+### Schedule (`apps/student/app/schedule/page.tsx`)
+
+Added `mockToPeriodSlots(mock: StudentPeriod[]): PeriodSlot[]` converter (mock type ≠ component type). Added `.catch(() => [])` on both auth fetches and `getStudentTimetable`. Falls back to `mockToPeriodSlots(MOCK_PERIODS)` when DB returns 0 rows. All three sub-components (`NowCard`, `TodayTimeline`, `WeekView`) were already correctly wired to props.
+
+### Homework (`apps/student/app/homework/page.tsx`)
+
+Added `.catch(() => null)` on `getCurrentStudentId()`. Added `.catch(() => [])` on `getHomeworkForStudent()`. Added mock fallback: `MOCK_HOMEWORK.map(h => ({ id, subject, title, due: h.due.slice(0, 10), lesson_date: h.due.slice(0, 10), ai_estimate: h.ai_estimate || null }))`. All four sub-components derive status from due dates — no mock-specific fields needed.
+
+**Vercel build fix:** Initial `lesson_date: null` caused a TypeScript error (`HomeworkRow.lesson_date` is `string`, not `string | null`). Changed to `h.due.slice(0, 10)`.
+
+### Past Reports (`apps/student/app/past-reports/page.tsx`)
+
+Added `.catch(() => null)` on `getCurrentStudentId()` and `.catch(() => [])` on `getReportArchive()`. Component already shows "No reports yet." for empty arrays — no mock fallback needed (`ArchivedReport` mock type doesn't map cleanly to `ReportArchiveRow`).
+
+### Growth (`apps/student/app/growth/page.tsx`)
+
+Added `.catch()` guards on all four fetches. Added module-level mock converters:
+
+```ts
+const MOCK_SCORES: RubricAxisScore[] = MOCK_GROWTH.map(h => ({
+  axis_code: h.axis, this_mo: h.this_mo, last_mo: h.last_mo, history: h.history,
+}));
+
+const MOCK_GOAL_ROWS: GoalRow[] = MOCK_GOALS.map(g => ({
+  id: g.id, kind: g.axis, title: g.title, description: g.detail,
+  due_on: null, status: g.status === "done" ? "achieved" : g.status === "behind" ? "dropped" : "active",
+  metric: null, target_value: null,
+  latest_progress: g.progress, last_checkin: g.last_update,
+}));
+```
+
+Falls back to these when DB returns 0 rows for each.
+
+Five components (`CurrentGrades`, `SubjectPercentiles`, `MonthOverMonthDelta`, `ImprovementPlan`, `UniversityPlacementSignal`) are intentionally static — no DB tables exist for grades, percentiles, or placement signals yet. Left unchanged.
+
+---
+
+## 37. Nav / Layout Identity Wiring — All Apps (2026-07-03)
+
+All 4 nav components (`AdminNav`, `ParentNav`, `StudentNav`, `TeacherNav`) are pure link lists — no DB wiring needed. The DB wiring concern was in the topbar identity slots (name, avatar initials) in each layout.
+
+### New query functions added
+
+**`packages/lib/src/queries/auth.ts`:**
+```ts
+getCurrentAdminId(): Promise<string | null>  // looks up school_admins by user_id
+getAdminName(adminId: string): Promise<string>  // school_admins.full_name
+```
+
+**`packages/lib/src/queries/teachers.ts`:**
+```ts
+getTeacherName(teacherId: string): Promise<string>  // display_name ?? full_name
+```
+
+### Layouts fixed (6 total)
+
+**`apps/teacher/app/layout.tsx`** — Made async. Fetches `getCurrentTeacherId()` → `getTeacherName()`. Displays real name + initials. Falls back to "Ms Swart"/"MS".
+
+**`apps/admin/app/layout.tsx`** — Made async. Fetches `getCurrentAdminId()` → `getAdminName()`. Falls back to "Principal"/"PR".
+
+**`apps/portal/app/teacher/layout.tsx`** — Same as teacher standalone.
+
+**`apps/portal/app/admin/layout.tsx`** — Same as admin standalone.
+
+**`apps/portal/app/student/layout.tsx`** — Made async. Fetches `getCurrentStudentId()` → `getStudentProfile()`. Shows real name + section code + initials. Falls back to "Layla Al-Habsi · 10A"/"LA".
+
+**`apps/portal/app/parent/layout.tsx`** — Made async. Fetches `getCurrentParentId()` → `getParentName()` + `getParentChildren()`. Maps children to `DemoChild[]` and passes as `realChildren` prop to `ActiveChildProvider`. Critical bug fix: without this, the portal parent's child switcher always showed `DEMO_CHILDREN` (Layla/Omar/Yasmin) instead of the real logged-in parent's children. All `.catch()` fallbacks in place. Falls back to "Mr Al-Habsi" display name.
+
+### Already wired (no changes needed)
+
+- `apps/student/app/layout.tsx` — wired in §27 (standalone student layout)
+- `apps/parent/app/layout.tsx` — already fully wired in a prior session
