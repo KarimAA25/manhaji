@@ -112,6 +112,47 @@ export async function getTeacherTimetable(teacherId: string, academicYearId: str
   });
 }
 
+export type TeacherDayLoad = {
+  teacher_id: string;
+  full_name: string;
+  by_day: Record<string, number>;
+  total: number;
+};
+
+export async function getTeacherDailyLoads(academicYearId: string): Promise<TeacherDayLoad[]> {
+  const db = await serverClient();
+  const { data, error } = await db
+    .from("timetable_slots")
+    .select(`
+      teacher_id,
+      teachers ( full_name ),
+      bell_periods ( day_of_week, is_teaching )
+    `)
+    .eq("academic_year_id", academicYearId)
+    .not("teacher_id", "is", null);
+  if (error) throw new Error(error.message);
+
+  const byTeacher = new Map<string, { full_name: string; by_day: Record<string, number> }>();
+  for (const row of data ?? []) {
+    if (!row.teacher_id) continue;
+    const t = row.teachers as { full_name: string } | null;
+    const b = row.bell_periods as { day_of_week: string; is_teaching: boolean | null } | null;
+    if (!t || !b?.day_of_week || b.is_teaching === false) continue;
+    const entry = byTeacher.get(row.teacher_id) ?? { full_name: t.full_name, by_day: {} };
+    entry.by_day[b.day_of_week] = (entry.by_day[b.day_of_week] ?? 0) + 1;
+    byTeacher.set(row.teacher_id, entry);
+  }
+
+  return Array.from(byTeacher.entries())
+    .map(([teacher_id, { full_name, by_day }]) => ({
+      teacher_id,
+      full_name,
+      by_day,
+      total: Object.values(by_day).reduce((s, n) => s + n, 0),
+    }))
+    .sort((a, b) => b.total - a.total);
+}
+
 export async function getSchoolTimetable(academicYearId: string) {
   const db = await serverClient();
   const { data, error } = await db
