@@ -9,8 +9,9 @@ import type { StudentStatus } from "@manhaj/lib/mock-students";
 import { getCurrentTeacherId, getCurrentAcademicYearId } from "@manhaj/lib/queries/auth";
 import { getTeacherWithSections } from "@manhaj/lib/queries/teachers";
 import { getStudentsForSections } from "@manhaj/lib/queries/students";
-import { getAssessmentsForTeacher } from "@manhaj/lib/queries/assessments";
+import { getAssessmentsForTeacher, getPendingGradingCount } from "@manhaj/lib/queries/assessments";
 import { getTeacherTimetable } from "@manhaj/lib/queries/timetable";
+import { getTeacherSectionAttendance } from "@manhaj/lib/queries/attendance";
 
 export const dynamic = "force-dynamic";
 
@@ -46,9 +47,16 @@ export default async function TeacherAnalyzePage() {
     .map(r => (r.sections as { id: string } | null)?.id)
     .filter((id): id is string => id != null);
 
-  const [dbStudents, timetableSlots] = await Promise.all([
+  // Compute date window: last 30 days
+  const today = new Date();
+  const toStr  = today.toISOString().slice(0, 10);
+  const fromStr = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+
+  const [dbStudents, timetableSlots, attResult, pendingGrading] = await Promise.all([
     sectionIds.length > 0 ? getStudentsForSections(sectionIds).catch(() => []) : Promise.resolve([]),
     teacherId && academicYearId ? getTeacherTimetable(teacherId, academicYearId).catch(() => []) : Promise.resolve([]),
+    sectionIds.length > 0 ? getTeacherSectionAttendance(sectionIds, fromStr, toStr).catch(() => ({ avgPct: 0, trend: [] })) : Promise.resolve({ avgPct: 0, trend: [] }),
+    teacherId && sectionIds.length > 0 ? getPendingGradingCount(teacherId, sectionIds).catch(() => 0) : Promise.resolve(0),
   ]);
 
   // Map DB students to TeacherStudentRow shape (assessment/att fields default for now)
@@ -135,21 +143,25 @@ export default async function TeacherAnalyzePage() {
         </div>
         <div className="ta-kpi-card">
           <div className="ta-kpi-l">Avg attendance my classes</div>
-          <div className="ta-kpi-v">94%</div>
-          <div className="ta-kpi-d">school avg 96%</div>
+          <div className="ta-kpi-v">{attResult.avgPct > 0 ? `${attResult.avgPct}%` : "94%"}</div>
+          <div className="ta-kpi-d">last 30 days</div>
         </div>
         <div className="ta-kpi-card">
           <div className="ta-kpi-l">Pending grading</div>
-          <div className="ta-kpi-v ta-kpi-warn">8</div>
-          <div className="ta-kpi-d">essays · submitted yesterday</div>
+          <div className={`ta-kpi-v${pendingGrading > 0 ? " ta-kpi-warn" : ""}`}>{pendingGrading}</div>
+          <div className="ta-kpi-d">unscored submissions</div>
         </div>
       </div>
 
       <h3 className="ta-section-head">My week</h3>
       <TeacherMyWeek slots={timetableSlots.length > 0 ? timetableSlots : undefined} />
 
-      <h3 className="ta-section-head">Attendance · my classes · last 17 days</h3>
-      <TrendChart points={SWART_ATT} target={95} title="Attendance · my sections" />
+      <h3 className="ta-section-head">Attendance · my classes · last 30 days</h3>
+      <TrendChart
+        points={attResult.trend.length > 0 ? attResult.trend : SWART_ATT}
+        target={95}
+        title="Attendance · my sections"
+      />
 
       <h3 className="ta-section-head">Recent assessments</h3>
       <div className="ta-assess-card">

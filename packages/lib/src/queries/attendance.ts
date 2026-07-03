@@ -284,3 +284,46 @@ export async function getAbsencesRequiringCoverage(sectionId: string, date: stri
   if (error) throw new Error(error.message);
   return data;
 }
+
+export type TeacherAttendanceResult = {
+  avgPct: number;
+  trend: Array<{ date: string; pct: number }>;
+};
+
+export async function getTeacherSectionAttendance(
+  sectionIds: string[],
+  from: string,
+  to: string,
+): Promise<TeacherAttendanceResult> {
+  if (sectionIds.length === 0) return { avgPct: 0, trend: [] };
+  const db = await serverClient();
+  const { data, error } = await db
+    .from("attendance_marks")
+    .select("marked_on, status")
+    .in("section_id", sectionIds)
+    .gte("marked_on", from)
+    .lte("marked_on", to)
+    .order("marked_on");
+  if (error) throw new Error(error.message);
+
+  const byDate = new Map<string, { total: number; present: number }>();
+  let grandTotal = 0;
+  let grandPresent = 0;
+  for (const row of data ?? []) {
+    const d = byDate.get(row.marked_on) ?? { total: 0, present: 0 };
+    d.total++;
+    grandTotal++;
+    if (row.status === "present" || row.status === "late") { d.present++; grandPresent++; }
+    byDate.set(row.marked_on, d);
+  }
+
+  const trend = Array.from(byDate.entries()).map(([date, { total, present }]) => ({
+    date: date.slice(5),   // "MM-DD"
+    pct: total > 0 ? Math.round((present / total) * 100) : 0,
+  }));
+
+  return {
+    avgPct: grandTotal > 0 ? Math.round((grandPresent / grandTotal) * 100) : 0,
+    trend,
+  };
+}

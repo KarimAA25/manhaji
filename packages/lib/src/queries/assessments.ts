@@ -48,3 +48,27 @@ export async function getAssessmentsForTeacher(
     };
   });
 }
+
+export async function getPendingGradingCount(
+  teacherId: string,
+  sectionIds: string[],
+): Promise<number> {
+  if (sectionIds.length === 0) return 0;
+  const db = await serverClient();
+  // Fetch assessment IDs for this teacher in these sections
+  const { data: asmts, error: ae } = await db
+    .from("assessments")
+    .select("id")
+    .eq("teacher_id", teacherId)
+    .in("section_id", sectionIds);
+  if (ae || !asmts?.length) return 0;
+
+  const assessmentIds = asmts.map(a => a.id);
+  const { count, error: re } = await db
+    .from("assessment_results")
+    .select("id", { count: "exact", head: true })
+    .in("assessment_id", assessmentIds)
+    .is("score", null);
+  if (re) return 0;
+  return count ?? 0;
+}

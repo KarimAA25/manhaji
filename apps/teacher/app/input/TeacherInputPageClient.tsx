@@ -5,20 +5,20 @@ import { generateHomework, type Question } from "@manhaj/lib/homework-generator"
 
 type StudentOption = { id: string; full_name: string; section_code: string };
 
-type ClassOption = {
+export type ClassOption = {
   id:      string;
   label:   string;
   section: string;
   subject: string;
 };
 
-const CLASS_OPTIONS: ClassOption[] = [
-  { id: "10a-history-mon",   label: "10A · History · Mon P3",     section: "10A",   subject: "History"   },
-  { id: "10a-geography-tue", label: "10A · Geography · Tue P4",   section: "10A",   subject: "Geography" },
-  { id: "10a-mun-wed",       label: "10A · MUN club · Wed P5",    section: "10A",   subject: "MUN"       },
-  { id: "9a-history-thu",    label: "9A · History · Thu P4",      section: "9A",    subject: "History"   },
-  { id: "11as-english-tue",  label: "11 AS · English · Tue P3",   section: "11 AS", subject: "English"   },
-  { id: "12a2-english-mon",  label: "12 A2 · English · Mon P5",   section: "12 A2", subject: "English"   },
+const FALLBACK_CLASS_OPTIONS: ClassOption[] = [
+  { id: "10a-history-mon",   label: "10A · History",     section: "10A",   subject: "History"   },
+  { id: "10a-geography-tue", label: "10A · Geography",   section: "10A",   subject: "Geography" },
+  { id: "10a-mun-wed",       label: "10A · MUN club",    section: "10A",   subject: "MUN"       },
+  { id: "9a-history-thu",    label: "9A · History",      section: "9A",    subject: "History"   },
+  { id: "11as-english-tue",  label: "11 AS · English",   section: "11 AS", subject: "English"   },
+  { id: "12a2-english-mon",  label: "12 A2 · English",   section: "12 A2", subject: "English"   },
 ];
 
 type Severity = "minor" | "major" | "positive";
@@ -31,8 +31,9 @@ type StudentNote = {
   severity:     Severity;
 };
 
-export default function TeacherInputPageClient({ students }: { students: StudentOption[] }) {
-  const [selectedClass, setSelectedClass] = useState<ClassOption>(CLASS_OPTIONS[0]);
+export default function TeacherInputPageClient({ students, classOptions = [] }: { students: StudentOption[]; classOptions?: ClassOption[] }) {
+  const options = classOptions.length > 0 ? classOptions : FALLBACK_CLASS_OPTIONS;
+  const [selectedClass, setSelectedClass] = useState<ClassOption>(options[0]);
   const [summary,       setSummary]       = useState("");
   const [studentSearch, setStudentSearch] = useState("");
   const [notes,         setNotes]         = useState<StudentNote[]>([]);
@@ -45,7 +46,7 @@ export default function TeacherInputPageClient({ students }: { students: Student
   const [pushed,        setPushed]        = useState(false);
 
   function handleClassChange(id: string) {
-    const opt = CLASS_OPTIONS.find(c => c.id === id) ?? CLASS_OPTIONS[0];
+    const opt = options.find(c => c.id === id) ?? options[0];
     setSelectedClass(opt);
     setQuestions([]);
     setEditedQ({});
@@ -140,7 +141,7 @@ export default function TeacherInputPageClient({ students }: { students: Student
             onChange={e => handleClassChange(e.target.value)}
             aria-label="Select class"
           >
-            {CLASS_OPTIONS.map(c => (
+            {options.map(c => (
               <option key={c.id} value={c.id}>{c.label}</option>
             ))}
           </select>
