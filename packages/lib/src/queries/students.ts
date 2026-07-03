@@ -104,6 +104,7 @@ export async function getBehaviourNotes(studentIds?: string[], limit = 200) {
     .from("behaviour_notes")
     .select(`
       id, student_id, observed_on, kind, note,
+      students ( full_name_en, sections:current_section_id ( code ) ),
       teachers ( full_name )
     `)
     .order("observed_on", { ascending: false })

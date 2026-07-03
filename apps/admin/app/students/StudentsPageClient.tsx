@@ -36,7 +36,25 @@ import TeacherFeedback        from "./components/TeacherFeedback";
 import PeerGroupComparison    from "./components/PeerGroupComparison";
 import BulkParentComms        from "./components/BulkParentComms";
 
-export default function StudentsPageClient({ dbStudents }: { dbStudents: AdminStudentRow[] }) {
+type ApplicantRow = { id: string; full_name: string; target_grade: string | null; stage: string | null; source: string | null };
+type BehaviourNoteRow = { id: string; student_id: string; observed_on: string | null; kind: string | null; note: string | null; students: { full_name_en: string; sections: { code: string } | null } | null };
+
+function mapStageToStatus(stage: string | null): "review" | "hold" | "decided" {
+  if (!stage) return "review";
+  if (stage === "hold") return "hold";
+  if (stage === "review" || stage === "screening") return "review";
+  return "decided";
+}
+
+export default function StudentsPageClient({
+  dbStudents,
+  applicants = [],
+  behaviourNotes = [],
+}: {
+  dbStudents: AdminStudentRow[];
+  applicants?: ApplicantRow[];
+  behaviourNotes?: BehaviourNoteRow[];
+}) {
   // Use DB students if available, fall back to mock for demo
   const students   = dbStudents.length > 0
     ? dbStudents.map(s => ({
@@ -54,8 +72,31 @@ export default function StudentsPageClient({ dbStudents }: { dbStudents: AdminSt
         flags: s.risk_flags.map(f => f.category),
       }))
     : MOCK_STUDENTS;
-  const incidents  = MOCK_INCIDENTS;
-  const admissions = MOCK_ADMISSIONS;
+
+  const incidents = behaviourNotes.length > 0
+    ? behaviourNotes.map(n => ({
+        id: n.id,
+        student_id: n.student_id,
+        student_name: n.students?.full_name_en ?? "Unknown",
+        section_code: n.students?.sections?.code ?? "—",
+        ts: n.observed_on ?? new Date().toISOString().slice(0, 10),
+        kind: (n.kind === "positive" || n.kind === "negative" ? n.kind : "neutral") as "positive" | "negative" | "neutral",
+        body: n.note ?? "",
+      }))
+    : MOCK_INCIDENTS;
+
+  const admissions = applicants.length > 0
+    ? applicants.map(a => ({
+        id: a.id,
+        full_name: a.full_name,
+        target_grade: a.target_grade ?? "—",
+        source: a.source ?? "—",
+        ai_score: 0,
+        ai_band: "—" as const,
+        status: mapStageToStatus(a.stage),
+      }))
+    : MOCK_ADMISSIONS;
+
   const summary    = studentsCohortSummary(students, incidents, admissions);
   const cohort     = cohortHeat(students);
 
@@ -148,7 +189,7 @@ export default function StudentsPageClient({ dbStudents }: { dbStudents: AdminSt
 
       <QuickSearch students={students} />
       <CohortHeatmap rows={cohort} />
-      <DemographicBreakdown />
+      <DemographicBreakdown students={dbStudents.length > 0 ? dbStudents : undefined} />
       <ReEnrollmentFunnel />
 
       {/* RiskRoster respects the live filter */}
