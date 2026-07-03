@@ -169,3 +169,35 @@ export async function getSchoolTimetable(academicYearId: string) {
   if (error) throw new Error(error.message);
   return data ?? [];
 }
+
+export type RoomUtilRow = { code: string; pct: number };
+
+export async function getRoomUtilization(academicYearId: string): Promise<RoomUtilRow[]> {
+  const db = await serverClient();
+  const [{ data: slots, error: sErr }, { data: bells, error: bErr }] = await Promise.all([
+    db.from("timetable_slots")
+      .select("room_id, rooms ( code )")
+      .eq("academic_year_id", academicYearId)
+      .not("room_id", "is", null),
+    db.from("bell_periods")
+      .select("id")
+      .eq("academic_year_id", academicYearId)
+      .eq("is_teaching", true),
+  ]);
+  if (sErr) throw new Error(sErr.message);
+  if (bErr) throw new Error(bErr.message);
+
+  const totalPeriods = bells?.length ?? 1;
+  const byRoom = new Map<string, { code: string; count: number }>();
+  for (const s of slots ?? []) {
+    if (!s.room_id) continue;
+    const rm = s.rooms as { code: string } | null;
+    if (!rm?.code) continue;
+    const r = byRoom.get(s.room_id) ?? { code: rm.code, count: 0 };
+    r.count++;
+    byRoom.set(s.room_id, r);
+  }
+  return Array.from(byRoom.values())
+    .map(r => ({ code: r.code, pct: Math.min(100, Math.round((r.count / totalPeriods) * 100)) }))
+    .sort((a, b) => b.pct - a.pct);
+}
