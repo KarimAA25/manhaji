@@ -104,6 +104,57 @@ export async function getCommTemplates() {
   return data ?? [];
 }
 
+export type SectionDraftRow = {
+  section_id: string;
+  section_code: string;
+  total_students: number;
+  drafted: number;
+  reviewed: number;
+};
+
+export async function getSectionDraftProgress(): Promise<SectionDraftRow[]> {
+  const db = await serverClient();
+  const [{ data: students, error: stuErr }, { data: drafts, error: draftErr }] = await Promise.all([
+    db.from("students")
+      .select("current_section_id, sections:current_section_id ( id, code )")
+      .is("withdrawn_on", null),
+    db.from("comm_drafts")
+      .select("status, students ( current_section_id )"),
+  ]);
+  if (stuErr) throw new Error(stuErr.message);
+  if (draftErr) throw new Error(draftErr.message);
+
+  // Count students per section for target
+  const totalBySection = new Map<string, { code: string; count: number }>();
+  for (const s of students ?? []) {
+    if (!s.current_section_id) continue;
+    const sec = s.sections as { id: string; code: string } | null;
+    const entry = totalBySection.get(s.current_section_id) ?? { code: sec?.code ?? "—", count: 0 };
+    entry.count++;
+    totalBySection.set(s.current_section_id, entry);
+  }
+
+  // Count drafts per section
+  const draftsBySection = new Map<string, { drafted: number; reviewed: number }>();
+  for (const d of drafts ?? []) {
+    const stu = d.students as { current_section_id: string | null } | null;
+    if (!stu?.current_section_id) continue;
+    const r = draftsBySection.get(stu.current_section_id) ?? { drafted: 0, reviewed: 0 };
+    r.drafted++;
+    const st = d.status as string | null;
+    if (st === "review" || st === "ready" || st === "sent") r.reviewed++;
+    draftsBySection.set(stu.current_section_id, r);
+  }
+
+  return Array.from(totalBySection.entries())
+    .map(([section_id, { code, count }]) => {
+      const d = draftsBySection.get(section_id) ?? { drafted: 0, reviewed: 0 };
+      return { section_id, section_code: code, total_students: count, drafted: d.drafted, reviewed: d.reviewed };
+    })
+    .filter(r => r.total_students > 0)
+    .sort((a, b) => a.section_code.localeCompare(b.section_code, undefined, { numeric: true }));
+}
+
 export async function getAuditLogRecent(limit = 50) {
   const db = await serverClient();
   const { data, error } = await db

@@ -6,6 +6,7 @@ import {
   MOCK_SECTIONS, MOCK_AUDIT, reportKpis,
 } from "@manhaj/lib/mock-reports";
 import type { PipelineStat } from "@manhaj/lib/mock-reports";
+import type { SectionDraftRow } from "@manhaj/lib/queries/reports";
 import { reportsAdminSummary } from "@manhaj/lib/summary";
 
 import { AiBriefingHeader } from "@manhaj/ui";
@@ -36,10 +37,12 @@ export default function ReportsPageClient({
   pipelineCounts,
   templates = [],
   auditLog  = [],
+  sectionProgress = [],
 }: {
   pipelineCounts: Record<string, number>;
   templates?: DbTemplate[];
   auditLog?:  DbAuditRow[];
+  sectionProgress?: SectionDraftRow[];
 }) {
   // Build PipelineStat[] from real counts so PipelineFunnel can receive real data in future
   const pipeline: PipelineStat[] = (["draft","review","ready","sent","opened","replied","bounced"] as const).map(stage => ({
@@ -109,9 +112,9 @@ export default function ReportsPageClient({
 
       <FilterChipRow chips={chips} onToggle={k => setActive(prev => prev === k ? null : k)} />
 
-      <KpiRow />
+      <KpiRow pipeline={pipeline} sectionProgress={sectionProgress} />
       <PipelineFunnel pipeline={pipeline} />
-      <SectionProgress />
+      <SectionProgress sections={sectionProgress.length > 0 ? sectionProgress : undefined} />
       <ScheduleNextBatch />
       <TemplatesShelf templates={templates} />
       <EngagementHeatmap />
