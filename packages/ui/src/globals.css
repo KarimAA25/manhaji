@@ -4312,3 +4312,141 @@ h1 { font-size: 20px; margin: 0 0 4px; font-weight: 700; }
 .gr-delta-card.up   .gr-delta-item-val { color: var(--color-success); }
 .gr-delta-card.flat .gr-delta-item-val { color: var(--color-muted); }
 .gr-delta-card.down .gr-delta-item-val { color: var(--color-danger); }
+
+/* ── Regulator Reporting Hub ───────────────────────────────────────────── */
+.reg-tabs-row {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; margin-bottom: 20px; flex-wrap: wrap;
+}
+.reg-tabs { display: flex; gap: 6px; }
+.reg-tab {
+  padding: 6px 16px; border-radius: 20px;
+  border: 1.5px solid var(--color-border);
+  font-size: 12px; font-weight: 700; cursor: pointer;
+  background: transparent; color: var(--color-muted);
+  transition: background .15s, color .15s;
+}
+.reg-tab.active { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
+.reg-tabs-hint { font-size: 11px; color: var(--color-muted); }
+
+.reg-banner {
+  display: flex; gap: 12px;
+  background: #EBF8FF; border: 1px solid #BEE3F8;
+  border-left: 4px solid var(--color-primary);
+  border-radius: 8px; padding: 14px 16px; margin-bottom: 28px;
+}
+.reg-banner-avatar {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--color-primary); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 800; flex-shrink: 0;
+}
+.reg-banner-body { flex: 1; }
+.reg-banner-title { font-size: 13px; font-weight: 700; color: var(--color-ink); margin-bottom: 4px; }
+.reg-banner-detail { font-size: 12px; color: var(--color-ink); line-height: 1.5; }
+.reg-banner-by { font-size: 10.5px; color: var(--color-muted); margin-top: 6px; }
+
+.reg-section-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin: 28px 0 12px;
+}
+.reg-section-label {
+  font-size: 10.5px; font-weight: 700; letter-spacing: .08em;
+  color: var(--color-muted); text-transform: uppercase;
+}
+.reg-section-hint { font-size: 11px; color: var(--color-muted); }
+.reg-history-link {
+  font-size: 11px; color: var(--color-primary); font-weight: 600;
+  background: none; border: none; cursor: pointer; padding: 0;
+}
+
+.reg-upcoming-row {
+  display: flex; align-items: flex-start; gap: 16px;
+  border: 1px solid var(--color-border); border-radius: 8px;
+  padding: 14px 16px; margin-bottom: 10px;
+}
+.reg-upcoming-body { flex: 1; min-width: 0; }
+.reg-upcoming-title { font-size: 13px; font-weight: 700; color: var(--color-ink); }
+.reg-upcoming-desc { font-size: 11.5px; color: var(--color-muted); margin-top: 3px; line-height: 1.5; }
+.reg-upcoming-form { font-weight: 600; }
+.reg-upcoming-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; flex-shrink: 0; }
+.reg-badge {
+  padding: 3px 10px; border-radius: 20px;
+  font-size: 10.5px; font-weight: 700; white-space: nowrap;
+}
+.reg-badge.urgent  { background: #FED7D7; color: #C53030; }
+.reg-badge.soon    { background: #FEEBC8; color: #C05621; }
+.reg-badge.upcoming{ background: #EBF8FF; color: #2B6CB0; }
+.reg-upcoming-btns { display: flex; gap: 6px; }
+.reg-btn {
+  padding: 5px 12px; border-radius: 6px;
+  font-size: 11.5px; font-weight: 600; cursor: pointer;
+  border: 1.5px solid var(--color-border);
+  background: transparent; color: var(--color-ink);
+}
+.reg-btn.primary {
+  background: var(--color-primary); color: #fff;
+  border-color: var(--color-primary);
+}
+
+.reg-gen-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+}
+@media (max-width: 900px) { .reg-gen-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .reg-gen-grid { grid-template-columns: 1fr; } }
+.reg-gen-tile {
+  border: 1px solid var(--color-border); border-radius: 8px;
+  padding: 14px 16px; display: flex; flex-direction: column;
+}
+.reg-gen-icon  { font-size: 20px; margin-bottom: 8px; }
+.reg-gen-title { font-size: 13px; font-weight: 700; color: var(--color-ink); margin-bottom: 4px; }
+.reg-gen-desc  { font-size: 11.5px; color: var(--color-muted); line-height: 1.5; flex: 1; margin-bottom: 12px; }
+.reg-gen-foot  { display: flex; justify-content: space-between; align-items: center; }
+.reg-gen-last  { font-size: 10.5px; color: var(--color-muted); }
+.reg-gen-formats { display: flex; gap: 5px; }
+.reg-format-tag {
+  font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 4px;
+  background: var(--color-soft); color: var(--color-muted);
+  cursor: pointer; border: none;
+}
+
+.reg-tbl-wrap { overflow-x: auto; }
+.reg-recent-tbl { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 580px; }
+.reg-recent-tbl th {
+  padding: 8px 10px; text-align: left;
+  font-size: 10px; font-weight: 700; color: var(--color-muted);
+  text-transform: uppercase; letter-spacing: .06em;
+  border-bottom: 2px solid var(--color-border);
+}
+.reg-recent-tbl td { padding: 10px 10px; border-bottom: 1px solid var(--color-soft); }
+.reg-recent-tbl tr:last-child td { border-bottom: none; }
+.reg-recent-nm { font-weight: 600; color: var(--color-ink); }
+.reg-status-chip {
+  padding: 2px 8px; border-radius: 20px;
+  font-size: 10px; font-weight: 700; white-space: nowrap;
+}
+.reg-status-chip.approved        { background: #C6F6D5; color: #276749; }
+.reg-status-chip.submitted       { background: #BEE3F8; color: #2C5282; }
+.reg-status-chip.under_review    { background: #FEEBC8; color: #C05621; }
+.reg-status-chip.rejected        { background: #FED7D7; color: #C53030; }
+.reg-status-chip.resubmit_required { background: #FED7D7; color: #C53030; }
+.reg-status-chip.draft           { background: #EDF2F7; color: #4A5568; }
+.reg-download { font-size: 11px; color: var(--color-primary); text-decoration: none; font-weight: 600; }
+
+.reg-compliance-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+  margin-bottom: 40px;
+}
+@media (max-width: 900px) { .reg-compliance-grid { grid-template-columns: repeat(2, 1fr); } }
+.reg-compliance-tile {
+  border: 1px solid var(--color-border); border-radius: 8px; padding: 14px 16px;
+}
+.reg-compliance-cat {
+  font-size: 9.5px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--color-muted); margin-bottom: 6px;
+}
+.reg-compliance-status { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+.reg-compliance-status.good { color: #276749; }
+.reg-compliance-status.warn { color: #C05621; }
+.reg-compliance-status.bad  { color: var(--color-danger); }
+.reg-compliance-desc { font-size: 11px; color: var(--color-muted); line-height: 1.5; }

@@ -165,3 +165,69 @@ export async function getAuditLogRecent(limit = 50) {
   if (error) throw new Error(error.message);
   return data ?? [];
 }
+
+export type RegulatorySubmissionRow = {
+  id: string;
+  report_name: string;
+  regulator: string | null;
+  period_label: string;
+  submitted_at: string | null;
+  submitted_by: string | null;
+  status: string;
+  file_url: string | null;
+};
+
+export async function getRegulatorySubmissions(limit = 10): Promise<RegulatorySubmissionRow[]> {
+  const db = await serverClient();
+  const { data, error } = await db
+    .from("report_submissions")
+    .select(`
+      id, period_label, submitted_at, submitted_by, status, file_url,
+      regulatory_report_catalog ( name, regulator )
+    `)
+    .order("submitted_at", { ascending: false })
+    .limit(limit);
+  if (error) throw new Error(error.message);
+  return (data ?? []).map(r => {
+    const cat = r.regulatory_report_catalog as { name: string; regulator: string | null } | null;
+    return {
+      id: r.id,
+      report_name: cat?.name ?? "—",
+      regulator: cat?.regulator ?? null,
+      period_label: r.period_label,
+      submitted_at: r.submitted_at,
+      submitted_by: r.submitted_by,
+      status: r.status,
+      file_url: r.file_url,
+    };
+  });
+}
+
+export type RegulatoryUpcomingRow = {
+  id: string;
+  name: string;
+  regulator: string | null;
+  report_type: string;
+  description: string | null;
+  deadline_cadence: string | null;
+  template_ref: string | null;
+};
+
+export async function getRegulatoryUpcoming(): Promise<RegulatoryUpcomingRow[]> {
+  const db = await serverClient();
+  const { data, error } = await db
+    .from("regulatory_report_catalog")
+    .select("id, name, regulator, report_type, description, deadline_cadence, template_ref")
+    .eq("is_active", true)
+    .order("name");
+  if (error) throw new Error(error.message);
+  return (data ?? []).map(r => ({
+    id: r.id,
+    name: r.name,
+    regulator: r.regulator,
+    report_type: r.report_type,
+    description: r.description,
+    deadline_cadence: r.deadline_cadence,
+    template_ref: r.template_ref,
+  }));
+}
