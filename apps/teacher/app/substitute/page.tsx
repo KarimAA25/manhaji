@@ -4,6 +4,7 @@ import {
   getLessonsForSections,
   getStudentFlagsForSections,
   getSubstituteSheet,
+  getFreePeriods,
 } from "@manhaj/lib/queries/substitute";
 import { serverClient } from "@manhaj/lib";
 import SubstituteClient from "./SubstituteClient";
@@ -48,10 +49,11 @@ export default async function SubstitutePage({
   const sectionIds = [...new Set(slots.map(s => s.sectionId))];
   const weekStart  = new Date(new Date(forDate).getTime() - 7 * 86400000).toISOString().slice(0, 10);
 
-  const [lessons, flags, sheet] = await Promise.all([
+  const [lessons, flags, sheet, freePeriods] = await Promise.all([
     sectionIds.length ? getLessonsForSections(sectionIds, forDate).catch(() => [])             : Promise.resolve([]),
     (sectionIds.length && teacherId) ? getStudentFlagsForSections(sectionIds, teacherId, weekStart).catch(() => []) : Promise.resolve([]),
     teacherId ? getSubstituteSheet(teacherId, forDate).catch(() => null)                       : Promise.resolve(null),
+    academicYearId ? getFreePeriods(academicYearId, forDate).catch(() => [])                  : Promise.resolve([]),
   ]);
 
   return (
@@ -60,6 +62,7 @@ export default async function SubstitutePage({
       lessons={lessons}
       flags={flags}
       sheet={sheet}
+      freePeriods={freePeriods}
       teacherName={teacherInfo.teacherName}
       teacherId={teacherId ?? ""}
       forDate={forDate}

@@ -4,12 +4,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const LINKS: Array<{ href: string; label: string }> = [
-  { href: "/parent",               label: "Dashboard"       },
-  { href: "/parent/courses",       label: "Course Selection"},
-  { href: "/parent/past-reports",  label: "Past Reports"    },
-  { href: "/parent/invoices",      label: "Invoices"        },
-  { href: "/parent/messages",      label: "Messages"        },
-  { href: "/parent/calendar",      label: "Calendar"        },
+  { href: "/parent",                    label: "Dashboard"        },
+  // { href: "/parent/courses",         label: "Course Selection" },
+  // { href: "/parent/past-reports",    label: "Past Reports"     },
+  { href: "/parent/permission-slip",    label: "Permission Slip"  },
+  { href: "/parent/invoices",            label: "Invoices"          },
+  { href: "/parent/sibling-comparison", label: "Sibling Comparison"},
+  // { href: "/parent/messages",         label: "Messages"          },
+  { href: "/parent/calendar",           label: "Calendar"          },
 ];
 
 export default function ParentNav() {

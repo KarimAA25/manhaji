@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import type { DaySlot, SlotLesson, StudentFlag, SubSheetRow } from "@manhaj/lib/queries/substitute";
+import type { DaySlot, SlotLesson, StudentFlag, SubSheetRow, FreePeriod } from "@manhaj/lib/queries/substitute";
 import { acknowledgeSheet } from "../actions/substitute";
 
 type Props = {
@@ -10,6 +10,7 @@ type Props = {
   lessons: SlotLesson[];
   flags: StudentFlag[];
   sheet: SubSheetRow | null;
+  freePeriods: FreePeriod[];
   teacherName: string;
   teacherId: string;
   forDate: string;
@@ -38,6 +39,12 @@ const MOCK_LESSONS: SlotLesson[] = [
   { id: "l6", sectionId: "g5c", topic: "Decimal fractions · Introduction", learningObjective: "Open with a real-world example (money — I need actually). Teach the concept of 1/100 ('100 Francs' concept). Stop after Slide 8 and have students do examples 1–5 in groups of 8.", homeworkDescription: null },
 ];
 
+const GENERIC_CHECKLIST_ITEMS = [
+  "Take attendance at the start of class",
+  "Follow the lesson plan outlined above",
+  "Leave any collected work on the teacher's desk",
+];
+
 const MOCK_CHECKLIST: Record<string, string[]> = {
   g5b_p1: ["Fraction strips activity — open file 'Fri Day'", "Fraction strips — call 'Fri Day'", "Smartboard equivalence visualiser", "Homework task on Mr. Tariq's desk"],
   g5a:    ["Flash cards (cabinet, Room 8)", "Times-table game from laminator", "Stickers in top drawer"],
@@ -63,10 +70,7 @@ function flagsForSection(sectionId: string, allFlags: StudentFlag[], isMock: boo
     };
     return map[mockSectionId] ?? [];
   }
-  return allFlags.filter(f => {
-    // flags don't have sectionId directly — we filter by matching student to section (approximation)
-    return true; // show all per section (server already filters by section)
-  });
+  return allFlags.filter(f => f.sectionId === sectionId);
 }
 
 function checklistKey(slot: DaySlot, periodIndex: number): string {
@@ -111,7 +115,7 @@ function offsetDate(d: string, days: number) {
   return dt.toISOString().slice(0, 10);
 }
 
-export default function SubstituteClient({ slots, lessons, flags, sheet, teacherName, teacherId, forDate, today }: Props) {
+export default function SubstituteClient({ slots, lessons, flags, sheet, freePeriods, teacherName, teacherId, forDate, today }: Props) {
   const isMock = slots.length === 0;
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
@@ -139,7 +143,17 @@ export default function SubstituteClient({ slots, lessons, flags, sheet, teacher
       else if (free) { allPeriods.push({ type: "free", ...free }); }
     }
   } else {
-    activeSlots.forEach((slot, i) => allPeriods.push({ type: "teaching", slot, mockIdx: i }));
+    const periodNums = [
+      ...activeSlots.map(s => s.periodNumber),
+      ...freePeriods.map(f => f.periodNumber),
+    ].sort((a, b) => a - b).filter((v, i, arr) => arr.indexOf(v) === i);
+    let si = 0;
+    for (const p of periodNums) {
+      const slot = activeSlots.find(s => s.periodNumber === p);
+      const free = freePeriods.find(f => f.periodNumber === p);
+      if (slot) allPeriods.push({ type: "teaching", slot, mockIdx: si++ });
+      else if (free) allPeriods.push({ type: "free", ...free });
+    }
   }
 
   function navigate(d: string) {
@@ -212,11 +226,11 @@ export default function SubstituteClient({ slots, lessons, flags, sheet, teacher
 
           const { slot, mockIdx } = entry;
           const lesson = lessonMap.get(slot.sectionId);
-          const ck = isMock ? checklistKey(slot, mockIdx) : slot.slotId;
-          const mockChecks = isMock ? (MOCK_CHECKLIST[ck] ?? []) : [];
+          const ck = checklistKey(slot, mockIdx);
+          const checkItems = MOCK_CHECKLIST[ck] ?? GENERIC_CHECKLIST_ITEMS;
           const sectionFlags = isMock
             ? flagsForSection(slot.sectionId, activeFlags, true, slot.sectionCode.toLowerCase())
-            : activeFlags.filter(f => f.source === "followup");
+            : flagsForSection(slot.sectionId, activeFlags, false, "");
           const isFirstOfSection = activeSlots.findIndex(s => s.sectionId === slot.sectionId) === mockIdx;
           const isSameClass = !isFirstOfSection && activeSlots.filter(s => s.sectionId === slot.sectionId).length > 1;
 
@@ -247,9 +261,9 @@ export default function SubstituteClient({ slots, lessons, flags, sheet, teacher
               )}
 
               {/* Checklist */}
-              {mockChecks.length > 0 && (
+              {checkItems.length > 0 && (
                 <div className="sub-checks-block">
-                  {mockChecks.map((c, ci) => {
+                  {checkItems.map((c, ci) => {
                     const key = `${slot.slotId}-${ci}`;
                     return (
                       <label key={key} className="sub-check-item">

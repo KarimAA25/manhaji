@@ -1679,3 +1679,257 @@ The teacher package exports `"./app/*": "./app/*"` so every page is accessible.
 Each is a one-liner re-export. Portal TypeScript check passes clean.
 
 **Note for future tabs:** Any new teacher route added to `apps/teacher/app/<route>/page.tsx` also needs a matching stub at `apps/portal/app/teacher/<route>/page.tsx`.
+
+---
+
+## 48. Substitute Page — Three DB Fixes (2026-07-09)
+
+Three bugs in the Substitute Handoff Sheet were fixed without changing any UI.
+
+### Fix 1 — Checklist always visible (client only)
+
+**Bug:** `const mockChecks = isMock ? (MOCK_CHECKLIST[ck] ?? []) : []` — live-mode users saw no checklist.
+
+**Fix in `SubstituteClient.tsx`:**
+- Added `GENERIC_CHECKLIST_ITEMS` constant (3 generic items: take attendance, follow lesson plan, leave work on desk).
+- `const ck = checklistKey(slot, mockIdx)` now runs unconditionally (was gated on `isMock`).
+- `const checkItems = MOCK_CHECKLIST[ck] ?? GENERIC_CHECKLIST_ITEMS` — live users get generic items when no mock key matches.
+- Render uses `checkItems` in place of `mockChecks`.
+
+### Fix 2 — Free periods from DB
+
+**Bug:** `MOCK_FREE` was only merged into `allPeriods` inside the `isMock` branch; live mode showed no free-period pills.
+
+**New query — `packages/lib/src/queries/substitute.ts`:**
+- Added `FreePeriod` type: `{ periodNumber, startsAt, endsAt, label }`.
+- Added `getFreePeriods(academicYearId, date)`:
+  - Gets all distinct `bell_period_id`s from `timetable_slots` for the academic year.
+  - Queries `bell_periods` filtering `id IN (bpIds)`, `day_of_week = dow`, `is_teaching = false`.
+  - Returns sorted by `period_number`.
+
+**Updated `page.tsx`:** Added `getFreePeriods` to the parallel fetch; passes `freePeriods` prop to client.
+
+**Updated `SubstituteClient.tsx`:**
+- `freePeriods: FreePeriod[]` added to Props.
+- Live-mode `allPeriods` build: merges `activeSlots` + `freePeriods` sorted by `periodNumber` (dedup via Set).
+
+### Fix 3 — Student flags filtered per section
+
+**Bug:** `flagsForSection()` in live mode returned `true` for every flag — all flags appeared on every period card.
+
+**Fix in `packages/lib/src/queries/substitute.ts`:**
+- Added `sectionId: string | null` to `StudentFlag`.
+- `getStudentFlagsForSections`: changed `lessons` select from `"id"` → `"id, section_id"`; built `lessonSectionMap: Map<lessonId, sectionId>`.
+- `lesson_followups` select now includes `lesson_id`; each followup flag gets `sectionId` from `lessonSectionMap`.
+- `behaviour_notes` select now includes `section_id`; each behaviour flag gets `sectionId: b.section_id`.
+
+**Fix in `SubstituteClient.tsx`:**
+- Live-mode call to `flagsForSection()` (was `activeFlags.filter(f => f.source === "followup")`).
+- `flagsForSection` live branch: `return allFlags.filter(f => f.sectionId === sectionId)`.
+
+---
+
+## 49. Student App — My Goals Page (2026-07-09)
+
+Replaced the "My Schedule" tab with "My Goals". The schedule page is preserved; only the nav link changed.
+
+### Nav change — `apps/student/app/components/StudentNav.tsx`
+- `{ href: "/student/schedule", label: "My Schedule" }` → `{ href: "/student/goals", label: "My Goals" }`
+
+### New query — `packages/lib/src/queries/goals.ts`
+- `getGoalStudentProfile(studentId)` → `{ studentName }` from `students.full_name_en`.
+- `getStudentLatestRubricScores(studentId)` → `RubricSuggestionData[]` — latest score per axis from `rubric_scores`, ordered desc by `scored_for_month`, deduped by `axis_code`.
+
+### Server page — `apps/student/app/goals/page.tsx`
+- `dynamic = "force-dynamic"`.
+- Fetches `studentId` → parallel: `getGoalStudentProfile`, `getStudentLatestRubricScores`.
+- Passes `studentName`, `rubricScores` to `GoalsClient`.
+
+### Client component — `apps/student/app/goals/GoalsClient.tsx`
+
+**Layout:** Single column, max-width 1100px.
+
+**Title row:** "My goals · {currentMonth}" + subtitle.
+
+**Summary card** (amber tint `#FFFBEB`):
+- Left: ☀️ icon + bold "You're on track with N of your M goals." + italic detail text.
+- Right: 3 KPI boxes — ACTIVE / DONE / DAY STREAK counts.
+
+**ACTIVE GOALS grid** (2-column, `.myg-goal-card`):
+- Each card: category badge (ACADEMIC/PERSONAL/COLLABORATION/ARABIC/MATHS with distinct colors) + optional ✓ DONE badge + frequency note.
+- Title, progress label + %, colored progress bar (green=done, blue=active, orange=behind), highlight insight box (left-border), footer with "Set with [teacher]" + action buttons.
+- 5th card (`wide: true`) spans full width.
+- "✓ Tick today" button toggles local `tickedGoals` state.
+- `+ Add a goal` button in section header (no action yet — needs modal).
+
+**GOALS MANHAJ SUGGESTS** (2-column card):
+- When `rubricScores` has axes with score ≤ 2: renders DB-driven suggestions (axis name + score description).
+- Else: 2 hardcoded default suggestions (maths reasoning + Arabic short stories).
+- Each has title, description, `+ Add this as a goal +` button.
+
+**QUICK REFLECTION** (textarea):
+- Local state only (save button shows "Saved ✓" optimistically for 3 s).
+- Note: "Private to you and Mr. Tariq · saved with your monthly report" — needs `student_reflections` table to persist.
+
+**isMock:** `!studentName` (no student profile found). Mock uses "Layla" as display name with 5 predefined goals.
+
+**DB connected:** Student name, rubric scores for suggestions.
+**Mock only:** Goals list, streaks, checkins (needs `student_goals` + `goal_checkins` tables), reflection persistence.
+
+### Portal stub
+- `apps/portal/app/student/goals/page.tsx` → `export { default } from "@manhaj/student/app/goals/page";`
+
+### CSS
+- `.myg-*` block appended to `packages/ui/src/globals.css`.
+- Max-width 1100px, 2-column goal grid, amber summary card, colored category badges, progress bars, suggestion 2-col grid, reflection textarea + footer.
+
+---
+
+## 50. Student App — Study Planner Page (2026-07-09)
+
+Replaced the "Homework" tab with "Study Planner".
+
+### Nav change — `apps/student/app/components/StudentNav.tsx`
+- `{ href: "/student/homework", label: "Homework" }` → `{ href: "/student/study-planner", label: "Study Planner" }`
+
+### New query — `packages/lib/src/queries/studyplanner.ts`
+- `AssessmentRow` type: `{ id, title, subject, scheduledOn, kind }`.
+- `getStudentAssessmentsThisWeek(studentId, from, to)`:
+  - Gets `current_section_id` from `students`.
+  - Queries `assessments` table: `section_id = sectionId`, `kind IN ('quiz','test','exam')`, `scheduled_on` between `from` and `to`.
+  - Joins `subjects` for name.
+
+### Server page — `apps/student/app/study-planner/page.tsx`
+- `getWeekRange(today)`: Sun = week start (`getUTCDay() = 0`), Thu = week end (+4 days).
+- Parallel fetches: `getGoalStudentProfile`, `getStudentTimetable`, `getHomeworkForStudent`, `getStudentAssessmentsThisWeek`, `getStudentLatestRubricScores`.
+- `isMock = timetable.length === 0 && homework.length === 0`.
+
+### Client component — `apps/student/app/study-planner/StudyPlannerClient.tsx`
+
+**Layout:** Single column, max-width 1200px.
+
+**Title row:** "Plan your week, {displayName}" + subtitle.
+
+**KPI strip** (4-box row, single border card):
+- HOMEWORK DUE (count + first due date) — from `homework.length`.
+- TESTS THIS WEEK (count + subject name) — from `assessments.length`.
+- SPECIAL EVENTS (hardcoded 1 in mock, 0 live — no events DB source yet).
+- FREE AFTERNOONS (derived: 5 − unique homework due dates count).
+
+**TODAY'S FOCUS card:**
+- In mock: 3 hardcoded items (Science project urgent, Maths worksheet, Read goal done).
+- Live: filters homework due today or tomorrow, maps to `FocusItem[]`.
+- Each item: colored dot (red=urgent, green=done), title + desc, time tag or "Done" tag.
+- Dot is a button — clicking toggles `focusDone` local state (pre-seeded `{ 2: true }` in mock mode).
+
+**THIS WEEK grid** (5-column, Sun–Thu):
+- Each column: day name + date number, class pills from timetable, HW pills from homework/assessments.
+- In mock: `MOCK_CLASSES` and `MOCK_HW` per day name key.
+- Live: `periods.filter(p => p.day === dayName && p.is_teaching && p.subject)` for classes; homework filtered by `due === dayDate`, assessments filtered by `scheduledOn === dayDate`.
+- Class pill types: `class` (blue), `test` (red), `trip` (red+bold), `event` (amber).
+- HW pills: dashed border, red tint when `urgent`.
+- Today's column highlighted with `#FFFBEB` background.
+
+**WHAT MANHAJ SUGGESTS section:**
+- In mock: 3 hardcoded study suggestions (TEST PREP / BEHIND GOAL / ALMOST DONE).
+- Live: `buildSuggestionsFromRubric(rubricScores)` — maps axes with score ≤ 2 to FOCUS AREA suggestions; falls back to mock if no low scores.
+- Each suggestion: colored type badge, title, description, time + "+ Add to [day] +" button.
+
+**YOUR SUGGESTED AFTERNOON timeline:**
+- Always mock (8 blocks from 08:00 to 20:00): SCHOOL / STUDY / FREE / WIND DOWN tags.
+- Needs a scheduling/preferences table to go live.
+
+**isMock:** `timetable.length === 0 && homework.length === 0`.
+
+**DB connected:** Student name, timetable (via `getStudentTimetable`), homework (via `getHomeworkForStudent`), assessments (via `getStudentAssessmentsThisWeek`), rubric scores for suggestions.
+**Mock only:** Special events, free afternoons (approximate), afternoon timeline, study suggestions (unless rubric scores exist).
+
+### Portal stub
+- `apps/portal/app/student/study-planner/page.tsx`
+
+### CSS
+- `.sp-*` block appended to `packages/ui/src/globals.css`.
+- Max-width 1200px; 4-column KPI strip (shared border card); Today's Focus card; 5-column week grid with per-day class/hw pills; 3-column suggests card; timeline rows with time + block + tag columns.
+
+---
+
+## 51. Student App — Application Tracker Page (2026-07-09)
+
+Replaced the "Past Reports" tab with "Application Tracker" (university application management).
+
+### Nav change — `apps/student/app/components/StudentNav.tsx`
+- `{ href: "/student/past-reports", label: "Past Reports" }` → `{ href: "/student/application-tracker", label: "Application Tracker" }`
+
+### New query — `packages/lib/src/queries/applications.ts`
+- `UniversityApp` type: `{ id, universityName, country, program, status, deadline, decisionDate, admissionRatePct, notes }`.
+- `getStudentUniversityApps(studentId)`:
+  - Queries `university_applications` table (not yet in schema).
+  - Returns `[]` silently on error → caller falls back to mock data.
+- `CounselorInfo` type: `{ name, nextSession }`.
+- `getStudentCounselor(studentId)`:
+  - Gets `current_section_id`, then queries `timetable_slots → teachers` looking for `role = "counselor"`.
+  - Returns `null` if not found → client uses mock counselor.
+
+### Server page — `apps/student/app/application-tracker/page.tsx`
+- Parallel fetches: `getGoalStudentProfile`, `getStudentUniversityApps`, `getStudentLatestRubricScores`, `getStudentCounselor`.
+- `isMock = apps.length === 0`.
+
+### Client component — `apps/student/app/application-tracker/ApplicationTrackerClient.tsx`
+
+**Layout:** Full-width header → status strip → alert banner → two-column body (left ~64%, right ~36%).
+
+**Header:** "My university applications · 2026/27 entry" + count + counselor name in subtitle.
+
+**Status strip** (6 tabs — RESEARCHING / IN PROGRESS / SUBMITTED / IN REVIEW / ADMITTED / REJECTED):
+- Click toggles filter (click same tab to clear filter).
+- Shows count per status.
+
+**UCL alert banner** (amber tint):
+- Hardcoded urgent message about UCL deadline + personal statement at draft 3.
+- "Open with Ms. Hala" button (no action yet).
+
+**Left column — YOUR APPLICATIONS:**
+- Compact rows: colored initial-circle logo, university name + country/program, status badge + deadline/decision, admission rate bar + %.
+- "+ Add a university" button (no action yet).
+- Status filter applied here.
+
+**Left column — PLACEMENT INSIGHTS:**
+- Left: "Top 18%" large text + profile summary (Predicted IB, SAT, GS score).
+- Right: 4 universities with horizontal admission rate bars (UCL 52%, King's 38%, McGill 44%, NYUAD 15%).
+- Fully mock — needs analytics pipeline.
+
+**Left column — WHAT WOULD MOVE THE NEEDLE MOST:**
+- 3-column card grid: each with label (PATH TO UCL etc.), title, description.
+- Fully mock.
+
+**Left column — ANONYMOUS PAST STUDENTS:**
+- HTML table: CLASS / IB / SAT / PROFILE NOTE / OUTCOME columns.
+- 4 mock rows with outcome chips.
+- Footer disclaimer about model accuracy.
+
+**Right sidebar — YOUR MASTER DOCS:**
+- 9 documents with status icons (✓ green = uploaded, · amber = in_progress, ! red = missing).
+- Fully mock.
+
+**Right sidebar — TEST SCORES:**
+- IELTS (6.8/9+), SAT (1480), Predicted IB (43/45), SAT Math II (missing → "Begin" CTA button).
+- Fully mock.
+
+**Right sidebar — MANHAJ STUDY ASSISTANT** (dark card):
+- 4 action buttons (feedback on essay, interview practice, compare universities, deadline plan).
+- No DB connection — placeholder UI.
+
+**Right sidebar — YOUR COUNSELLOR:**
+- Avatar initials + name + next session time.
+- "Book a 1:1 session" button.
+- Live when `getStudentCounselor()` returns data; falls back to mock "Ms. Hala Al-Aatari".
+
+**DB connected:** Student name, counselor info (when role exists in teachers table).
+**Mock only:** All university applications (needs `university_applications` table), master docs (needs document tracking), test scores (needs test scores table), placement insights + cohort data (needs analytics pipeline), alert banner details.
+
+### Portal stub
+- `apps/portal/app/student/application-tracker/page.tsx`
+
+### CSS
+- `.at-*` block appended to `packages/ui/src/globals.css`.
+- Full-width header; 6-tab status strip; amber alert banner; 2-column body grid; compact app rows with logo circles, status badges, admission bars; placement 2-panel card; 3-column needle movers grid; anonymous students HTML table; sidebar cards (docs, scores, dark study assistant, counsellor).

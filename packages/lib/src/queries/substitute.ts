@@ -28,6 +28,14 @@ export type StudentFlag = {
   note: string;
   source: "followup" | "behaviour";
   tag: string | null;
+  sectionId: string | null;
+};
+
+export type FreePeriod = {
+  periodNumber: number;
+  startsAt: string;
+  endsAt: string;
+  label: string;
 };
 
 export type SubSheetRow = {
@@ -121,20 +129,21 @@ export async function getStudentFlagsForSections(
   const slotIds = (slots ?? []).map(s => s.id);
 
   const { data: lessons } = slotIds.length
-    ? await db.from("lessons").select("id").in("timetable_slot_id", slotIds).gte("held_on", from)
+    ? await db.from("lessons").select("id, section_id").in("timetable_slot_id", slotIds).gte("held_on", from)
     : { data: [] };
   const lessonIds = (lessons ?? []).map(l => l.id);
+  const lessonSectionMap = new Map((lessons ?? []).map(l => [l.id, l.section_id as string]));
 
   const [followupRes, behaviourRes] = await Promise.all([
     lessonIds.length
       ? db.from("lesson_followups")
-          .select("student_id, title, description, tag")
+          .select("student_id, lesson_id, title, description, tag")
           .in("lesson_id", lessonIds)
           .not("student_id", "is", null)
           .eq("is_done", false)
       : Promise.resolve({ data: [] }),
     db.from("behaviour_notes")
-      .select("student_id, note, kind")
+      .select("student_id, section_id, note, kind")
       .in("section_id", sectionIds)
       .gte("observed_on", from),
   ]);
@@ -161,6 +170,7 @@ export async function getStudentFlagsForSections(
       note:        f.description ?? f.title,
       source:      "followup" as const,
       tag:         f.tag,
+      sectionId:   lessonSectionMap.get(f.lesson_id as string) ?? null,
     })),
     ...(behaviourRes.data ?? []).map(b => ({
       studentId:   b.student_id,
@@ -168,9 +178,38 @@ export async function getStudentFlagsForSections(
       note:        b.note,
       source:      "behaviour" as const,
       tag:         b.kind === "positive" ? "RECOGNITION" : b.kind === "concern" ? "CONCERN" : null,
+      sectionId:   b.section_id ?? null,
     })),
   ];
   return flags;
+}
+
+export async function getFreePeriods(academicYearId: string, date: string): Promise<FreePeriod[]> {
+  const db = await serverClient();
+  const dow = DAYS[new Date(date + "T00:00:00Z").getUTCDay()];
+
+  const { data: slots } = await db
+    .from("timetable_slots")
+    .select("bell_period_id")
+    .eq("academic_year_id", academicYearId);
+  const bpIds = [...new Set((slots ?? []).map((s: { bell_period_id: string }) => s.bell_period_id).filter(Boolean))];
+  if (!bpIds.length) return [];
+
+  const { data, error } = await db
+    .from("bell_periods")
+    .select("period_label, period_number, starts_at, ends_at")
+    .in("id", bpIds)
+    .eq("day_of_week", dow)
+    .eq("is_teaching", false)
+    .order("period_number");
+  if (error) throw new Error(error.message);
+
+  return (data ?? []).map(r => ({
+    periodNumber: r.period_number,
+    startsAt:     (r.starts_at ?? "").slice(0, 5),
+    endsAt:       (r.ends_at ?? "").slice(0, 5),
+    label:        r.period_label ?? "",
+  }));
 }
 
 export async function getSubstituteSheet(teacherId: string, date: string): Promise<SubSheetRow | null> {
