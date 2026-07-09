@@ -22,7 +22,8 @@ export async function getStudentAssessmentsThisWeek(
     .single();
   if (!student?.current_section_id) return [];
 
-  const { data, error } = await db
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data, error } = await (db as any)
     .from("assessments")
     .select("id, title, kind, scheduled_on, subjects ( name_en )")
     .eq("section_id", student.current_section_id)
@@ -30,9 +31,10 @@ export async function getStudentAssessmentsThisWeek(
     .gte("scheduled_on", from)
     .lte("scheduled_on", to)
     .order("scheduled_on");
-  if (error) throw new Error(error.message);
+  if (error) throw new Error((error as { message: string }).message);
 
-  return (data ?? []).map(a => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return ((data as any[]) ?? []).map((a: any) => {
     const sub = a.subjects as { name_en: string } | null;
     return {
       id:          a.id,

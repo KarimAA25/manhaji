@@ -53,11 +53,11 @@ const MOCK_CHECKLIST: Record<string, string[]> = {
 };
 
 const MOCK_FLAGS: StudentFlag[] = [
-  { studentId: "sf1", studentName: "Layla Al-Habel",  note: "Recent quiz top scorer. Uplifter — copy, school chair ask, add. She has been recently appointed class representative. If she finishes early, ask her to help peers with P3-P6.",  source: "behaviour",  tag: "RECOGNITION" },
-  { studentId: "sf2", studentName: "Bilal Al-Mahri",  note: "About this — showing the chapter you passed. Hand the last catch-up sheet at the side of class and check homework with them especially.",                                               source: "followup",   tag: "FOLLOW-UP" },
-  { studentId: "sf3", studentName: "Fatima Al-Hinai", note: "Has done less this week. Make her own quality — doesn't make it on things. If she's stuck, sit next to her for 5 minutes.",                                                              source: "followup",   tag: "CONCERN" },
-  { studentId: "sf4", studentName: "Hassan Al-Said",  note: "Last had a chat last Thursday. Suggest he's doing adequately. Show him how his 3 is leading. Section: G5A.",                                                                              source: "behaviour",  tag: null },
-  { studentId: "sf5", studentName: "Bilal Hassan",    note: "English language learner. He understands maths well but needs bilingual support when reading word problems. His marks are improving.",                                                     source: "followup",   tag: "ELL" },
+  { studentId: "sf1", studentName: "Layla Al-Habel",  note: "Recent quiz top scorer. Uplifter — copy, school chair ask, add. She has been recently appointed class representative. If she finishes early, ask her to help peers with P3-P6.",  source: "behaviour",  tag: "RECOGNITION", sectionId: null },
+  { studentId: "sf2", studentName: "Bilal Al-Mahri",  note: "About this — showing the chapter you passed. Hand the last catch-up sheet at the side of class and check homework with them especially.",                                               source: "followup",   tag: "FOLLOW-UP",   sectionId: null },
+  { studentId: "sf3", studentName: "Fatima Al-Hinai", note: "Has done less this week. Make her own quality — doesn't make it on things. If she's stuck, sit next to her for 5 minutes.",                                                              source: "followup",   tag: "CONCERN",     sectionId: null },
+  { studentId: "sf4", studentName: "Hassan Al-Said",  note: "Last had a chat last Thursday. Suggest he's doing adequately. Show him how his 3 is leading. Section: G5A.",                                                                              source: "behaviour",  tag: null,          sectionId: null },
+  { studentId: "sf5", studentName: "Bilal Hassan",    note: "English language learner. He understands maths well but needs bilingual support when reading word problems. His marks are improving.",                                                     source: "followup",   tag: "ELL",         sectionId: null },
 ];
 
 // Map sectionId → flags

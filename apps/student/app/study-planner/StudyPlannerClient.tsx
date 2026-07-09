@@ -201,7 +201,7 @@ export default function StudyPlannerClient({
   const displayName = studentName || "Layla";
 
   const [focusDone, setFocusDone] = useState<Record<number, boolean>>(
-    () => isMock ? { 2: true } : {},
+    () => (isMock ? { 2: true } : {}) as Record<number, boolean>,
   );
 
   // ── Per-day helpers ──────────────────────────────────────────────────────
@@ -257,7 +257,7 @@ export default function StudyPlannerClient({
   const eventCount  = isMock ? 1 : 0;
   const freeAftCount= isMock ? 2 : Math.max(0, 5 - new Set(homework.map(h => h.due)).size);
 
-  const hwDetail   = isMock ? "1 by Sunday"             : homework[0]     ? `Due ${homework[0].due.slice(5)}` : "All clear";
+  const hwDetail   = isMock ? "1 by Sunday"             : homework[0]     ? `Due ${(homework[0].due ?? "").slice(5)}` : "All clear";
   const testDetail = isMock ? "Maths · Thursday"        : assessments[0]  ? assessments[0].subject            : "None this week";
   const eventDetail= isMock ? "Field trip · Wednesday"  : "Check calendar";
   const freeDetail = isMock ? "Sun & Mon"               : freeAftCount > 0 ? `${freeAftCount} days`           : "";

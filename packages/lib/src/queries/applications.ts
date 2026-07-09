@@ -14,13 +14,14 @@ export type UniversityApp = {
 
 export async function getStudentUniversityApps(studentId: string): Promise<UniversityApp[]> {
   const db = await serverClient();
-  const { data, error } = await db
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data, error } = await (db as any)
     .from("university_applications")
     .select("id, university_name, country, program, status, deadline_on, decision_expected_on, admission_rate_pct, notes")
     .eq("student_id", studentId)
     .order("created_at", { ascending: false });
   if (error) return []; // table not yet in schema → caller uses mock
-  return (data ?? []).map(r => ({
+  return ((data as any[]) ?? []).map((r: any) => ({
     id:               r.id,
     universityName:   r.university_name,
     country:          r.country ?? "",
@@ -55,7 +56,7 @@ export async function getStudentCounselor(studentId: string): Promise<CounselorI
     .limit(20);
 
   const counselor = (slots ?? [])
-    .map(s => s.teachers as { full_name: string; display_name: string | null; role: string | null } | null)
+    .map(s => (s.teachers as unknown) as { full_name: string; display_name: string | null; role: string | null } | null)
     .find(t => t?.role === "counselor" || t?.role === "school_counselor");
 
   if (!counselor) return null;
