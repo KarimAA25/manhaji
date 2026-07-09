@@ -1655,3 +1655,27 @@ Dashboard / One-Tap Attendance / Rubric Scoring / Class Hub / Substitute / Input
 ```
 
 Removed the max-width constraint so the One-Tap Attendance page fills the full available width, consistent with all other pages (Rubric Scoring, Class Hub, Substitute, admin pages, etc.).
+
+---
+
+## 47. Portal Stub Pages for New Teacher Tabs (2026-07-09)
+
+**Problem:** New teacher tabs (One-Tap Attendance, Rubric Scoring, Class Hub, Substitute) showed "page not found" because the running app is the **portal** (`apps/portal`), not the standalone teacher app. The portal routes `/teacher/*` by re-exporting pages from `@manhaj/teacher`, but the stub files didn't exist yet.
+
+**Pattern (existing, confirmed working):**
+```
+apps/portal/app/teacher/input/page.tsx
+→ export { default } from "@manhaj/teacher/app/input/page";
+```
+
+The teacher package exports `"./app/*": "./app/*"` so every page is accessible.
+
+**Fix — four new portal stub pages created:**
+- `apps/portal/app/teacher/attendance/page.tsx`
+- `apps/portal/app/teacher/rubric/page.tsx`
+- `apps/portal/app/teacher/classhub/page.tsx`
+- `apps/portal/app/teacher/substitute/page.tsx`
+
+Each is a one-liner re-export. Portal TypeScript check passes clean.
+
+**Note for future tabs:** Any new teacher route added to `apps/teacher/app/<route>/page.tsx` also needs a matching stub at `apps/portal/app/teacher/<route>/page.tsx`.
