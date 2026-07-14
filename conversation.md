@@ -1933,3 +1933,305 @@ Replaced the "Past Reports" tab with "Application Tracker" (university applicati
 ### CSS
 - `.at-*` block appended to `packages/ui/src/globals.css`.
 - Full-width header; 6-tab status strip; amber alert banner; 2-column body grid; compact app rows with logo circles, status badges, admission bars; placement 2-panel card; 3-column needle movers grid; anonymous students HTML table; sidebar cards (docs, scores, dark study assistant, counsellor).
+
+---
+
+## 52. Parent App — Nav Restructure (2026-07-10)
+
+**`apps/parent/app/components/ParentNav.tsx`** — Commented out three tabs that have no design yet, keeping the pages intact:
+
+```
+Dashboard / Permission Slip / Invoices / Sibling Comparison / Calendar
+// Course Selection — commented out
+// Past Reports — commented out
+// Messages — commented out
+```
+
+Final `LINKS` array:
+```ts
+{ href: "/parent",                    label: "Dashboard"         },
+{ href: "/parent/permission-slip",    label: "Permission Slip"   },
+{ href: "/parent/invoices",           label: "Invoices"          },
+{ href: "/parent/sibling-comparison", label: "Sibling Comparison"},
+{ href: "/parent/calendar",           label: "Calendar"          },
+```
+
+---
+
+## 53. Parent App — Weekly Digest Dashboard (P1) (2026-07-10)
+
+Complete rewrite of the parent dashboard. Old content (static KPI cards) replaced with a rich per-child weekly digest view.
+
+### New query file — `packages/lib/src/queries/weeklydigest.ts`
+
+Four functions:
+- `getBehaviourEventsForStudent(studentId, from, to)` → `BehaviourEvent[]` — `behaviour_notes` with `teacher_name` via teacher join. Returns `kind` ("positive" | "concern"), `note`, `teacher_name`, `created_at`.
+- `getAssessmentResultsForStudent(studentId, from, to)` → `AssessmentResult[]` — `assessment_results → assessments → subjects`. Date-filter applied in JS (using `held_on` on the joined `assessments` row). Returns `pct` (score/max_score × 100), `subject`, `held_on`.
+- `getWeeklyDigestDraft(studentId)` → `{ text: string } | null` — `comm_drafts` most recent draft. Prefers `edited_en` over `drafted_en`. Uses `.maybeSingle()`.
+- `getTeacherRecognitionForStudent(studentId, from, to)` → `{ note, teacher_name } | null` — most recent positive `behaviour_notes` entry.
+
+### `apps/parent/app/page.tsx` (full rewrite)
+
+- Computes week range (Sun–Thu): `weekStart = today - getUTCDay()`, `weekEnd = weekStart + 4`.
+- Fetches `parentId` → `getParentChildren()` → per-child parallel batch:
+  - `getLessonsForSection(sectionId, weekStart, weekEnd)` — week lessons
+  - `getHomeworkForSection(sectionId, weekStart, weekEnd)` — homework items
+  - `getBehaviourEventsForStudent(studentId, weekStart, weekEnd)`
+  - `getAssessmentResultsForStudent(studentId, weekStart, weekEnd)`
+  - `getWeeklyDigestDraft(studentId)`
+  - `getTeacherRecognitionForStudent(studentId, weekStart, weekEnd)`
+  - Next-week lessons (weekStart+7 to weekEnd+7)
+- Derives per-child: `homeworkCount`, best assessment result, positive/concern note counts, latest recognition.
+- `isMock = children.length === 0`.
+
+**Critical type fix:** `LessonRaw` type in the client deliberately omits the `teachers` field. The `lessons` table has multiple FK references to `teachers` (e.g., `marked_by_teacher_id`, `cover_teacher_id`) which causes Supabase TypeScript to infer `SelectQueryError<...>` for the `teachers` join. Since the client never renders teacher names from lessons, the field is simply excluded from the type to avoid the error.
+
+**homeworkCount fix:** Previously computed `homeworkPct` as `Math.round((homework.length / homework.length) * 100)` which always returned 100. Renamed to `homeworkCount: homework.length` (raw integer).
+
+### `apps/parent/app/WeeklyDigestClient.tsx` (new file)
+
+CSS prefix: `.wd-*`
+
+**Props:**
+```ts
+children: ParentChild[]
+childData: ChildDataEntry[]
+unpaidInvoices: InvoiceWithLines[]
+weekStart: string
+weekEnd: string
+todayStr: string
+isMock: boolean
+```
+
+**Child selector:**
+- Multi-child: horizontal tabs (colored avatar pill, name).
+- Single child: greeting pill with avatar.
+
+**AI digest card** (`.wd-digest`) — `digestText` from DB or mock AI paragraph about the child's week.
+
+**4 KPI chips** (`.wd-kpis`) — Attendance %, Homework items, Best assessment %, Recognition (positive note count).
+
+**Weekly timeline** (`.wd-timeline`) — Built from lessons + assessments + behaviour events, deduped and sorted by date. Each row shows date on left, coloured dot + event label on right.
+
+**Next-week grid** (`.wd-next-week`) — Lessons for the following week grouped by day.
+
+**Teacher recognition card** (`.wd-recognition`) — If `latestRecognition` exists: teacher avatar initials, recognition note, teacher name.
+
+**Todo/invoice actions** — Unpaid invoices listed with amount. "Pay now" link. Pending slips summary.
+
+**Footer buttons** — "View full report", "Message teacher", "Sibling comparison".
+
+**Mock fallback:** 2 children (Omar G8C, Layla G5B) with hardcoded week data, recognition notes, 2 unpaid invoices.
+
+### CSS
+- `.wd-*` block appended to `packages/ui/src/globals.css`.
+
+---
+
+## 54. Parent App — Permission Slip Tab (P4) (2026-07-10)
+
+New tab added between Dashboard and Invoices.
+
+### New query file — `packages/lib/src/queries/permissionslip.ts`
+
+Three functions:
+- `getUpcomingActivitySlipsForStudent(studentId, sectionId, from)` → `ActivitySlip[]`:
+  - Fetches all upcoming `activities` where `activity_date >= from`.
+  - Fetches `permission_slips` for the student.
+  - JS filter: activity applies when `target_sections.includes(sectionId) || !target_sections` (null = school-wide).
+  - Returns merged shape with slip status (`not_started | draft | signed | declined`), cost, date, title.
+- `getStudentHealthForSlip(studentId)` → `StudentHealth | null` — `student_health` table: allergies, conditions, medications, emergency contact fields.
+- `getParentContactForStudent(parentId, studentId)` → `{ name, phone, relationship } | null` — joins `parents` + `student_parents`.
+
+### `apps/parent/app/permission-slip/page.tsx` (new file)
+
+- Fetches `parentId` → `getParentChildren()`.
+- Per-child parallel: `getUpcomingActivitySlipsForStudent`, `getStudentHealthForSlip`, `getParentContactForStudent`.
+- `isMock = children.length === 0`.
+
+### `apps/parent/app/permission-slip/actions.ts` (new file — `"use server"`)
+
+Three server actions. All guard with `if (!parentId) throw new Error("Not authenticated")`.
+
+- `saveDraftAction(data)` → `{ slipId: string }` — upserts `permission_slips` with `status="draft"`. Form data encoded as JSON in `notes` field: `{ attendance, healthChange, healthExtra, emergencyName, emergencyPhone, emergencyRel, emergencyBackup }`. Update uses `.eq("parent_id", parentId)` for security; insert for new slips.
+- `signAndSubmitAction(data)` — upserts with `status="signed"`, `signed_at`, `signed_name`, `signed_by_parent_id`.
+- `declineSlipAction(data)` — upserts with `status="declined"`.
+
+**Note:** Form data stored as JSON in the `notes` column avoids needing additional DB columns for the prototype.
+
+### `apps/parent/app/permission-slip/PermissionSlipClient.tsx` (new file)
+
+CSS prefix: `.ps-*`
+
+**States:** `attendance` radio (yes/no/uncertain), `healthChange` boolean toggle, `healthExtra` textarea, emergency contact fields (name, phone, relationship, backup).
+
+**Pre-fill:** Emergency contact pre-filled from `health.emergencyContactName` → falls back to `parentContact.name/phone/relationship`.
+
+**Activity trip card** — title, date, cost, location. Mock: "Bait Al Zubair Museum, Muscat", AED 35, June 3.
+
+**Health & medical section** — shows existing conditions/allergies from DB. `healthChange` toggle opens textarea for updates.
+
+**Emergency contact form** — 4 fields (name, phone, relationship, backup phone), pre-filled.
+
+**Decline flow** — "Decline" button triggers a confirm modal before calling `declineSlipAction`.
+
+**Success states** — Signed/declined: shows empty success panel (no more pending slips).
+
+**Fixed footer bar** (`position: fixed; bottom: 0`) — Decline | Save draft | Sign and submit. Uses `useTransition` for optimistic UI.
+
+### Portal stub
+- `apps/portal/app/parent/permission-slip/page.tsx` → `export { default } from "@manhaj/parent/app/permission-slip/page";`
+
+### CSS
+- `.ps-*` block appended to `packages/ui/src/globals.css`.
+- Trip card, health section, emergency contact form, confirm modal overlay, fixed footer bar.
+
+---
+
+## 55. Parent App — Invoice Page Redesign (P5) (2026-07-10)
+
+Replaced the old single-column invoice layout with a two-column design.
+
+### `apps/parent/app/invoices/page.tsx` (updated)
+
+- Now also fetches `getParentChildren(parentId)` and passes `dbChildren` to client for grade label in subtitle.
+
+### `apps/parent/app/invoices/InvoicesPageClient.tsx` (complete rewrite)
+
+CSS prefix: `.inv-*`
+
+**Still uses** `useActiveChild()` to filter invoices to the active child.
+
+**Left column:**
+- **Dark hero card** (`.inv-hero`, `background: #1A202C`) — invoice reference code, child name + grade, total amount (AED), status badge, due date.
+- **Fee breakdown** — itemized lines from `invoice_lines` with `amount_aed`, `label`, `description`.
+- **Payment history table** — all `status === "paid"` invoices listed with date, amount, and method. Method column shows `—` (live data — method not in DB schema); mock shows "Visa ****4521" / "Bank transfer".
+
+**Right column (sticky `top: 80px`) — `PayPanel` component:**
+- TOTAL row.
+- School portal card with ISO logo + school name.
+- 4 feature lines with ✓ checkmarks.
+- "Pay on ISO Parent Portal ↗" primary button.
+- "Download Invoice PDF ↓" outline button.
+- "What happens next" explanation box.
+- Disclaimer text.
+
+**Mock:** AED 8,750, INV-2026-T3-03, 5 fee lines, 4 payment history rows.
+
+**Bug fix removed:** `installmentOf` variable was computed but never used in JSX — removed dead code.
+
+### CSS
+- `.inv-*` block appended to `packages/ui/src/globals.css`.
+- Dark hero card, fee breakdown lines, payment history table, sticky pay panel.
+
+---
+
+## 56. Parent App — Sibling Comparison Tab (P6) (2026-07-10)
+
+New tab added after Invoices.
+
+### New query file — `packages/lib/src/queries/siblings.ts`
+
+- `getFormTeachersForSections(sectionIds)` → `Record<string, string | null>`:
+  - Queries `sections` with `form_teacher:form_teacher_id ( display_name, full_name )`.
+  - **Ambiguous FK workaround:** `sections` has both `form_teacher_id` and `head_teacher_id` pointing to `teachers`. Supabase TypeScript infers `SelectQueryError<...>` for this join. Fixed with double cast: `(s.form_teacher as unknown) as { display_name: string | null; full_name: string } | null`.
+
+### `apps/parent/app/sibling-comparison/page.tsx` (new file)
+
+- Parallel fetches: `getParentChildren`, `getInvoicesForParent`.
+- Second parallel batch: `getAttendanceForStudents`, `getFormTeachersForSections`, `getNextExamForSections`, `getCourseSelectionsForStudents`.
+- Per-child parallel: `getHomeworkForSection`, `getBehaviourEventsForStudent`, `getAssessmentResultsForStudent`, `getWeeklyDigestDraft`, `getUpcomingActivitySlipsForStudent`.
+- `isMock = children.length === 0`.
+
+### `apps/parent/app/sibling-comparison/SiblingComparisonClient.tsx` (new file)
+
+CSS prefix: `.sc-*`
+
+**Colors:** `CHILD_COLORS = ["#3182CE", "#805AD5", "#2F855A", "#C05621"]` — one per child.
+
+**Mock data:** 3 children (Omar G8C, Layla G5B, Yusuf KG2) with realistic KPIs.
+
+**`ChildCard` component:**
+- Colored avatar with initials.
+- Grade + form teacher label.
+- 2×2 KPI grid: Attendance %, Homework items, Best assessment %, Behaviour notes.
+- Latest recognition note.
+- Pending action pill (pending slips / course selection / unpaid invoice).
+
+**`ComparisonTable`:**
+- 5 rows: Attendance, Homework, Latest assessment, Behaviour notes, Next big thing (next exam).
+- Dynamic column count: `gridTemplateColumns: repeat(Math.min(entries.length, 3), 1fr)`.
+
+**`buildAttentionItems`:**
+- Collects: pending permission slips, pending course selections, unpaid invoices.
+- Each item tagged with child color pill OR `#DD6B20` (FAMILY) for invoice items.
+
+**`presentDays(att)`:** `5 - att.absences` (approximation for 5-day school week).
+
+### Portal stubs
+- `apps/portal/app/parent/sibling-comparison/page.tsx` → `export { default } from "@manhaj/parent/app/sibling-comparison/page";`
+
+### CSS
+- `.sc-*` block appended to `packages/ui/src/globals.css`.
+- Child card grid, 2×2 KPI blocks, comparison table, attention list with colored tag pills.
+
+---
+
+## 57. TypeScript Build Fixes — Multiple Files (2026-07-10)
+
+Six TypeScript errors fixed across four files. All errors were caught by `npx tsc --noEmit` in the portal app.
+
+### Fix 1 — `StudyPlannerClient.tsx:260` — null slice
+
+**Error:** `homework[0].due` is `string | null`; `.slice(5)` fails on null.
+
+**File:** `apps/student/app/study-planner/StudyPlannerClient.tsx`
+
+```ts
+// Before:
+`Due ${homework[0].due.slice(5)}`
+// After:
+`Due ${(homework[0].due ?? "").slice(5)}`
+```
+
+### Fix 2 — `applications.ts` — `university_applications` not in schema
+
+**Error:** `university_applications` table doesn't exist in Supabase-generated types. TypeScript fails at compile time even though the query falls back at runtime.
+
+**File:** `packages/lib/src/queries/applications.ts`
+
+- Cast `db` to `any` for the `.from("university_applications")` call.
+- Cast `data` as `any[]` in the `.map()`.
+
+### Fix 3 — `applications.ts:59` — `teachers.role` not in schema
+
+**Error:** `teachers` table has no `role` column in generated types. The counselor lookup cast `s.teachers as { role: string | null }` failed because the inferred type is `SelectQueryError<"column 'role' does not exist on 'teachers'">`.
+
+**File:** `packages/lib/src/queries/applications.ts`
+
+```ts
+// Before:
+.map(s => s.teachers as { full_name: string; display_name: string | null; role: string | null } | null)
+// After:
+.map(s => (s.teachers as unknown) as { full_name: string; display_name: string | null; role: string | null } | null)
+```
+
+### Fix 4 — `SubstituteClient.tsx:56-60` — mock `StudentFlag` missing `sectionId`
+
+**Error:** `StudentFlag` type gained `sectionId: string | null` in §48 but mock objects in `MOCK_FLAGS` were never updated.
+
+**File:** `apps/teacher/app/substitute/SubstituteClient.tsx`
+
+Added `sectionId: null` to all 5 mock flag objects.
+
+### Fix 5 — `studyplanner.ts` — `assessments.title` not in schema
+
+**Error:** `assessments` table has no `title` column in generated types. The `.select("id, title, kind, ...")` call produced `SelectQueryError<"column 'title' does not exist on 'assessments'">`, blocking `.map()` access on `a.title`, `a.id`, `a.kind`, `a.scheduled_on`, `a.subjects`.
+
+**File:** `packages/lib/src/queries/studyplanner.ts`
+
+- Cast `db` to `any` for the `.from("assessments")` call.
+- Cast `data` as `any[]` in the `.map()`.
+- Cast `error` as `{ message: string }` in the throw.
+
+All fixes leave runtime behavior unchanged — the casts only satisfy TypeScript when the live schema columns don't match the generated types.
