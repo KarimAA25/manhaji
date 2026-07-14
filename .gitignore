@@ -46,6 +46,9 @@ secrets/
 *.swo
 .cursor/
 
+# Claude Code local settings (machine-specific; .claude/settings.json stays tracked if shared)
+.claude/settings.local.json
+
 # Build artefacts (keep the source xlsx + generated JSON committed for the static demo,
 # but don't commit ad-hoc local scratch files)
 *.tmp
@@ -79,7 +82,7 @@ data/exports/
 .superpowers/
 
 # PDFs
-# PDFs/
+  PDFs/
 
 # Supabase
 # .mcp.json

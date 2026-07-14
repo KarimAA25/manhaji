@@ -1,0 +1,13 @@
+# Normalize line endings to LF in the repo regardless of platform,
+# so Windows checkouts don't churn diffs via core.autocrlf.
+* text=auto eol=lf
+
+# Binary files — never touch line endings
+*.pdf binary
+*.xlsx binary
+*.jpeg binary
+*.jpg binary
+*.png binary
+*.gif binary
+*.ico binary
+*.tsbuildinfo binary

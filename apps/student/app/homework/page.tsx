@@ -8,12 +8,17 @@ import CompletionTrend from "./components/CompletionTrend";
 
 export const dynamic = "force-dynamic";
 
-export default async function StudentHomeworkPage() {
-  const studentId = await getCurrentStudentId().catch(() => null);
-
+function getHomeworkDateRange() {
   const today = new Date().toISOString().slice(0, 10);
   const fourWeeksAgo = new Date(Date.now() - 28 * 86400_000).toISOString().slice(0, 10);
   const threeWeeksOut = new Date(Date.now() + 21 * 86400_000).toISOString().slice(0, 10);
+  return { today, fourWeeksAgo, threeWeeksOut };
+}
+
+export default async function StudentHomeworkPage() {
+  const studentId = await getCurrentStudentId().catch(() => null);
+
+  const { today, fourWeeksAgo, threeWeeksOut } = getHomeworkDateRange();
 
   const dbHomework: HomeworkRow[] = studentId
     ? await getHomeworkForStudent(studentId, fourWeeksAgo, threeWeeksOut).catch(() => [])

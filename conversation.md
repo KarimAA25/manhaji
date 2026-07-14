@@ -1248,3 +1248,990 @@ getTeacherName(teacherId: string): Promise<string>  // display_name ?? full_name
 
 - `apps/student/app/layout.tsx` — wired in §27 (standalone student layout)
 - `apps/parent/app/layout.tsx` — already fully wired in a prior session
+
+---
+
+## 38. Admin Students Page — At-Risk / Retention Dashboard (2026-07-08)
+
+Replaced the old students page (StudentsPageClient + 13 component files) with a new "A3 At-Risk / Retention Dashboard" design matching the mockup PDF page 46. All old files deleted; 3 new files created.
+
+### Files changed
+
+**Deleted (14 files):**
+`StudentsPageClient.tsx` + `components/AdmissionsInbox.tsx`, `BulkParentComms.tsx`, `CohortHeatmap.tsx`, `DemographicBreakdown.tsx`, `IncidentsTimeline.tsx`, `InterventionLog.tsx`, `PeerGroupComparison.tsx`, `QuickSearch.tsx`, `ReEnrollmentFunnel.tsx`, `RiskRoster.tsx`, `StudentSearchFilter.tsx`, `TeacherFeedback.tsx`
+
+**Created:**
+- `apps/admin/app/students/page.tsx` — fetches `getStudentsWithRiskFlags(academicYearId)` + `getStudentsForAdmin(academicYearId)` (for total enrolled count); passes to `AtRiskDashboardClient`.
+- `apps/admin/app/students/AtRiskDashboardClient.tsx` — client component with filter chip state + search input, 4 KPI cards (Total Flagged / High+Critical / Medium / Low), students grouped by severity (critical→high→medium→low), mock fallback with 7 realistic students.
+- `apps/admin/app/students/components/RiskStudentCard.tsx` — card component: colored avatar with initials, name + grade/section + "flagged Nd ago", risk score bar (mapped from severity: critical=95, high=82, medium=54, low=22), category signal chips, AI brief from `risk_flags.reason`, owner label, "Message parent" + "Open profile" action buttons.
+
+**`packages/lib/src/queries/students.ts`** — `getStudentsWithRiskFlags` updated to include `created_at` and `owner_id` in the `risk_flags!inner` select.
+
+**`packages/ui/src/globals.css`** — `.ars-` CSS block appended (page layout, KPI strip, filter bar, severity section headings, card grid, signal chips, score bar, footer actions).
+
+### DB wiring
+
+- Student names, section/grade, flag categories, `risk_flags.reason` (used as AI brief), `risk_flags.created_at` (days-ago label), `risk_flags.owner_id` (owner display).
+- Mock: risk score number, action button behaviour.
+
+### Centering fix
+
+After initial build, `.ars-page` lacked `margin: 0 auto` — content was left-aligned. Added to match all other admin pages.
+
+---
+
+## 39. Admin Schedule Page — Scheduler & Substitute Finder (2026-07-08)
+
+Replaced the old schedule page (SchedulePageClient + 10 component files) with a new "A8 Scheduler & Substitute Finder" design matching the mockup PDF page 52. All old files deleted; 4 new files created.
+
+### Files changed
+
+**Deleted (11 files):**
+`SchedulePageClient.tsx` + `components/ActionQueue.tsx`, `AskManhajCard.tsx`, `ChangeLog.tsx`, `CurriculumCoverage.tsx`, `KpiRow.tsx`, `RoomUtilization.tsx`, `TeacherLoadHeatmap.tsx`, `TeacherMyWeek.tsx`, `TimetableGrid.tsx`
+
+**Bonus fix:** `apps/admin/app/faculty/FacultyPageClient.tsx` imported `TeacherLoadHeatmap` from the schedule components folder — removed that import and its usage (the component no longer exists).
+
+**New query file: `packages/lib/src/queries/schedule.ts`**
+- `getTodayAbsences()` → `AbsenceRow[]` — queries `staff_absences` where `starts_on = today`. Due to an ambiguous FK (`staff_absences` has both `teacher_id` and `sub_teacher_id` → `teachers`), the teacher name lookup is done as a separate `teachers` query to avoid the Supabase TypeScript `SelectQueryError`. Fetches substitutions via `substitutions!absence_id` join. Real column names (discovered from TS errors): `starts_on`, `reason_notes`, `absence_id`, `substitute_teacher_id`, `slot_id`.
+- `getAbsentTeacherPeriods(teacherId, absenceId, academicYearId)` → `AbsentTeacherPeriod[]` — timetable slots for the absent teacher on today's day-of-week, matched with substitution assignments.
+- `getWeekTimetableGrid(academicYearId)` → `WeekSlot[]` — all timetable slots with day/period/subject/teacher/section for the week grid.
+
+**Created:**
+- `apps/admin/app/schedule/page.tsx` — fetches `getTodayAbsences()` + `getWeekTimetableGrid(academicYearId)`; passes to `SchedulerClient`.
+- `apps/admin/app/schedule/SchedulerClient.tsx` — 4 tabs (Today / This week / Master timetable / Cover history). Date subtitle. Cover history tab shows 5 mock historical rows.
+- `apps/admin/app/schedule/components/TodayView.tsx` — AI banner, 4 KPI cards (Classes today/Teachers absent/Cover assigned/Open gaps), absent teacher block with period-by-period timeline (08:00–13:30), ranked substitute candidate cards with compatibility scores (98/74/61), footer actions (View handoff sheet / Message sub / Mark returned). Period breakdown uses mock data (complex join not worth doing for display-only). DB-wired: absent teacher name/reason/sub counts and names.
+- `apps/admin/app/schedule/components/MasterTimetableView.tsx` — day×period grid (Sun–Thu, P1–P6), shows real DB slots when available, falls back to mock grid. "Plan next week" AI banner at bottom.
+
+**`packages/ui/src/globals.css`** — `.sch-` CSS block appended (page, tabs, AI banner, KPI strip, teacher row, period rows, candidate cards, master timetable grid, cover history table).
+
+### DB wiring
+
+- Today's absences: `staff_absences.starts_on = today` + teacher name via separate `teachers` query.
+- Substitutions for each absence: `substitutions!absence_id` with `substitute_teacher_id → teachers`.
+- Week timetable grid: `timetable_slots` with all joins, day+period grouping.
+- Mock: period-by-period breakdown (requires knowing the absent teacher's bell_period schedule on today's day — feasible but left for a future pass), candidate ranking scores, AI text.
+
+---
+
+## 40. Admin Admission Page — Admissions + Re-Enrolment (2026-07-08)
+
+Renamed the "Attendance" tab to "Admission" and replaced the entire page with a new "A4 Admissions + Re-enrolment" design matching the mockup PDF page 48. All old files deleted; 2 new files created.
+
+### Nav rename
+
+`apps/admin/app/components/AdminNav.tsx` — changed label from `"Attendance"` to `"Admission"`. Route stays `/admin/attendance` (no Next.js route change needed).
+
+### Files changed
+
+**Deleted (13 files):**
+`AttendancePageClient.tsx` + `components/AiCausesCards.tsx`, `BenchmarkBars.tsx`, `ChronicAbsenteesTable.tsx`, `DayOfWeekHeatmap.tsx`, `LessonsMissedList.tsx`, `PerStudentCalendarHeat.tsx`, `PeriodBars.tsx`, `ReEngagementDraft.tsx`, `SectionHeatStrip.tsx`, `SubjectCorrelation.tsx`, `TakeAttendanceUI.tsx`
+
+**Created:**
+- `apps/admin/app/attendance/page.tsx` — fetches `getApplicantsForYear(academicYearId)` for pipeline + table data, and `getStudentsForAdmin(academicYearId)` for total enrolled count; passes to `AdmissionsClient`.
+- `apps/admin/app/attendance/AdmissionsClient.tsx` — full page:
+  - **AI banner** — re-enrolment briefing (mock text, DB-driven count).
+  - **4 KPI cards** — Currently Enrolled (from DB `getStudentsForAdmin` count) / Re-Families 88.4% / Not Yet Decided 47 / Confirmed Leaving 18 (last three mock).
+  - **Re-Enrolment families** — 5 mock family rows with risk chips (ALL DISMISSED RISK / BACK-TO-SCH RISK / COMPETITION RISK / CREDIT RISK / FRIENDLY CONTACT) + action buttons per family.
+  - **Confirmed Leaving** — horizontal bar chart (Graduated/Moving/Competition Losing/Dissatisfied) with note breakdown.
+  - **New Applicant Pipeline** — 6-stage bar chart (INQUIRY→TOUR BOOKED→ASSESSMENT→INTERVIEW→OFFER SENT→ENROLLED); counts from DB `applicants.stage` when available, mock fallback (142→84→61→38→31→22).
+  - **Needs You This Week** — 2×3 grid of 6 action cards with Preview/Send/Open buttons (all mock).
+  - **All Applicants table** — DB-wired; searchable by name/grade/source, filterable by stage; colored initials avatars, stage chips (`admission_stage` enum: new/review/interview/offer/accepted/rejected/withdrawn), days-in-stage computed from `created_at`, mock owner "Ms. Salwa". Mock fallback with 8 representative applicants.
+
+**`packages/ui/src/globals.css`** — `.adm-` CSS block appended (page, banner, KPI strip, section wrappers, family rows, leaving bars, pipeline funnel, needs grid, table).
+
+### DB wiring
+
+- Total enrolled: `getStudentsForAdmin` length.
+- Pipeline bar chart counts: `applicants.stage` grouped.
+- All Applicants table: full `applicants` rows for the year (id, full_name, target_grade, stage, source, notes, created_at).
+- Mock: re-enrolment family rows (no re-enrolment tracking table in DB), confirmed leaving breakdown (no leaving-reason column in DB), needs-this-week action cards (AI-generated), owner per applicant (no admissions_owner field in DB), AI signal (no scoring table).
+
+---
+
+## 41. Minor Polish — Nav Label + Schedule Dynamic Title (2026-07-08)
+
+Two small fixes applied after the main page rebuilds.
+
+**`apps/admin/app/components/AdminNav.tsx`** — "Admission" → "Admissions" (typo fix, plural form).
+
+**`apps/admin/app/schedule/SchedulerClient.tsx`** — Added `TAB_TITLE` map so the `<h1>` updates with the active tab:
+- Today → "Today's schedule"
+- This week → "This week's schedule"
+- Master timetable → "Master schedule"
+- Cover history → "Cover history"
+
+Previously the title was hardcoded to "Today's schedule" regardless of which tab was active.
+
+---
+
+## 42. Teacher App — One-Tap Attendance (T1) (2026-07-08)
+
+### Nav restructure
+
+**`apps/teacher/app/components/TeacherNav.tsx`** — Three tabs in new order:
+1. Dashboard (was "Analyze")
+2. One-Tap Attendance (new, `/teacher/attendance`)
+3. Input (moved to last)
+
+### New query functions — `packages/lib/src/queries/attendance.ts`
+
+Three functions appended:
+
+- `getAttendanceForPeriod(sectionId, date, bellPeriodId)` → `RollCallMark[]` — today's marks for this class/period.
+- `getYesterdayAttendanceForSection(sectionId, date)` → `RollCallMark[]` — previous day's marks for "copy from yesterday" feature.
+- `getCurrentSlotForTeacher(teacherId, academicYearId)` → `CurrentSlotInfo | null` — finds the teacher's currently active period by comparing `HH:MM` against `bell_periods.starts_at`/`ends_at` for today's `day_of_week`. Falls back to first teaching slot of the day if no period is currently active.
+
+`RollCallMark` type: `{ student_id, status, reason, notes }`.
+`CurrentSlotInfo` type: full slot details (slotId, sectionId, sectionCode, gradeLevel, subjectName, roomCode, bellPeriodId, periodLabel, periodNumber, startsAt, endsAt, isNow).
+
+Note: `bell_periods.starts_at` / `ends_at` are `time` columns stored as `HH:MM:SS` strings; sliced to 5 chars for display. `bell_periods.day_of_week` is a `text` field with values like `"Mon"`, `"Tue"`, etc.
+
+### Server actions — `apps/teacher/app/actions/attendance.ts`
+
+New file with two server actions:
+- `saveAttendanceMark(data)` — upserts a single mark with `onConflict: "student_id,marked_on,bell_period_id"`.
+- `bulkSaveAttendance(marks[])` — bulk upsert for "mark all present".
+
+Both call `revalidatePath("/teacher/attendance")`. Column `marked_by_teacher_id` used (not `teacher_id`). `attendance_marks.school_id` is NOT NULL so school_id is fetched server-side and passed through.
+
+### Server page — `apps/teacher/app/attendance/page.tsx`
+
+Parallel fetches:
+- `getCurrentSlotForTeacher` → active slot
+- `getStudentsBySection(sectionId)` → roll call list
+- `getAttendanceForPeriod(sectionId, today, bellPeriodId)` → today's saved marks
+- `getYesterdayAttendanceForSection(sectionId, yesterday)` → previous day marks
+- `getTeacherSchoolId(teacherId)` → inline helper querying `teachers.school_id`
+
+All with `.catch(() => [])` / `.catch(() => null)` guards. Passes all data to `OneTapClient`.
+
+### Client component — `apps/teacher/app/attendance/OneTapClient.tsx`
+
+Full interactive roll call UI:
+- Local state `Record<string, LocalMark>` initialized from DB marks or mock fixtures.
+- `useTransition` for background server action saves (optimistic UI, `isPending` shows "saving…").
+- Live KPI counters (PRESENT / ABSENT / LATE) derived from local state.
+- AI suggestion banner: auto-shown when no exceptions yet; "Yes, mark all present" calls `markAllPresent()` and dismisses banner.
+- Quick actions: `markAllPresent()` (bulk upsert), `clearAll()` (resets all to null/present), `fromYesterday()` (loads yesterday's marks into state).
+- Student rows: roll number + colored avatar (initials + `COLORS` array) + name + section/roll meta + 3-button status picker (✓ / ✕ / 🕐).
+- Reason chips on absent/late rows: `ABSENT_REASONS = ["Bus late", "Medical", "Family", "Other"]`, `LATE_REASONS = ["Medical", "Family informed", "Unknown", "Other"]`.
+- Collapsed present-students section: `nonPresent` always visible, `presentStudents` collapsed by default with avatar stack + "N more students — all marked present → show".
+- Sticky submit footer with summary counts.
+- Mock fallback: `MOCK_SLOT` (G5B Maths, P2, 9:00–9:45, Room 12) + 12 `MOCK_STUDENTS` + 3 `MOCK_MARKS` (s3=late/Bus late, s5=absent/Family informed, s8=absent/Medical). Falls back automatically when DB returns no students.
+
+### CSS — `packages/ui/src/globals.css`
+
+`.tap-` CSS block appended: page wrapper (max-width 680px, margin 0 auto), class header, KPI row, AI banner, roll-call header, quick-action buttons, student row (main + reason row), status buttons, collapsed section, submit footer.
+
+---
+
+## 43. Teacher App — Rubric Scoring (T2) (2026-07-09)
+
+### Nav update
+
+**`apps/teacher/app/components/TeacherNav.tsx`** — Added "Rubric Scoring" tab at position 3 (after One-Tap Attendance, before Input):
+```
+Dashboard / One-Tap Attendance / Rubric Scoring / Input
+```
+
+### DB Schema used
+
+- `rubrics`: `id`, `name`, `school_id`, `is_manhaj_default`, `version` — school's rubric definition. Fetched with `is_manhaj_default = true`.
+- `rubric_criteria`: `id`, `rubric_id`, `axis_code`, `axis_name_en`, `description_en`, `ai_suggested` (bool), `display_order`, `scale_min`, `scale_max` — the scoring axes for a rubric.
+- `rubric_scores`: `id`, `rubric_id`, `student_id`, `axis_code`, `score` (number), `notes`, `scored_by_teacher_id`, `scored_for_month` (YYYY-MM string), `source` ("ai" or "teacher"), `school_id`, `subject_id`.
+
+### New query file — `packages/lib/src/queries/rubric.ts`
+
+Three functions:
+- `getRubricForSchool(schoolId)` → `{ id, name } | null` — fetches the `is_manhaj_default` rubric for the school using `.maybeSingle()`.
+- `getRubricCriteria(rubricId)` → `RubricCriterion[]` — axes ordered by `display_order`.
+- `getRubricScoresForStudents(studentIds, rubricId, month)` → `RubricScore[]` — all scores for the section for a given month.
+
+### Server action — `apps/teacher/app/actions/rubric.ts`
+
+- `bulkSaveRubricScores(records[])` — upserts to `rubric_scores` with `source: "teacher"`, conflict key `student_id,rubric_id,axis_code,scored_for_month`. Calls `revalidatePath("/teacher/rubric")`.
+
+### Server page — `apps/teacher/app/rubric/page.tsx`
+
+Fetches in parallel: current slot → section ID → students → rubric → criteria + scores. All `.catch()` guarded. Passes to `RubricClient`.
+
+### Client component — `apps/teacher/app/rubric/RubricClient.tsx`
+
+Two-panel layout:
+
+**Left sidebar (240px sticky):**
+- Monthly Rubric Cycle header with class/subject label and 3-button month navigator (prev / current / next).
+- CLASS PROGRESS bar: `confirmedCount / totalStudents` filled green.
+- Student list: colored avatar + name + status dot (green=confirmed, orange=in_progress, gray=not_started) + score or state label. Active student highlighted with left border.
+
+**Right panel:**
+- Sticky student header: avatar + name + roll meta + Previous / Save & next buttons.
+- AI banner: explains how many axes are AI-proposed vs. teacher-judgment.
+- Per axis section:
+  - Axis name + status chip (AI SUGGESTED / IN PROGRESS / AI ASSESSED / YOUR COMMENT).
+  - Description text.
+  - 5-point scale bar: each step is a button (EMERGING / DEVELOPING / PROFICIENT / STRONG / ADVANCED), active step filled with primary color.
+  - AI evidence bullets (from `MOCK_AI_EVIDENCE` per `axis_code`, or from `rubric_scores.notes` where `source="ai"` in live mode).
+  - For non-AI axes: note that no automatic scoring is available.
+  - Notes textarea per axis.
+- Overall score footer: averaged score across all scored axes, Save draft / Confirm & next student.
+- "How the scoring works" footnote.
+
+**State design:**
+- `AllScores = Record<studentId, Record<axisCode, { score, notes, source }>>` — initialized from DB scores or mock, all held in memory.
+- `studentStatus()`: "confirmed" if all axes have `source="teacher"`, "in_progress" if any score exists, "not_started" otherwise.
+- `confirmAndNext()`: marks all scored axes as `source="teacher"` in local state → bulk upserts → advances to next student.
+- `saveDraft()`: upserts current student's scores without changing source or navigation.
+- Month navigation changes `month` state; live mode would re-fetch on navigation (currently uses initial load; re-fetch on month change is a future enhancement).
+
+**Mock fallback:** 12 students (same as One-Tap), 6 MOCK_CRITERIA (conceptual / analytical / communication / collaboration / self_direction / application), pre-populated MOCK_SCORES for first 5 students as "teacher"-confirmed and s6 (Layla) with AI-proposed scores on 4 axes. MOCK_AI_EVIDENCE keyed by `axis_code` matches the mockup bullets. Default `activeIdx = 5` (Layla) in mock mode.
+
+### CSS — `packages/ui/src/globals.css`
+
+`.rub-` CSS block appended: two-column page (max-width 1100px, margin 0 auto), sidebar (240px sticky, cycle header, progress bar, student list), right panel (student header, AI banner, axis sections, scale buttons, evidence block, notes textarea, footer with overall score).
+
+---
+
+## 44. Teacher App — Class Hub + Parent Summary (T3) (2026-07-09)
+
+### Nav update
+
+**`apps/teacher/app/components/TeacherNav.tsx`** — Added "Class Hub" tab at position 4 (after Rubric Scoring, before Input):
+```
+Dashboard / One-Tap Attendance / Rubric Scoring / Class Hub / Input
+```
+
+### DB tables wired
+
+| Table | Usage |
+|---|---|
+| `lessons` | This-week topic, homework description; next-class upcoming lesson |
+| `lesson_followups` | Follow-ups from this week (title, description, priority, tag, is_done) |
+| `assessments` | Quiz/test held this week (kind = "quiz"\|"test") |
+| `assessment_results` | Per-student scores → compute class avg + top score % |
+| `attendance_marks` | Week attendance % + absent/late student IDs |
+| `behaviour_notes` | Positive recognition count + concern count for the week |
+| `comm_drafts` | Parent summary draft (`drafted_en`, `edited_en`, `status = "draft"`) |
+| `student_parents` | Parent/family count for "Where this goes" row |
+| `teachers` | Teacher `full_name` / `display_name` for digest preview "From …" line |
+
+### New query file — `packages/lib/src/queries/classhub.ts`
+
+Functions:
+- `getWeekLessons(sectionId, weekStart, weekEnd)` → `LessonRow[]`
+- `getNextLesson(sectionId, afterDate)` → `LessonRow | null`
+- `getFollowupsForLessons(lessonIds[])` → `FollowupRow[]`
+- `getWeekAssessments(sectionId, weekStart, weekEnd)` → `{ assessments, results }`
+- `getWeekAttendance(sectionId, weekStart, weekEnd)` → `{ total, present, absent[], late[] }`
+- `getWeekBehaviourNotes(sectionId, weekStart, weekEnd)` → `BehaviourRow[]`
+- `getLatestCommDraft(teacherId)` → `CommDraftRow | null` — most recent draft-status comm for the teacher
+- `getParentCountForSection(sectionId)` → number — unique parent_ids via student_parents
+
+### Server actions — `apps/teacher/app/actions/classhub.ts`
+
+- `toggleFollowup(id, isDone)` — updates `lesson_followups.is_done` + `completed_at`.
+- `saveCommDraft({ teacherId, schoolId, draftEn, draftId })` — upserts to `comm_drafts`; updates `edited_en` if `draftId` exists, inserts new draft otherwise.
+
+### Server page — `apps/teacher/app/classhub/page.tsx`
+
+- `getWeekRange(0)` helper: computes Mon–Fri ISO dates for the current calendar week.
+- `getTeacherSchoolAndName(teacherId)`: single query for `school_id`, `full_name`, `display_name`.
+- Parallel fetches: current slot, teacher info → then week lessons, attendance, behaviour, comm draft, parent count → then followups, assessments, next lesson.
+- All `.catch()` guarded.
+
+### Client component — `apps/teacher/app/classhub/ClassHubClient.tsx`
+
+**Two-column layout (flex, max-width 1200px):**
+
+**Left column:**
+1. Week header — "WEEKLY CLASS SUMMARY", section/subject/week label, Last week / This week toggle.
+2. "THIS WEEK AT A GLANCE" — 5 bullet items. Live: topic from `lessons[0].topic`, assessment stats from DB, attendance % from `attendance_marks`, recognition count from `behaviour_notes where kind="positive"`. Falls back to mock when DB empty.
+3. "FOLLOW-UPS FROM THIS WEEK" — checkboxes from `lesson_followups`. Toggle calls `toggleFollowup()` server action. Tags colour-coded: PRIORITY=red, CONCEPT=blue, DONE=green, PTC NOTE=purple, HANDOFF=orange.
+4. "NEXT CLASS" — from `getNextLesson()` (topic + date) + current slot (time/period/room).
+5. "PRE-CLASS CHECKLIST" — 4 mock items (no dedicated table), local toggle state.
+6. "— PARENT SUMMARY —" — bullet textareas (local state), tone selector (Formal/Warm/Brief/Detailed), regenerate button (UI only, AI not integrated), "Save as draft" calls `saveCommDraft()`.
+
+**Right column:**
+1. "Ready to send" with 5 checklist items (all-green badge when all pass). Checks: class data complete, week has ended (today ≥ weekEnd), observations added (bullet count > 0), tone selected, AI quality check.
+2. Digest preview card — `comm_drafts.edited_en ?? drafted_en ?? MOCK_DIGEST`. Shows section/week header, teacher name, body paragraphs, 4-KPI strip (attendance %, quiz avg, 87% homework, recognition count), coming-up paragraph.
+3. "WHERE THIS GOES" — 4 checkboxes: parents' weekly digest (family count · Thu 5PM), class page (live), standalone email, Arabic translation (+15 min). Local toggle state.
+4. Save as draft / Schedule for digest buttons.
+
+**State:** `followupDone` (Record), `checklist` (Record), `bullets` (string[]), `tone`, four distribution channel booleans. `useTransition` for server action calls.
+
+**Mock fallback:** 5 glance items, 5 follow-ups, 4 checklist items, full MOCK_DIGEST text, 2 bullets, 23 families. Active when `lessons.length === 0 && followups.length === 0`.
+
+### CSS — `packages/ui/src/globals.css`
+
+`.clh-` CSS block appended: two-column page (max-width 1200px, margin 0 auto), left column (week header, glance rows, follow-up rows, next class box, checklist, parent summary bullets + tone + regenerate), right column (ready checks, digest card with KPI strip, where-this-goes rows, footer buttons).
+
+---
+
+## 45. Teacher App — Substitute Handoff Sheet (T6) (2026-07-09)
+
+### Nav update
+
+**`apps/teacher/app/components/TeacherNav.tsx`** — Added "Substitute" tab at position 5 (after Class Hub, before Input):
+```
+Dashboard / One-Tap Attendance / Rubric Scoring / Class Hub / Substitute / Input
+```
+
+### DB tables wired
+
+| Table | Usage |
+|---|---|
+| `timetable_slots` | Teacher's teaching periods for the selected day (by day_of_week) |
+| `bell_periods` | Period times (starts_at, ends_at, period_label, period_number, day_of_week) |
+| `sections` | Class codes and grade levels |
+| `subjects` | Subject name per slot |
+| `rooms` | Room code per slot |
+| `lessons` | Lesson plan (topic, learning_objective, homework_description) for each section on the date |
+| `lesson_followups` | Student-specific flags (`student_id` not null, `is_done = false`) |
+| `behaviour_notes` | Recent student notes (positive = RECOGNITION, concern = CONCERN) |
+| `students` | Names for flagged student IDs |
+| `staff_absences` | Checks if teacher is absent on the date (to find linked substitute_sheet) |
+| `substitute_sheets` | Tracks acknowledgment: `ack_at`, `sub_teacher_id` |
+| `teachers` | Teacher `full_name`, `display_name` |
+
+### New query file — `packages/lib/src/queries/substitute.ts`
+
+- `getTeacherDaySchedule(teacherId, academicYearId, date)` → `DaySlot[]` — all teaching slots for the given date's `day_of_week`, sorted by `period_number`.
+- `getLessonsForSections(sectionIds, date)` → `SlotLesson[]` — lesson plan per section on that date.
+- `getStudentFlagsForSections(sectionIds, teacherId, from)` → `StudentFlag[]` — lesson_followups with `student_id` + behaviour_notes from `from` date; joins `students` table for names.
+- `getSubstituteSheet(teacherId, date)` → `SubSheetRow | null` — checks `staff_absences` then `substitute_sheets` for the date.
+
+### Server action — `apps/teacher/app/actions/substitute.ts`
+
+- `acknowledgeSheet(sheetId)` — updates `substitute_sheets.ack_at = now()`.
+
+### Server page — `apps/teacher/app/substitute/page.tsx`
+
+- Reads `?date` search param (defaults to today).
+- Fetches teacher info (school_id, name), day schedule, then in parallel: lessons, student flags, substitute_sheet.
+- `weekStart` = 7 days before forDate for the student flags time window.
+
+### Client component — `apps/teacher/app/substitute/SubstituteClient.tsx`
+
+**Layout:** Single centered column (max-width 820px), printable.
+
+**Header:** Teacher name + formatted date. Prev/Today/Next buttons navigate by pushing `?date=YYYY-MM-DD` to router. "Today" button highlighted when on today's date. "Substitute assigned" badge shown when `sheet.sub_teacher_id` exists.
+
+**Period strip:** Horizontal scrollable pills — teaching periods (colored, section code + subject + time) and free periods (grayed out). Built from DB slots + MOCK_FREE gaps in mock mode.
+
+**Period cards (one per teaching period):**
+- Colored header bar (primary color) with period label, section, room, time.
+- "same class as P1" chip when re-teaching the same section.
+- LESSON PLAN block: topic (bold) + learning_objective text.
+- Checklist items (local checkbox state, no DB write needed).
+- Student flags: left-border highlighted rows with student name + tag chip (RECOGNITION/CONCERN/FOLLOW-UP/ELL) + note text.
+- Homework note (amber bar) if `homework_description` set.
+
+**Emergency contacts:** 2×2 grid, hardcoded (no dedicated DB table). Red border card.
+**End-of-day checklist:** 5 items, local checkbox state.
+
+**Footer (sticky):** Period count + time range. "Save as PDF" calls `window.print()`. "I've read this →" calls `acknowledgeSheet()` and disables itself after click (green ✓ state).
+
+**Print CSS:** `@media print` hides nav and footer, removes max-width constraint.
+
+**Mock fallback:** 4 teaching periods (G5B P1, G5A P3, G5B P5, G5C P6) + 2 free gaps, 4 lesson plans, 4 checklist sets, 5 student flags spread across sections. Active when `slots.length === 0`.
+
+### CSS — `packages/ui/src/globals.css`
+
+`.sub-` CSS block appended: page (max-width 820px), sticky header with date nav, horizontal period strip, free-period dashed cards, teaching period cards (lesson plan / checklist / student flags / homework note), emergency contacts grid (red), end-of-day checklist, sticky footer with PDF + ack buttons, print media query.
+
+---
+
+## 46. One-Tap Attendance — Full-Width Fix (2026-07-09)
+
+**Problem:** `.tap-page` had `max-width: 680px; margin: 0 auto` which made it appear narrower and smaller than every other page in the teacher app.
+
+**Fix — `packages/ui/src/globals.css`:**
+```css
+/* Before */
+.tap-page { padding: 0; max-width: 680px; margin: 0 auto; }
+
+/* After */
+.tap-page { padding: 0; }
+```
+
+Removed the max-width constraint so the One-Tap Attendance page fills the full available width, consistent with all other pages (Rubric Scoring, Class Hub, Substitute, admin pages, etc.).
+
+---
+
+## 47. Portal Stub Pages for New Teacher Tabs (2026-07-09)
+
+**Problem:** New teacher tabs (One-Tap Attendance, Rubric Scoring, Class Hub, Substitute) showed "page not found" because the running app is the **portal** (`apps/portal`), not the standalone teacher app. The portal routes `/teacher/*` by re-exporting pages from `@manhaj/teacher`, but the stub files didn't exist yet.
+
+**Pattern (existing, confirmed working):**
+```
+apps/portal/app/teacher/input/page.tsx
+→ export { default } from "@manhaj/teacher/app/input/page";
+```
+
+The teacher package exports `"./app/*": "./app/*"` so every page is accessible.
+
+**Fix — four new portal stub pages created:**
+- `apps/portal/app/teacher/attendance/page.tsx`
+- `apps/portal/app/teacher/rubric/page.tsx`
+- `apps/portal/app/teacher/classhub/page.tsx`
+- `apps/portal/app/teacher/substitute/page.tsx`
+
+Each is a one-liner re-export. Portal TypeScript check passes clean.
+
+**Note for future tabs:** Any new teacher route added to `apps/teacher/app/<route>/page.tsx` also needs a matching stub at `apps/portal/app/teacher/<route>/page.tsx`.
+
+---
+
+## 48. Substitute Page — Three DB Fixes (2026-07-09)
+
+Three bugs in the Substitute Handoff Sheet were fixed without changing any UI.
+
+### Fix 1 — Checklist always visible (client only)
+
+**Bug:** `const mockChecks = isMock ? (MOCK_CHECKLIST[ck] ?? []) : []` — live-mode users saw no checklist.
+
+**Fix in `SubstituteClient.tsx`:**
+- Added `GENERIC_CHECKLIST_ITEMS` constant (3 generic items: take attendance, follow lesson plan, leave work on desk).
+- `const ck = checklistKey(slot, mockIdx)` now runs unconditionally (was gated on `isMock`).
+- `const checkItems = MOCK_CHECKLIST[ck] ?? GENERIC_CHECKLIST_ITEMS` — live users get generic items when no mock key matches.
+- Render uses `checkItems` in place of `mockChecks`.
+
+### Fix 2 — Free periods from DB
+
+**Bug:** `MOCK_FREE` was only merged into `allPeriods` inside the `isMock` branch; live mode showed no free-period pills.
+
+**New query — `packages/lib/src/queries/substitute.ts`:**
+- Added `FreePeriod` type: `{ periodNumber, startsAt, endsAt, label }`.
+- Added `getFreePeriods(academicYearId, date)`:
+  - Gets all distinct `bell_period_id`s from `timetable_slots` for the academic year.
+  - Queries `bell_periods` filtering `id IN (bpIds)`, `day_of_week = dow`, `is_teaching = false`.
+  - Returns sorted by `period_number`.
+
+**Updated `page.tsx`:** Added `getFreePeriods` to the parallel fetch; passes `freePeriods` prop to client.
+
+**Updated `SubstituteClient.tsx`:**
+- `freePeriods: FreePeriod[]` added to Props.
+- Live-mode `allPeriods` build: merges `activeSlots` + `freePeriods` sorted by `periodNumber` (dedup via Set).
+
+### Fix 3 — Student flags filtered per section
+
+**Bug:** `flagsForSection()` in live mode returned `true` for every flag — all flags appeared on every period card.
+
+**Fix in `packages/lib/src/queries/substitute.ts`:**
+- Added `sectionId: string | null` to `StudentFlag`.
+- `getStudentFlagsForSections`: changed `lessons` select from `"id"` → `"id, section_id"`; built `lessonSectionMap: Map<lessonId, sectionId>`.
+- `lesson_followups` select now includes `lesson_id`; each followup flag gets `sectionId` from `lessonSectionMap`.
+- `behaviour_notes` select now includes `section_id`; each behaviour flag gets `sectionId: b.section_id`.
+
+**Fix in `SubstituteClient.tsx`:**
+- Live-mode call to `flagsForSection()` (was `activeFlags.filter(f => f.source === "followup")`).
+- `flagsForSection` live branch: `return allFlags.filter(f => f.sectionId === sectionId)`.
+
+---
+
+## 49. Student App — My Goals Page (2026-07-09)
+
+Replaced the "My Schedule" tab with "My Goals". The schedule page is preserved; only the nav link changed.
+
+### Nav change — `apps/student/app/components/StudentNav.tsx`
+- `{ href: "/student/schedule", label: "My Schedule" }` → `{ href: "/student/goals", label: "My Goals" }`
+
+### New query — `packages/lib/src/queries/goals.ts`
+- `getGoalStudentProfile(studentId)` → `{ studentName }` from `students.full_name_en`.
+- `getStudentLatestRubricScores(studentId)` → `RubricSuggestionData[]` — latest score per axis from `rubric_scores`, ordered desc by `scored_for_month`, deduped by `axis_code`.
+
+### Server page — `apps/student/app/goals/page.tsx`
+- `dynamic = "force-dynamic"`.
+- Fetches `studentId` → parallel: `getGoalStudentProfile`, `getStudentLatestRubricScores`.
+- Passes `studentName`, `rubricScores` to `GoalsClient`.
+
+### Client component — `apps/student/app/goals/GoalsClient.tsx`
+
+**Layout:** Single column, max-width 1100px.
+
+**Title row:** "My goals · {currentMonth}" + subtitle.
+
+**Summary card** (amber tint `#FFFBEB`):
+- Left: ☀️ icon + bold "You're on track with N of your M goals." + italic detail text.
+- Right: 3 KPI boxes — ACTIVE / DONE / DAY STREAK counts.
+
+**ACTIVE GOALS grid** (2-column, `.myg-goal-card`):
+- Each card: category badge (ACADEMIC/PERSONAL/COLLABORATION/ARABIC/MATHS with distinct colors) + optional ✓ DONE badge + frequency note.
+- Title, progress label + %, colored progress bar (green=done, blue=active, orange=behind), highlight insight box (left-border), footer with "Set with [teacher]" + action buttons.
+- 5th card (`wide: true`) spans full width.
+- "✓ Tick today" button toggles local `tickedGoals` state.
+- `+ Add a goal` button in section header (no action yet — needs modal).
+
+**GOALS MANHAJ SUGGESTS** (2-column card):
+- When `rubricScores` has axes with score ≤ 2: renders DB-driven suggestions (axis name + score description).
+- Else: 2 hardcoded default suggestions (maths reasoning + Arabic short stories).
+- Each has title, description, `+ Add this as a goal +` button.
+
+**QUICK REFLECTION** (textarea):
+- Local state only (save button shows "Saved ✓" optimistically for 3 s).
+- Note: "Private to you and Mr. Tariq · saved with your monthly report" — needs `student_reflections` table to persist.
+
+**isMock:** `!studentName` (no student profile found). Mock uses "Layla" as display name with 5 predefined goals.
+
+**DB connected:** Student name, rubric scores for suggestions.
+**Mock only:** Goals list, streaks, checkins (needs `student_goals` + `goal_checkins` tables), reflection persistence.
+
+### Portal stub
+- `apps/portal/app/student/goals/page.tsx` → `export { default } from "@manhaj/student/app/goals/page";`
+
+### CSS
+- `.myg-*` block appended to `packages/ui/src/globals.css`.
+- Max-width 1100px, 2-column goal grid, amber summary card, colored category badges, progress bars, suggestion 2-col grid, reflection textarea + footer.
+
+---
+
+## 50. Student App — Study Planner Page (2026-07-09)
+
+Replaced the "Homework" tab with "Study Planner".
+
+### Nav change — `apps/student/app/components/StudentNav.tsx`
+- `{ href: "/student/homework", label: "Homework" }` → `{ href: "/student/study-planner", label: "Study Planner" }`
+
+### New query — `packages/lib/src/queries/studyplanner.ts`
+- `AssessmentRow` type: `{ id, title, subject, scheduledOn, kind }`.
+- `getStudentAssessmentsThisWeek(studentId, from, to)`:
+  - Gets `current_section_id` from `students`.
+  - Queries `assessments` table: `section_id = sectionId`, `kind IN ('quiz','test','exam')`, `scheduled_on` between `from` and `to`.
+  - Joins `subjects` for name.
+
+### Server page — `apps/student/app/study-planner/page.tsx`
+- `getWeekRange(today)`: Sun = week start (`getUTCDay() = 0`), Thu = week end (+4 days).
+- Parallel fetches: `getGoalStudentProfile`, `getStudentTimetable`, `getHomeworkForStudent`, `getStudentAssessmentsThisWeek`, `getStudentLatestRubricScores`.
+- `isMock = timetable.length === 0 && homework.length === 0`.
+
+### Client component — `apps/student/app/study-planner/StudyPlannerClient.tsx`
+
+**Layout:** Single column, max-width 1200px.
+
+**Title row:** "Plan your week, {displayName}" + subtitle.
+
+**KPI strip** (4-box row, single border card):
+- HOMEWORK DUE (count + first due date) — from `homework.length`.
+- TESTS THIS WEEK (count + subject name) — from `assessments.length`.
+- SPECIAL EVENTS (hardcoded 1 in mock, 0 live — no events DB source yet).
+- FREE AFTERNOONS (derived: 5 − unique homework due dates count).
+
+**TODAY'S FOCUS card:**
+- In mock: 3 hardcoded items (Science project urgent, Maths worksheet, Read goal done).
+- Live: filters homework due today or tomorrow, maps to `FocusItem[]`.
+- Each item: colored dot (red=urgent, green=done), title + desc, time tag or "Done" tag.
+- Dot is a button — clicking toggles `focusDone` local state (pre-seeded `{ 2: true }` in mock mode).
+
+**THIS WEEK grid** (5-column, Sun–Thu):
+- Each column: day name + date number, class pills from timetable, HW pills from homework/assessments.
+- In mock: `MOCK_CLASSES` and `MOCK_HW` per day name key.
+- Live: `periods.filter(p => p.day === dayName && p.is_teaching && p.subject)` for classes; homework filtered by `due === dayDate`, assessments filtered by `scheduledOn === dayDate`.
+- Class pill types: `class` (blue), `test` (red), `trip` (red+bold), `event` (amber).
+- HW pills: dashed border, red tint when `urgent`.
+- Today's column highlighted with `#FFFBEB` background.
+
+**WHAT MANHAJ SUGGESTS section:**
+- In mock: 3 hardcoded study suggestions (TEST PREP / BEHIND GOAL / ALMOST DONE).
+- Live: `buildSuggestionsFromRubric(rubricScores)` — maps axes with score ≤ 2 to FOCUS AREA suggestions; falls back to mock if no low scores.
+- Each suggestion: colored type badge, title, description, time + "+ Add to [day] +" button.
+
+**YOUR SUGGESTED AFTERNOON timeline:**
+- Always mock (8 blocks from 08:00 to 20:00): SCHOOL / STUDY / FREE / WIND DOWN tags.
+- Needs a scheduling/preferences table to go live.
+
+**isMock:** `timetable.length === 0 && homework.length === 0`.
+
+**DB connected:** Student name, timetable (via `getStudentTimetable`), homework (via `getHomeworkForStudent`), assessments (via `getStudentAssessmentsThisWeek`), rubric scores for suggestions.
+**Mock only:** Special events, free afternoons (approximate), afternoon timeline, study suggestions (unless rubric scores exist).
+
+### Portal stub
+- `apps/portal/app/student/study-planner/page.tsx`
+
+### CSS
+- `.sp-*` block appended to `packages/ui/src/globals.css`.
+- Max-width 1200px; 4-column KPI strip (shared border card); Today's Focus card; 5-column week grid with per-day class/hw pills; 3-column suggests card; timeline rows with time + block + tag columns.
+
+---
+
+## 51. Student App — Application Tracker Page (2026-07-09)
+
+Replaced the "Past Reports" tab with "Application Tracker" (university application management).
+
+### Nav change — `apps/student/app/components/StudentNav.tsx`
+- `{ href: "/student/past-reports", label: "Past Reports" }` → `{ href: "/student/application-tracker", label: "Application Tracker" }`
+
+### New query — `packages/lib/src/queries/applications.ts`
+- `UniversityApp` type: `{ id, universityName, country, program, status, deadline, decisionDate, admissionRatePct, notes }`.
+- `getStudentUniversityApps(studentId)`:
+  - Queries `university_applications` table (not yet in schema).
+  - Returns `[]` silently on error → caller falls back to mock data.
+- `CounselorInfo` type: `{ name, nextSession }`.
+- `getStudentCounselor(studentId)`:
+  - Gets `current_section_id`, then queries `timetable_slots → teachers` looking for `role = "counselor"`.
+  - Returns `null` if not found → client uses mock counselor.
+
+### Server page — `apps/student/app/application-tracker/page.tsx`
+- Parallel fetches: `getGoalStudentProfile`, `getStudentUniversityApps`, `getStudentLatestRubricScores`, `getStudentCounselor`.
+- `isMock = apps.length === 0`.
+
+### Client component — `apps/student/app/application-tracker/ApplicationTrackerClient.tsx`
+
+**Layout:** Full-width header → status strip → alert banner → two-column body (left ~64%, right ~36%).
+
+**Header:** "My university applications · 2026/27 entry" + count + counselor name in subtitle.
+
+**Status strip** (6 tabs — RESEARCHING / IN PROGRESS / SUBMITTED / IN REVIEW / ADMITTED / REJECTED):
+- Click toggles filter (click same tab to clear filter).
+- Shows count per status.
+
+**UCL alert banner** (amber tint):
+- Hardcoded urgent message about UCL deadline + personal statement at draft 3.
+- "Open with Ms. Hala" button (no action yet).
+
+**Left column — YOUR APPLICATIONS:**
+- Compact rows: colored initial-circle logo, university name + country/program, status badge + deadline/decision, admission rate bar + %.
+- "+ Add a university" button (no action yet).
+- Status filter applied here.
+
+**Left column — PLACEMENT INSIGHTS:**
+- Left: "Top 18%" large text + profile summary (Predicted IB, SAT, GS score).
+- Right: 4 universities with horizontal admission rate bars (UCL 52%, King's 38%, McGill 44%, NYUAD 15%).
+- Fully mock — needs analytics pipeline.
+
+**Left column — WHAT WOULD MOVE THE NEEDLE MOST:**
+- 3-column card grid: each with label (PATH TO UCL etc.), title, description.
+- Fully mock.
+
+**Left column — ANONYMOUS PAST STUDENTS:**
+- HTML table: CLASS / IB / SAT / PROFILE NOTE / OUTCOME columns.
+- 4 mock rows with outcome chips.
+- Footer disclaimer about model accuracy.
+
+**Right sidebar — YOUR MASTER DOCS:**
+- 9 documents with status icons (✓ green = uploaded, · amber = in_progress, ! red = missing).
+- Fully mock.
+
+**Right sidebar — TEST SCORES:**
+- IELTS (6.8/9+), SAT (1480), Predicted IB (43/45), SAT Math II (missing → "Begin" CTA button).
+- Fully mock.
+
+**Right sidebar — MANHAJ STUDY ASSISTANT** (dark card):
+- 4 action buttons (feedback on essay, interview practice, compare universities, deadline plan).
+- No DB connection — placeholder UI.
+
+**Right sidebar — YOUR COUNSELLOR:**
+- Avatar initials + name + next session time.
+- "Book a 1:1 session" button.
+- Live when `getStudentCounselor()` returns data; falls back to mock "Ms. Hala Al-Aatari".
+
+**DB connected:** Student name, counselor info (when role exists in teachers table).
+**Mock only:** All university applications (needs `university_applications` table), master docs (needs document tracking), test scores (needs test scores table), placement insights + cohort data (needs analytics pipeline), alert banner details.
+
+### Portal stub
+- `apps/portal/app/student/application-tracker/page.tsx`
+
+### CSS
+- `.at-*` block appended to `packages/ui/src/globals.css`.
+- Full-width header; 6-tab status strip; amber alert banner; 2-column body grid; compact app rows with logo circles, status badges, admission bars; placement 2-panel card; 3-column needle movers grid; anonymous students HTML table; sidebar cards (docs, scores, dark study assistant, counsellor).
+
+---
+
+## 52. Parent App — Nav Restructure (2026-07-10)
+
+**`apps/parent/app/components/ParentNav.tsx`** — Commented out three tabs that have no design yet, keeping the pages intact:
+
+```
+Dashboard / Permission Slip / Invoices / Sibling Comparison / Calendar
+// Course Selection — commented out
+// Past Reports — commented out
+// Messages — commented out
+```
+
+Final `LINKS` array:
+```ts
+{ href: "/parent",                    label: "Dashboard"         },
+{ href: "/parent/permission-slip",    label: "Permission Slip"   },
+{ href: "/parent/invoices",           label: "Invoices"          },
+{ href: "/parent/sibling-comparison", label: "Sibling Comparison"},
+{ href: "/parent/calendar",           label: "Calendar"          },
+```
+
+---
+
+## 53. Parent App — Weekly Digest Dashboard (P1) (2026-07-10)
+
+Complete rewrite of the parent dashboard. Old content (static KPI cards) replaced with a rich per-child weekly digest view.
+
+### New query file — `packages/lib/src/queries/weeklydigest.ts`
+
+Four functions:
+- `getBehaviourEventsForStudent(studentId, from, to)` → `BehaviourEvent[]` — `behaviour_notes` with `teacher_name` via teacher join. Returns `kind` ("positive" | "concern"), `note`, `teacher_name`, `created_at`.
+- `getAssessmentResultsForStudent(studentId, from, to)` → `AssessmentResult[]` — `assessment_results → assessments → subjects`. Date-filter applied in JS (using `held_on` on the joined `assessments` row). Returns `pct` (score/max_score × 100), `subject`, `held_on`.
+- `getWeeklyDigestDraft(studentId)` → `{ text: string } | null` — `comm_drafts` most recent draft. Prefers `edited_en` over `drafted_en`. Uses `.maybeSingle()`.
+- `getTeacherRecognitionForStudent(studentId, from, to)` → `{ note, teacher_name } | null` — most recent positive `behaviour_notes` entry.
+
+### `apps/parent/app/page.tsx` (full rewrite)
+
+- Computes week range (Sun–Thu): `weekStart = today - getUTCDay()`, `weekEnd = weekStart + 4`.
+- Fetches `parentId` → `getParentChildren()` → per-child parallel batch:
+  - `getLessonsForSection(sectionId, weekStart, weekEnd)` — week lessons
+  - `getHomeworkForSection(sectionId, weekStart, weekEnd)` — homework items
+  - `getBehaviourEventsForStudent(studentId, weekStart, weekEnd)`
+  - `getAssessmentResultsForStudent(studentId, weekStart, weekEnd)`
+  - `getWeeklyDigestDraft(studentId)`
+  - `getTeacherRecognitionForStudent(studentId, weekStart, weekEnd)`
+  - Next-week lessons (weekStart+7 to weekEnd+7)
+- Derives per-child: `homeworkCount`, best assessment result, positive/concern note counts, latest recognition.
+- `isMock = children.length === 0`.
+
+**Critical type fix:** `LessonRaw` type in the client deliberately omits the `teachers` field. The `lessons` table has multiple FK references to `teachers` (e.g., `marked_by_teacher_id`, `cover_teacher_id`) which causes Supabase TypeScript to infer `SelectQueryError<...>` for the `teachers` join. Since the client never renders teacher names from lessons, the field is simply excluded from the type to avoid the error.
+
+**homeworkCount fix:** Previously computed `homeworkPct` as `Math.round((homework.length / homework.length) * 100)` which always returned 100. Renamed to `homeworkCount: homework.length` (raw integer).
+
+### `apps/parent/app/WeeklyDigestClient.tsx` (new file)
+
+CSS prefix: `.wd-*`
+
+**Props:**
+```ts
+children: ParentChild[]
+childData: ChildDataEntry[]
+unpaidInvoices: InvoiceWithLines[]
+weekStart: string
+weekEnd: string
+todayStr: string
+isMock: boolean
+```
+
+**Child selector:**
+- Multi-child: horizontal tabs (colored avatar pill, name).
+- Single child: greeting pill with avatar.
+
+**AI digest card** (`.wd-digest`) — `digestText` from DB or mock AI paragraph about the child's week.
+
+**4 KPI chips** (`.wd-kpis`) — Attendance %, Homework items, Best assessment %, Recognition (positive note count).
+
+**Weekly timeline** (`.wd-timeline`) — Built from lessons + assessments + behaviour events, deduped and sorted by date. Each row shows date on left, coloured dot + event label on right.
+
+**Next-week grid** (`.wd-next-week`) — Lessons for the following week grouped by day.
+
+**Teacher recognition card** (`.wd-recognition`) — If `latestRecognition` exists: teacher avatar initials, recognition note, teacher name.
+
+**Todo/invoice actions** — Unpaid invoices listed with amount. "Pay now" link. Pending slips summary.
+
+**Footer buttons** — "View full report", "Message teacher", "Sibling comparison".
+
+**Mock fallback:** 2 children (Omar G8C, Layla G5B) with hardcoded week data, recognition notes, 2 unpaid invoices.
+
+### CSS
+- `.wd-*` block appended to `packages/ui/src/globals.css`.
+
+---
+
+## 54. Parent App — Permission Slip Tab (P4) (2026-07-10)
+
+New tab added between Dashboard and Invoices.
+
+### New query file — `packages/lib/src/queries/permissionslip.ts`
+
+Three functions:
+- `getUpcomingActivitySlipsForStudent(studentId, sectionId, from)` → `ActivitySlip[]`:
+  - Fetches all upcoming `activities` where `activity_date >= from`.
+  - Fetches `permission_slips` for the student.
+  - JS filter: activity applies when `target_sections.includes(sectionId) || !target_sections` (null = school-wide).
+  - Returns merged shape with slip status (`not_started | draft | signed | declined`), cost, date, title.
+- `getStudentHealthForSlip(studentId)` → `StudentHealth | null` — `student_health` table: allergies, conditions, medications, emergency contact fields.
+- `getParentContactForStudent(parentId, studentId)` → `{ name, phone, relationship } | null` — joins `parents` + `student_parents`.
+
+### `apps/parent/app/permission-slip/page.tsx` (new file)
+
+- Fetches `parentId` → `getParentChildren()`.
+- Per-child parallel: `getUpcomingActivitySlipsForStudent`, `getStudentHealthForSlip`, `getParentContactForStudent`.
+- `isMock = children.length === 0`.
+
+### `apps/parent/app/permission-slip/actions.ts` (new file — `"use server"`)
+
+Three server actions. All guard with `if (!parentId) throw new Error("Not authenticated")`.
+
+- `saveDraftAction(data)` → `{ slipId: string }` — upserts `permission_slips` with `status="draft"`. Form data encoded as JSON in `notes` field: `{ attendance, healthChange, healthExtra, emergencyName, emergencyPhone, emergencyRel, emergencyBackup }`. Update uses `.eq("parent_id", parentId)` for security; insert for new slips.
+- `signAndSubmitAction(data)` — upserts with `status="signed"`, `signed_at`, `signed_name`, `signed_by_parent_id`.
+- `declineSlipAction(data)` — upserts with `status="declined"`.
+
+**Note:** Form data stored as JSON in the `notes` column avoids needing additional DB columns for the prototype.
+
+### `apps/parent/app/permission-slip/PermissionSlipClient.tsx` (new file)
+
+CSS prefix: `.ps-*`
+
+**States:** `attendance` radio (yes/no/uncertain), `healthChange` boolean toggle, `healthExtra` textarea, emergency contact fields (name, phone, relationship, backup).
+
+**Pre-fill:** Emergency contact pre-filled from `health.emergencyContactName` → falls back to `parentContact.name/phone/relationship`.
+
+**Activity trip card** — title, date, cost, location. Mock: "Bait Al Zubair Museum, Muscat", AED 35, June 3.
+
+**Health & medical section** — shows existing conditions/allergies from DB. `healthChange` toggle opens textarea for updates.
+
+**Emergency contact form** — 4 fields (name, phone, relationship, backup phone), pre-filled.
+
+**Decline flow** — "Decline" button triggers a confirm modal before calling `declineSlipAction`.
+
+**Success states** — Signed/declined: shows empty success panel (no more pending slips).
+
+**Fixed footer bar** (`position: fixed; bottom: 0`) — Decline | Save draft | Sign and submit. Uses `useTransition` for optimistic UI.
+
+### Portal stub
+- `apps/portal/app/parent/permission-slip/page.tsx` → `export { default } from "@manhaj/parent/app/permission-slip/page";`
+
+### CSS
+- `.ps-*` block appended to `packages/ui/src/globals.css`.
+- Trip card, health section, emergency contact form, confirm modal overlay, fixed footer bar.
+
+---
+
+## 55. Parent App — Invoice Page Redesign (P5) (2026-07-10)
+
+Replaced the old single-column invoice layout with a two-column design.
+
+### `apps/parent/app/invoices/page.tsx` (updated)
+
+- Now also fetches `getParentChildren(parentId)` and passes `dbChildren` to client for grade label in subtitle.
+
+### `apps/parent/app/invoices/InvoicesPageClient.tsx` (complete rewrite)
+
+CSS prefix: `.inv-*`
+
+**Still uses** `useActiveChild()` to filter invoices to the active child.
+
+**Left column:**
+- **Dark hero card** (`.inv-hero`, `background: #1A202C`) — invoice reference code, child name + grade, total amount (AED), status badge, due date.
+- **Fee breakdown** — itemized lines from `invoice_lines` with `amount_aed`, `label`, `description`.
+- **Payment history table** — all `status === "paid"` invoices listed with date, amount, and method. Method column shows `—` (live data — method not in DB schema); mock shows "Visa ****4521" / "Bank transfer".
+
+**Right column (sticky `top: 80px`) — `PayPanel` component:**
+- TOTAL row.
+- School portal card with ISO logo + school name.
+- 4 feature lines with ✓ checkmarks.
+- "Pay on ISO Parent Portal ↗" primary button.
+- "Download Invoice PDF ↓" outline button.
+- "What happens next" explanation box.
+- Disclaimer text.
+
+**Mock:** AED 8,750, INV-2026-T3-03, 5 fee lines, 4 payment history rows.
+
+**Bug fix removed:** `installmentOf` variable was computed but never used in JSX — removed dead code.
+
+### CSS
+- `.inv-*` block appended to `packages/ui/src/globals.css`.
+- Dark hero card, fee breakdown lines, payment history table, sticky pay panel.
+
+---
+
+## 56. Parent App — Sibling Comparison Tab (P6) (2026-07-10)
+
+New tab added after Invoices.
+
+### New query file — `packages/lib/src/queries/siblings.ts`
+
+- `getFormTeachersForSections(sectionIds)` → `Record<string, string | null>`:
+  - Queries `sections` with `form_teacher:form_teacher_id ( display_name, full_name )`.
+  - **Ambiguous FK workaround:** `sections` has both `form_teacher_id` and `head_teacher_id` pointing to `teachers`. Supabase TypeScript infers `SelectQueryError<...>` for this join. Fixed with double cast: `(s.form_teacher as unknown) as { display_name: string | null; full_name: string } | null`.
+
+### `apps/parent/app/sibling-comparison/page.tsx` (new file)
+
+- Parallel fetches: `getParentChildren`, `getInvoicesForParent`.
+- Second parallel batch: `getAttendanceForStudents`, `getFormTeachersForSections`, `getNextExamForSections`, `getCourseSelectionsForStudents`.
+- Per-child parallel: `getHomeworkForSection`, `getBehaviourEventsForStudent`, `getAssessmentResultsForStudent`, `getWeeklyDigestDraft`, `getUpcomingActivitySlipsForStudent`.
+- `isMock = children.length === 0`.
+
+### `apps/parent/app/sibling-comparison/SiblingComparisonClient.tsx` (new file)
+
+CSS prefix: `.sc-*`
+
+**Colors:** `CHILD_COLORS = ["#3182CE", "#805AD5", "#2F855A", "#C05621"]` — one per child.
+
+**Mock data:** 3 children (Omar G8C, Layla G5B, Yusuf KG2) with realistic KPIs.
+
+**`ChildCard` component:**
+- Colored avatar with initials.
+- Grade + form teacher label.
+- 2×2 KPI grid: Attendance %, Homework items, Best assessment %, Behaviour notes.
+- Latest recognition note.
+- Pending action pill (pending slips / course selection / unpaid invoice).
+
+**`ComparisonTable`:**
+- 5 rows: Attendance, Homework, Latest assessment, Behaviour notes, Next big thing (next exam).
+- Dynamic column count: `gridTemplateColumns: repeat(Math.min(entries.length, 3), 1fr)`.
+
+**`buildAttentionItems`:**
+- Collects: pending permission slips, pending course selections, unpaid invoices.
+- Each item tagged with child color pill OR `#DD6B20` (FAMILY) for invoice items.
+
+**`presentDays(att)`:** `5 - att.absences` (approximation for 5-day school week).
+
+### Portal stubs
+- `apps/portal/app/parent/sibling-comparison/page.tsx` → `export { default } from "@manhaj/parent/app/sibling-comparison/page";`
+
+### CSS
+- `.sc-*` block appended to `packages/ui/src/globals.css`.
+- Child card grid, 2×2 KPI blocks, comparison table, attention list with colored tag pills.
+
+---
+
+## 57. TypeScript Build Fixes — Multiple Files (2026-07-10)
+
+Six TypeScript errors fixed across four files. All errors were caught by `npx tsc --noEmit` in the portal app.
+
+### Fix 1 — `StudyPlannerClient.tsx:260` — null slice
+
+**Error:** `homework[0].due` is `string | null`; `.slice(5)` fails on null.
+
+**File:** `apps/student/app/study-planner/StudyPlannerClient.tsx`
+
+```ts
+// Before:
+`Due ${homework[0].due.slice(5)}`
+// After:
+`Due ${(homework[0].due ?? "").slice(5)}`
+```
+
+### Fix 2 — `applications.ts` — `university_applications` not in schema
+
+**Error:** `university_applications` table doesn't exist in Supabase-generated types. TypeScript fails at compile time even though the query falls back at runtime.
+
+**File:** `packages/lib/src/queries/applications.ts`
+
+- Cast `db` to `any` for the `.from("university_applications")` call.
+- Cast `data` as `any[]` in the `.map()`.
+
+### Fix 3 — `applications.ts:59` — `teachers.role` not in schema
+
+**Error:** `teachers` table has no `role` column in generated types. The counselor lookup cast `s.teachers as { role: string | null }` failed because the inferred type is `SelectQueryError<"column 'role' does not exist on 'teachers'">`.
+
+**File:** `packages/lib/src/queries/applications.ts`
+
+```ts
+// Before:
+.map(s => s.teachers as { full_name: string; display_name: string | null; role: string | null } | null)
+// After:
+.map(s => (s.teachers as unknown) as { full_name: string; display_name: string | null; role: string | null } | null)
+```
+
+### Fix 4 — `SubstituteClient.tsx:56-60` — mock `StudentFlag` missing `sectionId`
+
+**Error:** `StudentFlag` type gained `sectionId: string | null` in §48 but mock objects in `MOCK_FLAGS` were never updated.
+
+**File:** `apps/teacher/app/substitute/SubstituteClient.tsx`
+
+Added `sectionId: null` to all 5 mock flag objects.
+
+### Fix 5 — `studyplanner.ts` — `assessments.title` not in schema
+
+**Error:** `assessments` table has no `title` column in generated types. The `.select("id, title, kind, ...")` call produced `SelectQueryError<"column 'title' does not exist on 'assessments'">`, blocking `.map()` access on `a.title`, `a.id`, `a.kind`, `a.scheduled_on`, `a.subjects`.
+
+**File:** `packages/lib/src/queries/studyplanner.ts`
+
+- Cast `db` to `any` for the `.from("assessments")` call.
+- Cast `data` as `any[]` in the `.map()`.
+- Cast `error` as `{ message: string }` in the throw.
+
+All fixes leave runtime behavior unchanged — the casts only satisfy TypeScript when the live schema columns don't match the generated types.
