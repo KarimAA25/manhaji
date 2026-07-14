@@ -40,7 +40,7 @@ type ChildDataEntry = {
 };
 
 interface Props {
-  children: ParentChild[];
+  kids: ParentChild[];
   childData: ChildDataEntry[];
   unpaidInvoices: InvoiceWithLines[];
   weekStart: string;
@@ -109,7 +109,7 @@ function KPICard({ label, value, sub, tone }: { label: string; value: string | n
 }
 
 export default function WeeklyDigestClient({
-  children,
+  kids,
   childData,
   unpaidInvoices,
   weekStart,
@@ -216,9 +216,9 @@ export default function WeeklyDigestClient({
           <span className="wd-badge">WEEKLY DIGEST</span>
           <span className="wd-week-range">· {weekRangeLabel}</span>
         </div>
-        {children.length > 1 && (
+        {kids.length > 1 && (
           <div className="wd-child-selector">
-            {children.map((c, i) => (
+            {kids.map((c, i) => (
               <button
                 key={c.student_id}
                 className={`wd-child-tab${i === selectedIdx ? " active" : ""}`}
@@ -230,7 +230,7 @@ export default function WeeklyDigestClient({
             ))}
           </div>
         )}
-        {children.length <= 1 && (
+        {kids.length <= 1 && (
           <div className="wd-child-pill">
             <span className="wd-child-initial">{activeChild.initial}</span>
             <span className="wd-child-name">{activeChild.full_name_en}</span>

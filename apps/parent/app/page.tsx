@@ -101,7 +101,7 @@ export default async function ParentDashboard() {
 
   return (
     <WeeklyDigestClient
-      children={children}
+      kids={children}
       childData={childData}
       unpaidInvoices={unpaidInvoices}
       weekStart={weekStart}

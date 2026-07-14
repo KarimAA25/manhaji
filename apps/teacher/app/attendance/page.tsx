@@ -12,14 +12,19 @@ async function getTeacherSchoolId(teacherId: string): Promise<string | null> {
   return data?.school_id ?? null;
 }
 
+function getAttendanceDateRange() {
+  const today = new Date().toISOString().slice(0, 10);
+  const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+  return { today, yesterday };
+}
+
 export default async function OneTapAttendancePage() {
   const [academicYearId, teacherId] = await Promise.all([
     getCurrentAcademicYearId().catch(() => null),
     getCurrentTeacherId().catch(() => null),
   ]);
 
-  const today = new Date().toISOString().slice(0, 10);
-  const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+  const { today, yesterday } = getAttendanceDateRange();
 
   const currentSlot = (teacherId && academicYearId)
     ? await getCurrentSlotForTeacher(teacherId, academicYearId).catch(() => null)

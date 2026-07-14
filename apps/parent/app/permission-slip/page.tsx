@@ -35,7 +35,7 @@ export default async function PermissionSlipPage() {
 
   return (
     <PermissionSlipClient
-      children={children}
+      kids={children}
       childSlipData={childSlipData}
       isMock={isMock}
     />

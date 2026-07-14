@@ -327,7 +327,7 @@ export default function ApplicationTrackerClient({ studentName, apps, rubricScor
                 </tbody>
               </table>
               <div className="at-anon-footer">
-                About these numbers: Manhaj's internal model is trained on 5 years of applicant outcomes (50 senior classes). Match scores are indicative only — universities make the final call, and many things outside our data matter too. Use this as a planning aid, not a verdict.
+                About these numbers: Manhaj&apos;s internal model is trained on 5 years of applicant outcomes (50 senior classes). Match scores are indicative only — universities make the final call, and many things outside our data matter too. Use this as a planning aid, not a verdict.
               </div>
             </div>
           </div>

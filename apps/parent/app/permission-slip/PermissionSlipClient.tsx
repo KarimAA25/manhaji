@@ -13,7 +13,7 @@ type ChildSlipEntry = {
 };
 
 interface Props {
-  children: ParentChild[];
+  kids: ParentChild[];
   childSlipData: ChildSlipEntry[];
   isMock: boolean;
 }
@@ -107,7 +107,7 @@ function TripInfoRow({ label, value, sub }: { label: string; value: string; sub?
 
 // ── Main Component ────────────────────────────────────────────────────────────
 
-export default function PermissionSlipClient({ children, childSlipData, isMock }: Props) {
+export default function PermissionSlipClient({ kids, childSlipData, isMock }: Props) {
   const [selectedIdx, setSelectedIdx] = useState(0);
   const [isPending, startTransition] = useTransition();
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
@@ -255,9 +255,9 @@ export default function PermissionSlipClient({ children, childSlipData, isMock }
           <span>Forms</span><span className="ps-bc-sep">›</span>
           <span className="ps-bc-active">Field-trip consent</span>
         </div>
-        {children.length > 1 && (
+        {kids.length > 1 && (
           <div className="ps-child-selector">
-            {children.map((c, i) => (
+            {kids.map((c, i) => (
               <button
                 key={c.student_id}
                 className={`ps-child-tab${i === selectedIdx ? " active" : ""}`}
@@ -269,7 +269,7 @@ export default function PermissionSlipClient({ children, childSlipData, isMock }
             ))}
           </div>
         )}
-        {children.length <= 1 && (
+        {kids.length <= 1 && (
           <div className="ps-child-pill">
             <span className="ps-child-initial">{activeChild.initial}</span>
             <span>{activeChild.full_name_en}</span>
