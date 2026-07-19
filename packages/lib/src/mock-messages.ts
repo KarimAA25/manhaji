@@ -1,5 +1,5 @@
 /**
- * Manhaj Phase 2.4a demo fixture — synthetic message threads for the
+ * Manhaji Phase 2.4a demo fixture — synthetic message threads for the
  * Parent Messages tab. Thread/Message shapes mirror the future Postgres
  * schema (messages_threads + thread_messages from the IA spec §12).
  */
@@ -88,7 +88,7 @@ const T2: Thread = {
 const T3: Thread = {
   id: "t3", subject: "Chemistry mid-term · 12 May", category: "calendar",
   child_id: "layla-al-habsi",
-  from_label: "Manhaj · School calendar",
+  from_label: "Manhaji · School calendar",
   last_activity_at: "2026-05-05T09:00:00Z", unread: false,
   messages: [
     m("t3-m1", "t3", "2026-05-05T09:00:00Z", "school",
@@ -109,7 +109,7 @@ const T4: Thread = {
   messages: [
     m("t4-m1", "t4", "2026-05-14T09:14:00Z", "school",
       "Ms Sandra Swart", "Student Advisor",
-      "Hi Mr Al-Habsi,\n\nOmar has missed 3 days this month without a note. Mr Saab raised a separate flag about disengagement in class on Tuesday.\n\nCould we arrange a short call this week so we're on the same page about how to support him? Manhaj's tracker pattern shows the absences cluster around Mondays + post-exam days — happy to talk through what we're seeing.\n\nBest,\nSandra"),
+      "Hi Mr Al-Habsi,\n\nOmar has missed 3 days this month without a note. Mr Saab raised a separate flag about disengagement in class on Tuesday.\n\nCould we arrange a short call this week so we're on the same page about how to support him? Manhaji's tracker pattern shows the absences cluster around Mondays + post-exam days — happy to talk through what we're seeing.\n\nBest,\nSandra"),
   ],
 };
 const T5: Thread = {
@@ -131,7 +131,7 @@ const T5: Thread = {
 const T6: Thread = {
   id: "t6", subject: "Maths quiz · 14 May", category: "calendar",
   child_id: "omar-al-habsi",
-  from_label: "Manhaj · School calendar",
+  from_label: "Manhaji · School calendar",
   last_activity_at: "2026-05-09T09:00:00Z", unread: false,
   messages: [
     m("t6-m1", "t6", "2026-05-09T09:00:00Z", "school",
@@ -180,7 +180,7 @@ const T9: Thread = {
   messages: [
     m("t9-m1", "t9", "2026-05-12T16:00:00Z", "school",
       "Finance office", "School administration",
-      "Reminder that the remainder of your Term 2 invoices is due 25 May.\n\nLayla: OMR 750 outstanding.\nOmar: OMR 1,070 outstanding.\nYasmin: paid in full.\n\nHousehold total: OMR 1,820.\n\nPay via the Manhaj Invoices tab, bank transfer, or in person at the front desk. Receipts auto-emailed once processed."),
+      "Reminder that the remainder of your Term 2 invoices is due 25 May.\n\nLayla: OMR 750 outstanding.\nOmar: OMR 1,070 outstanding.\nYasmin: paid in full.\n\nHousehold total: OMR 1,820.\n\nPay via the Manhaji Invoices tab, bank transfer, or in person at the front desk. Receipts auto-emailed once processed."),
   ],
 };
 const T10: Thread = {
@@ -210,11 +210,11 @@ const T11: Thread = {
 const T12: Thread = {
   id: "t12", subject: "May monthly reports · sent to all parents", category: "academic",
   child_id: "household",
-  from_label: "Manhaj",
+  from_label: "Manhaji",
   last_activity_at: "2026-05-03T16:00:00Z", unread: false,
   messages: [
     m("t12-m1", "t12", "2026-05-03T16:00:00Z", "school",
-      "Manhaj", "School administration",
+      "Manhaji", "School administration",
       "April's monthly reports are now in your Dashboard for each of your children.\n\nLayla: strong month overall · one area to support (written Arabic).\nOmar: improving in Mathematics · attendance flag.\nYasmin: happy + settled · spring concert highlight.\n\nThree things to celebrate · one to support · two ideas for May. Open the Dashboard to read each in full.",
       "2026-05-03T19:18:00Z"),
   ],

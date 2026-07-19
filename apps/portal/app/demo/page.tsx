@@ -1,6 +1,6 @@
 import { demoLogin } from "./actions";
 
-export const metadata = { title: "Demo Picker — Manhaj" };
+export const metadata = { title: "Demo Picker — Manhaji" };
 
 const ROLES = [
   {

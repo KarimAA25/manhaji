@@ -20,7 +20,7 @@ export default async function TeacherLayout({ children }: { children: React.Reac
           <div className="logo">M</div>
           <div>
             <div className="brand-name">
-              Manhaj <span className="brand-sub">· {SCHOOL_NAME}</span>
+              Manhaji <span className="brand-sub">· {SCHOOL_NAME}</span>
             </div>
           </div>
           <TeacherNav />

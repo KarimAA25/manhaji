@@ -1,8 +1,12 @@
 "use client";
 
+import { useMemo, useState } from "react";
+
 import { MOCK_TEACHERS } from "@manhaj/lib/mock-faculty";
 import type { TeacherStatus, ContractStatus } from "@manhaj/lib/mock-faculty";
 import type { TeacherWithLoad } from "@manhaj/lib/queries/teachers";
+
+const SHOW_DEFAULT = 10;
 
 function StatusPill({ status }: { status: TeacherStatus }) {
   const map: Record<TeacherStatus, { label: string; cls: string }> = {
@@ -33,14 +37,98 @@ function loadStatus(t: TeacherWithLoad): TeacherStatus {
   return "ok";
 }
 
+const STATUS_OPTIONS: Array<{ value: "all" | TeacherStatus; label: string }> = [
+  { value: "all",   label: "All statuses" },
+  { value: "over",  label: "Over cap" },
+  { value: "ok",    label: "OK" },
+  { value: "under", label: "Slack" },
+];
+
 export default function FacultyRoster({ teachers }: { teachers?: TeacherWithLoad[] }) {
+  const [nameQ,   setNameQ]   = useState("");
+  const [deptF,   setDeptF]   = useState("all");
+  const [subjF,   setSubjF]   = useState("all");
+  const [statusF, setStatusF] = useState<"all" | TeacherStatus>("all");
+  const [expanded, setExpanded] = useState(false);
+
+  const depts = useMemo(
+    () => [...new Set((teachers ?? []).map(t => t.primary_dept).filter((d): d is string => !!d))].sort(),
+    [teachers],
+  );
+  const subjects = useMemo(
+    () => [...new Set((teachers ?? []).map(t => t.primary_subject_text).filter((s): s is string => !!s))].sort(),
+    [teachers],
+  );
+
+  const filtered = useMemo(
+    () => (teachers ?? []).filter(t => {
+      if (nameQ && !t.full_name.toLowerCase().includes(nameQ.trim().toLowerCase())) return false;
+      if (deptF   !== "all" && t.primary_dept !== deptF) return false;
+      if (subjF   !== "all" && t.primary_subject_text !== subjF) return false;
+      if (statusF !== "all" && loadStatus(t) !== statusF) return false;
+      return true;
+    }),
+    [teachers, nameQ, deptF, subjF, statusF],
+  );
+
+  const hasFilters = nameQ !== "" || deptF !== "all" || subjF !== "all" || statusF !== "all";
+
+  function clearFilters() {
+    setNameQ("");
+    setDeptF("all");
+    setSubjF("all");
+    setStatusF("all");
+  }
+
   if (teachers && teachers.length > 0) {
+    const visible = expanded ? filtered : filtered.slice(0, SHOW_DEFAULT);
     return (
       <section className="fac-roster-card" aria-label="Faculty roster">
         <header className="fac-section-head">
           <h3>Faculty roster · {teachers.length} teachers</h3>
           <p className="fac-section-sub">Name · department · primary subject · periods per week · load status.</p>
         </header>
+        <div className="fac-filter-row" role="group" aria-label="Filter roster">
+          <input
+            type="search"
+            className="fac-filter-input"
+            placeholder="Filter by name…"
+            aria-label="Filter by name"
+            value={nameQ}
+            onChange={e => setNameQ(e.target.value)}
+          />
+          <select
+            className="fac-filter-select"
+            aria-label="Filter by department"
+            value={deptF}
+            onChange={e => setDeptF(e.target.value)}
+          >
+            <option value="all">All departments</option>
+            {depts.map(d => <option key={d} value={d}>{d}</option>)}
+          </select>
+          <select
+            className="fac-filter-select"
+            aria-label="Filter by subject"
+            value={subjF}
+            onChange={e => setSubjF(e.target.value)}
+          >
+            <option value="all">All subjects</option>
+            {subjects.map(s => <option key={s} value={s}>{s}</option>)}
+          </select>
+          <select
+            className="fac-filter-select"
+            aria-label="Filter by load status"
+            value={statusF}
+            onChange={e => setStatusF(e.target.value as "all" | TeacherStatus)}
+          >
+            {STATUS_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+          </select>
+          {hasFilters && (
+            <button type="button" className="fac-link-btn" onClick={clearFilters}>
+              Clear filters
+            </button>
+          )}
+        </div>
         <div className="fac-roster-wrap">
           <table className="fac-roster-tbl">
             <thead>
@@ -53,7 +141,7 @@ export default function FacultyRoster({ teachers }: { teachers?: TeacherWithLoad
               </tr>
             </thead>
             <tbody>
-              {teachers.map(t => (
+              {visible.map(t => (
                 <tr key={t.id}>
                   <td className="fac-tbl-name">{t.full_name}</td>
                   <td className="fac-tbl-dept">{t.primary_dept ?? "—"}</td>
@@ -62,11 +150,37 @@ export default function FacultyRoster({ teachers }: { teachers?: TeacherWithLoad
                   <td><StatusPill status={loadStatus(t)} /></td>
                 </tr>
               ))}
+              {filtered.length === 0 && (
+                <tr>
+                  <td colSpan={5} className="fac-roster-empty">
+                    No teachers match the current filters.{" "}
+                    <button type="button" className="fac-link-btn" onClick={clearFilters}>Clear filters</button>
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
         <div className="fac-roster-footer">
-          {teachers.length} teachers loaded from database
+          {filtered.length > SHOW_DEFAULT ? (
+            expanded ? (
+              <>
+                Showing all {filtered.length} of {teachers.length} teachers ·{" "}
+                <button type="button" className="fac-link-btn" onClick={() => setExpanded(false)}>
+                  Show top {SHOW_DEFAULT}
+                </button>
+              </>
+            ) : (
+              <>
+                Showing top {SHOW_DEFAULT} of {filtered.length} teachers ·{" "}
+                <button type="button" className="fac-link-btn" onClick={() => setExpanded(true)}>
+                  Expand full list ({filtered.length})
+                </button>
+              </>
+            )
+          ) : (
+            <>{filtered.length} of {teachers.length} teachers shown</>
+          )}
         </div>
       </section>
     );

@@ -42,7 +42,7 @@ export default function LoginForm() {
         }}>M</div>
 
         <h1 style={{ margin: "0 0 4px", fontSize: 18, fontWeight: 700, color: "var(--ink)" }}>
-          Sign in to Manhaj
+          Sign in to Manhaji
         </h1>
         <p className="sub" style={{ marginBottom: 22 }}>
           Enter your email. We&apos;ll send a one-click sign-in link.

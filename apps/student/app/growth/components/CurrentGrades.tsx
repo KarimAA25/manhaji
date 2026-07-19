@@ -1,4 +1,4 @@
-import { LAYLA_SUBJECTS } from "@manhaj/lib/mock-student-academic";
+import { LAYLA_SUBJECTS, GRADE_PCT } from "@manhaj/lib/mock-student-academic";
 
 export default function CurrentGrades() {
   return (
@@ -20,8 +20,8 @@ export default function CurrentGrades() {
 
             <div className="gr-perf-subj">{s.subject}</div>
 
-            <div className="gr-perf-grade" aria-label={`Grade ${s.grade}`}>
-              {s.grade}
+            <div className="gr-perf-grade" aria-label={`Grade ${GRADE_PCT[s.grade]} percent`}>
+              {GRADE_PCT[s.grade]}%
             </div>
 
             <div
@@ -36,7 +36,7 @@ export default function CurrentGrades() {
             </div>
 
             <div className="gr-perf-band">
-              Class avg <b>{s.class_avg}</b> · {s.band_label}
+              Class avg <b>{GRADE_PCT[s.class_avg]}%</b> · {s.band_label}
             </div>
           </div>
         ))}

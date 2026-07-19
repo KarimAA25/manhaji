@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
   const childParam = req.nextUrl.searchParams.get("child") ?? "all";
-  const calName = childParam === "all" ? "Manhaj · Household" : `Manhaj · ${childParam}`;
+  const calName = childParam === "all" ? "Manhaji · Household" : `Manhaji · ${childParam}`;
 
   let events: CalendarEvent[];
   try {

@@ -348,7 +348,7 @@ export default function RubricClient({ slot, students, criteria, scores, rubricI
         <div className="rub-ai-banner">
           <span className="rub-ai-avatar">M</span>
           <span className="rub-ai-text">
-            Manhaj AI has proposed scores for the {aiAxisCount} data-led axes using {activeStudent.full_name_en.split(" ")[0]}&apos;s {monthLabel(month)} grades, attendance, homework, and behaviour notes.
+            Manhaji AI has proposed scores for the {aiAxisCount} data-led axes using {activeStudent.full_name_en.split(" ")[0]}&apos;s {monthLabel(month)} grades, attendance, homework, and behaviour notes.
             {judgeAxisCount > 0 && ` The ${judgeAxisCount} judgment ${judgeAxisCount === 1 ? "axis is" : "axes are"} blank for you to fill in.`}
           </span>
         </div>

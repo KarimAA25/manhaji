@@ -38,7 +38,7 @@ export function eventsToIcs(events: CalendarEvent[], calName: string): string {
   const lines: string[] = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//Manhaj//Parent Calendar//EN",
+    "PRODID:-//Manhaji//Parent Calendar//EN",
     "CALSCALE:GREGORIAN",
     "METHOD:PUBLISH",
     `X-WR-CALNAME:${escapeText(calName)}`,

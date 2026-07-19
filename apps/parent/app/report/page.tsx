@@ -8,7 +8,7 @@
  * Data sources today (Tier 1 first-pass):
  *   - Student name + grade: from the URL query (or default "Layla Al-Habsi · G10A")
  *   - Subject grades, rubric scores, narrative: SAMPLE — clearly labelled in the
- *     "drafted by Manhaj" byline + a footer banner. Real rubric_scores rows only
+ *     "drafted by Manhaji" byline + a footer banner. Real rubric_scores rows only
  *     start landing once teachers begin entering them via the PWA (Tier 2). Same
  *     pattern as the Tier 0 demo.
  *   - Cover-band stats (subject count, attendance %, rubric composite): derived
@@ -24,7 +24,7 @@ import { Suspense } from "react";
 import ReportClient from "./ReportClient";
 
 export const metadata = {
-  title: "Monthly report · Manhaj",
+  title: "Monthly report · Manhaji",
 };
 
 export default function MonthlyReportPage() {
@@ -36,7 +36,7 @@ export default function MonthlyReportPage() {
     }>
       <ReportClient />
       <div style={{ textAlign: "center", padding: "20px 0 40px", fontSize: 11, color: "var(--muted)" }}>
-        <Link href="/">← Back to Manhaj</Link>
+        <Link href="/">← Back to Manhaji</Link>
       </div>
     </Suspense>
   );

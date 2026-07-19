@@ -11,11 +11,19 @@
 
 export type IGCSEGrade = "A*" | "A" | "A-" | "B+" | "B" | "B-" | "C+" | "C";
 
+/**
+ * Regional convention: student-facing grades display as percentages, never
+ * letters. Representative midpoint per IGCSE band, used by /student/growth.
+ */
+export const GRADE_PCT: Record<IGCSEGrade, number> = {
+  "A*": 95, "A": 90, "A-": 85, "B+": 80, "B": 75, "B-": 70, "C+": 65, "C": 60,
+};
+
 export type SubjectGrade = {
   subject:    string;
   grade:      IGCSEGrade;
   trend:      "up" | "flat" | "down";
-  delta_text: string;   // e.g. "▲ +0.2 vs last term"
+  delta_text: string;   // e.g. "▲ +2% vs last term"
   class_avg:  IGCSEGrade;
   percentile: number;   // 0–100
   band_label: string;   // "top 28%"
@@ -58,7 +66,7 @@ export const LAYLA_SUBJECTS: SubjectGrade[] = [
     subject:    "English",
     grade:      "A",
     trend:      "up",
-    delta_text: "▲ +0.3 vs last term",
+    delta_text: "▲ +3% vs last term",
     class_avg:  "B+",
     percentile: 87,
     band_label: "top 13%",
@@ -67,7 +75,7 @@ export const LAYLA_SUBJECTS: SubjectGrade[] = [
     subject:    "Mathematics",
     grade:      "B+",
     trend:      "up",
-    delta_text: "▲ +0.2 vs last term",
+    delta_text: "▲ +2% vs last term",
     class_avg:  "B",
     percentile: 64,
     band_label: "top 36%",
@@ -85,7 +93,7 @@ export const LAYLA_SUBJECTS: SubjectGrade[] = [
     subject:    "Chemistry",
     grade:      "B",
     trend:      "up",
-    delta_text: "▲ +0.3 vs last term",
+    delta_text: "▲ +3% vs last term",
     class_avg:  "B-",
     percentile: 71,
     band_label: "top 29%",
@@ -94,7 +102,7 @@ export const LAYLA_SUBJECTS: SubjectGrade[] = [
     subject:    "Biology",
     grade:      "B+",
     trend:      "up",
-    delta_text: "▲ +0.2 vs last term",
+    delta_text: "▲ +2% vs last term",
     class_avg:  "B",
     percentile: 73,
     band_label: "top 27%",
@@ -103,7 +111,7 @@ export const LAYLA_SUBJECTS: SubjectGrade[] = [
     subject:    "Physics",
     grade:      "B-",
     trend:      "down",
-    delta_text: "▼ −0.2 vs last term",
+    delta_text: "▼ −2% vs last term",
     class_avg:  "B",
     percentile: 52,
     band_label: "top 48%",
@@ -113,7 +121,7 @@ export const LAYLA_SUBJECTS: SubjectGrade[] = [
     subject:    "History",
     grade:      "A",
     trend:      "up",
-    delta_text: "▲ +0.3 vs last term",
+    delta_text: "▲ +3% vs last term",
     class_avg:  "B+",
     percentile: 89,
     band_label: "top 11%",
@@ -122,7 +130,7 @@ export const LAYLA_SUBJECTS: SubjectGrade[] = [
     subject:    "Geography",
     grade:      "A-",
     trend:      "up",
-    delta_text: "▲ +0.1 vs last term",
+    delta_text: "▲ +1% vs last term",
     class_avg:  "B+",
     percentile: 80,
     band_label: "top 20%",
@@ -188,7 +196,7 @@ export const IMPROVEMENT_PLAN: ImprovementCard[] = [
     id:        "ip-2",
     icon:      "🔬",
     headline:  "Build on the Science momentum",
-    body:      "Chemistry climbed from B− → B with strong lab participation scores. Push into Biology by joining the after-school science project on Tuesday afternoons — lab-based work will reinforce both subjects and strengthen your university profile.",
+    body:      "Chemistry climbed from 70% → 75% with strong lab participation scores. Push into Biology by joining the after-school science project on Tuesday afternoons — lab-based work will reinforce both subjects and strengthen your university profile.",
     cta_label: "Mark as in-progress",
   },
   {

@@ -266,7 +266,7 @@ export default function GoalsClient({ studentName, rubricScores }: Props) {
         ))}
       </div>
 
-      {/* Manhaj Suggests */}
+      {/* Manhaji Suggests */}
       <div className="myg-section-hdr myg-section-hdr-gap">
         <span className="myg-section-label">GOALS MANHAJ SUGGESTS</span>
         <span className="myg-suggests-note">Based on your rubric scores · pick what feels right</span>

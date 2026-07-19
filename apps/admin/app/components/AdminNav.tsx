@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 const LINKS: Array<{ href: string; label: string }> = [
   { href: "/admin",                 label: "Dashboard"  },
   { href: "/admin/faculty",         label: "Faculty"    },
-  { href: "/admin/section-mapping", label: "Sections"   },
   { href: "/admin/students",        label: "Students"   },
   { href: "/admin/attendance",      label: "Admissions" },
   { href: "/admin/schedule",        label: "Schedule"   },

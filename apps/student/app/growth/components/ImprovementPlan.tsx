@@ -15,10 +15,6 @@ export default function ImprovementPlan() {
 
             <h4>{card.headline}</h4>
             <p>{card.body}</p>
-
-            <button className="gr-plan-cta" type="button">
-              {card.cta_label}
-            </button>
           </div>
         ))}
       </div>

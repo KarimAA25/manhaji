@@ -172,7 +172,7 @@ export default function CourseSelectionPage() {
       <header className="topbar pc-topbar">
         <div className="brand">
           <div className="logo">M</div>
-          <div><div className="brand-name">Manhaj <span className="brand-sub">· International School of Oman</span></div></div>
+          <div><div className="brand-name">Manhaji <span className="brand-sub">· International School of Oman</span></div></div>
         </div>
         <div className="top-right">
           <button

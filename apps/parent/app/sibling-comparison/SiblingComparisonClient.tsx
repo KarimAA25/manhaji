@@ -398,7 +398,7 @@ export default function SiblingComparisonClient({ childData, unpaidInvoices, wee
             <p className="sc-ai-text">{aiSummary ?? MOCK_AI_SUMMARY}</p>
             <div className="sc-ai-badge">
               <span className="sc-ai-dot" />
-              Drafted by Manhaj AI · summarised across all {entries.length} children&apos;s week.
+              Drafted by Manhaji AI · summarised across all {entries.length} children&apos;s week.
             </div>
           </div>
         </div>

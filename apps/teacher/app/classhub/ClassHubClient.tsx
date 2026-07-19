@@ -24,8 +24,6 @@ type Props = {
   today: string;
 };
 
-type Tone = "formal" | "warm" | "brief" | "detailed";
-
 // ── Mock data ─────────────────────────────────────────────────────────────────
 const MOCK_SECTION_CODE = "G5B";
 const MOCK_SUBJECT      = "Maths";
@@ -138,10 +136,11 @@ export default function ClassHubClient({
   const [checklist, setChecklist] = useState<Record<string, boolean>>(() =>
     Object.fromEntries(MOCK_CHECKLIST.map(c => [c.id, c.done])),
   );
-  const [bullets, setBullets] = useState<string[]>(
+  // Parent-summary bullet editor removed (Sprint 1.5) — bullets still feed the
+  // readiness checks and draft save until the Phase-2 digest composer lands.
+  const [bullets] = useState<string[]>(
     commDraft ? [commDraft.edited_en ?? commDraft.drafted_en ?? ""].filter(Boolean) : MOCK_BULLETS,
   );
-  const [tone, setTone] = useState<Tone>("warm");
   const [distributeParents, setDistributeParents] = useState(true);
   const [distributeClassPage, setDistributeClassPage] = useState(true);
   const [distributeEmail, setDistributeEmail] = useState(false);
@@ -213,7 +212,7 @@ export default function ClassHubClient({
             </div>
           </div>
           <div className="clh-week-intro">
-            Your class hub — {activeWeek === "this" ? "this" : "last"} week. What happened, what you flagged to follow up, what&apos;s coming next. Parent summary at the bottom.
+            Your class hub — {activeWeek === "this" ? "this" : "last"} week. What happened, what you flagged to follow up, what&apos;s coming next.
           </div>
         </div>
 
@@ -298,49 +297,6 @@ export default function ClassHubClient({
             </label>
           ))}
           <button className="clh-plan-btn">Plan next week&apos;s classes →</button>
-        </div>
-
-        {/* Parent summary */}
-        <div className="clh-section clh-parent-section">
-          <div className="clh-section-head-large">— PARENT SUMMARY —</div>
-          <div className="clh-bullets-label">YOUR OWN BULLETS (THE COLOUR THE AI CAN&apos;T SEE):</div>
-          {bullets.map((b, i) => (
-            <div key={i} className="clh-bullet-row">
-              <textarea
-                className="clh-bullet-input"
-                value={b}
-                rows={2}
-                onChange={e => {
-                  const next = [...bullets];
-                  next[i] = e.target.value;
-                  setBullets(next);
-                }}
-                placeholder="e.g. What surprised you or stood out this week…"
-              />
-              {bullets.length > 1 && (
-                <button className="clh-bullet-remove" onClick={() => setBullets(bullets.filter((_, j) => j !== i))}>✕</button>
-              )}
-            </div>
-          ))}
-          <button className="clh-add-link" onClick={() => setBullets([...bullets, ""])}>+ Add another bullet</button>
-
-          <div className="clh-tone-row">
-            <span className="clh-tone-label">TONE:</span>
-            {(["formal", "warm", "brief", "detailed"] as Tone[]).map(t => (
-              <button
-                key={t}
-                className={`clh-tone-btn${tone === t ? " active" : ""}`}
-                onClick={() => setTone(t)}
-              >
-                {t === "warm" ? "Warm & clear" : t.charAt(0).toUpperCase() + t.slice(1)}
-              </button>
-            ))}
-          </div>
-
-          <div className="clh-regen-row">
-            <span className="clh-regen-note">Last regenerated 2 min ago. Re-run after editing bullets.</span>
-            <button className="clh-regen-btn">→ Regenerate</button>
-          </div>
         </div>
 
         {/* Footer buttons */}

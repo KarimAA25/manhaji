@@ -1,4 +1,3 @@
-import { TrendChart, type TrendPoint } from "@manhaj/ui";
 import TeacherMyWeek from "./schedule-components/TeacherMyWeek";
 import AskManhajCard from "./schedule-components/AskManhajCard";
 import TeacherStudentRoster from "./components/TeacherStudentRoster";
@@ -16,15 +15,6 @@ import { getTeacherSectionAttendance } from "@manhaj/lib/queries/attendance";
 export const dynamic = "force-dynamic";
 
 const SWART_SECTIONS = [...new Set(SWART_STUDENTS.map(s => s.section_code))].sort();
-
-const SWART_ATT: TrendPoint[] = [
-  { date: "05-01", pct: 95 }, { date: "05-02", pct: 96 }, { date: "05-05", pct: 94 },
-  { date: "05-06", pct: 97 }, { date: "05-07", pct: 96 }, { date: "05-08", pct: 98 },
-  { date: "05-09", pct: 95 }, { date: "05-12", pct: 94 }, { date: "05-13", pct: 96 },
-  { date: "05-14", pct: 97 }, { date: "05-15", pct: 95 }, { date: "05-16", pct: 94 },
-  { date: "05-19", pct: 96 }, { date: "05-20", pct: 92 }, { date: "05-21", pct: 94 },
-  { date: "05-22", pct: 95 }, { date: "05-23", pct: 96 },
-];
 
 const MOCK_SPOTLIGHT = [
   { name: "Rania Khalifa",  section: "10A", note: "EAL flag · Written rubric dropped to 2.9 · needs scaffolding support",  tone: "warn" },
@@ -156,12 +146,7 @@ export default async function TeacherAnalyzePage() {
       <h3 className="ta-section-head">My week</h3>
       <TeacherMyWeek slots={timetableSlots.length > 0 ? timetableSlots : undefined} />
 
-      <h3 className="ta-section-head">Attendance · my classes · last 30 days</h3>
-      <TrendChart
-        points={attResult.trend.length > 0 ? attResult.trend : SWART_ATT}
-        target={95}
-        title="Attendance · my sections"
-      />
+      <TeacherStudentInsights students={students} />
 
       <h3 className="ta-section-head">Recent assessments</h3>
       <div className="ta-assess-card">
@@ -210,9 +195,7 @@ export default async function TeacherAnalyzePage() {
       <h3 className="ta-section-head">My students · full roster</h3>
       <TeacherStudentRoster students={students} sections={sections} />
 
-      <TeacherStudentInsights students={students} />
-
-      <h3 className="ta-section-head">Ask Manhaj</h3>
+      <h3 className="ta-section-head">Ask Manhaji</h3>
       <AskManhajCard />
 
     </div>
