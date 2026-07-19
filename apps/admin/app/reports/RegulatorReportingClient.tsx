@@ -54,7 +54,7 @@ export default function RegulatorReportingClient({
           <div className="reg-banner-detail">
             Term 3 attendance summary (due 30 June) is 92% ready — staffing roster needs 3 missing licence numbers.
           </div>
-          <div className="reg-banner-by">Drafted by Manhaj AI · refreshed today at 8:30 AM</div>
+          <div className="reg-banner-by">Drafted by Manhaji AI · refreshed today at 8:30 AM</div>
         </div>
       </div>
 

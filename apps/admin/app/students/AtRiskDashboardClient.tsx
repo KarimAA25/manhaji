@@ -117,6 +117,32 @@ export default function AtRiskDashboardClient({ flaggedStudents, totalStudents }
     return map;
   }, [filtered]);
 
+  // Export exactly what's filtered on screen as an .xlsx download.
+  // SheetJS is imported lazily so it stays out of the page bundle.
+  async function handleExport() {
+    const XLSX = await import("xlsx");
+    const rows = filtered.flatMap(s =>
+      s.risk_flags.map(f => ({
+        "Student":  s.full_name_en,
+        "Section":  s.section_code ?? "—",
+        "Grade":    s.grade_level ?? "—",
+        "Severity": f.severity.charAt(0).toUpperCase() + f.severity.slice(1),
+        "Category": f.category,
+        "Reason":   f.reason,
+        "Status":   f.status,
+        "Flagged":  new Date(f.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }),
+      })),
+    );
+    const ws = XLSX.utils.json_to_sheet(rows);
+    ws["!cols"] = [
+      { wch: 22 }, { wch: 8 }, { wch: 10 }, { wch: 10 },
+      { wch: 12 }, { wch: 70 }, { wch: 8 }, { wch: 12 },
+    ];
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "At-risk students");
+    XLSX.writeFile(wb, `at-risk-students-${new Date().toISOString().slice(0, 10)}.xlsx`);
+  }
+
   return (
     <div className="ars-page">
       {/* Header */}
@@ -125,7 +151,14 @@ export default function AtRiskDashboardClient({ flaggedStudents, totalStudents }
           <h1 className="ars-title">At-Risk · Retention Dashboard</h1>
           <p className="ars-subtitle">Live · {students.length} students flagged this term</p>
         </div>
-        <button className="ars-export-btn">Export list ↓</button>
+        <button
+          className="ars-export-btn"
+          onClick={handleExport}
+          disabled={filtered.length === 0}
+          title="Download the currently filtered list as an Excel file"
+        >
+          Export list ↓
+        </button>
       </div>
 
       {/* KPI strip */}

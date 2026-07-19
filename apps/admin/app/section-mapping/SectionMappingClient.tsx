@@ -3,7 +3,7 @@
 /**
  * Section-mapping table — Tier 1 client component.
  *
- * Ports the demo's UX (Manhaj suggestion pre-fill, per-row Confirm, progress
+ * Ports the demo's UX (Manhaji suggestion pre-fill, per-row Confirm, progress
  * counter) but drops the "Generate SQL" modal. The Save button now calls
  * /api/sections/save-mapping which writes directly to Postgres.
  *
@@ -127,7 +127,7 @@ export default function SectionMappingClient({ initialSections }: { initialSecti
   }
 
   function resetSuggestions() {
-    if (!window.confirm("Reset all unconfirmed rows back to Manhaj suggestions? (Confirmed rows are preserved.)")) {
+    if (!window.confirm("Reset all unconfirmed rows back to Manhaji suggestions? (Confirmed rows are preserved.)")) {
       return;
     }
     setRows(prev =>
@@ -177,7 +177,7 @@ export default function SectionMappingClient({ initialSections }: { initialSecti
 
   const reminder =
     confirmed === 0
-      ? "Pre-filled with Manhaj suggestions. Edit if wrong, then confirm rows."
+      ? "Pre-filled with Manhaji suggestions. Edit if wrong, then confirm rows."
       : confirmed < total
         ? `${total - confirmed} section${total - confirmed === 1 ? "" : "s"} still pending`
         : "All sections confirmed — save mapping below";
@@ -185,8 +185,8 @@ export default function SectionMappingClient({ initialSections }: { initialSecti
   return (
     <>
       <div className="banner">
-        Each school&apos;s section codes mean different things. Tell Manhaj how yours map —
-        Manhaj&apos;s best guess is pre-filled, adjust where needed, then confirm and save.
+        Each school&apos;s section codes mean different things. Tell Manhaji how yours map —
+        Manhaji&apos;s best guess is pre-filled, adjust where needed, then confirm and save.
       </div>
 
       <div className="card">

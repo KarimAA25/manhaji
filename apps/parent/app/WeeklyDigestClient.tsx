@@ -247,7 +247,7 @@ export default function WeeklyDigestClient({
             <p className="wd-digest-text">{digestText}</p>
             <div className="wd-digest-badge">
               <span className="wd-digest-ai-dot" />
-              Drafted by Manhaj AI · reviewed by Ms. Sara before sending
+              Drafted by Manhaji AI · reviewed by Ms. Sara before sending
             </div>
           </div>
         </div>
@@ -264,7 +264,7 @@ export default function WeeklyDigestClient({
             {isMock && (
               <div className="wd-digest-badge">
                 <span className="wd-digest-ai-dot" />
-                Drafted by Manhaj AI · reviewed by Ms. Sara before sending
+                Drafted by Manhaji AI · reviewed by Ms. Sara before sending
               </div>
             )}
           </div>

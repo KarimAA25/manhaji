@@ -1,8 +1,9 @@
 /**
  * Admin · Input data tab.
  *
- * Phase 3.2: Sections card added as the first card (moved from Admin Dashboard).
- * Other cards: Roster import · Schedule edits · Faculty edits · Bulk parent comms.
+ * Cards: Roster import · Schedule edits · Faculty edits · Bulk parent comms.
+ * (Section mapping card removed in Sprint 1.5 — page stays reachable at
+ * /admin/section-mapping by URL.)
  */
 
 export default function AdminInputPage() {
@@ -12,18 +13,6 @@ export default function AdminInputPage() {
       <p className="sub">Admin data-entry workflows · AY 2026-2027</p>
 
       <div className="ai-input-grid">
-
-        {/* Section mapping — FIRST — moved from Admin Dashboard (Phase 3.2) */}
-        <div className="ai-input-card ai-input-card-primary">
-          <div className="ai-input-card-head">
-            <h3>Section mapping</h3>
-            <span className="ai-input-pill warn">Required before reports</span>
-          </div>
-          <p className="ai-input-card-body">
-            Map workbook section codes to grade levels — required before reports can be sent.
-          </p>
-          <a href="/admin/section-mapping" className="ai-input-btn primary">Open section mapping →</a>
-        </div>
 
         {/* Roster import */}
         <div className="ai-input-card">

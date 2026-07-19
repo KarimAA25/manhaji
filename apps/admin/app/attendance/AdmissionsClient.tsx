@@ -193,6 +193,30 @@ export default function AdmissionsClient({ applicants, totalEnrolled }: Props) {
         </div>
       </div>
 
+      {/* Needs you this week — directly below the summary tiles (Sprint 1.5) */}
+      <section className="adm-section">
+        <div className="adm-section-head">
+          <span className="adm-section-label">NEEDS YOU THIS WEEK</span>
+          <span className="adm-section-hint">88% re-enrolled · 1 new · leave comments at each page</span>
+        </div>
+        <div className="adm-needs-grid">
+          {NEEDS_THIS_WEEK.map(n => (
+            <div key={n.title} className="adm-needs-card">
+              <div className="adm-needs-icon">{n.icon}</div>
+              <div className="adm-needs-title">{n.title}</div>
+              <div className="adm-needs-desc">{n.desc}</div>
+              <div className="adm-needs-actions">
+                {n.actions.map(a => (
+                  <button key={a.label} className={`adm-action-btn${a.primary ? " primary" : ""}`}>
+                    {a.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Re-enrolment families */}
       <section className="adm-section">
         <div className="adm-section-head">
@@ -280,30 +304,6 @@ export default function AdmissionsClient({ applicants, totalEnrolled }: Props) {
               </div>
             );
           })}
-        </div>
-      </section>
-
-      {/* Needs you this week */}
-      <section className="adm-section">
-        <div className="adm-section-head">
-          <span className="adm-section-label">NEEDS YOU THIS WEEK</span>
-          <span className="adm-section-hint">88% re-enrolled · 1 new · leave comments at each page</span>
-        </div>
-        <div className="adm-needs-grid">
-          {NEEDS_THIS_WEEK.map(n => (
-            <div key={n.title} className="adm-needs-card">
-              <div className="adm-needs-icon">{n.icon}</div>
-              <div className="adm-needs-title">{n.title}</div>
-              <div className="adm-needs-desc">{n.desc}</div>
-              <div className="adm-needs-actions">
-                {n.actions.map(a => (
-                  <button key={a.label} className={`adm-action-btn${a.primary ? " primary" : ""}`}>
-                    {a.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-          ))}
         </div>
       </section>
 

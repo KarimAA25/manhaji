@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getCurrentStudentId, getCurrentAcademicYearId } from "@manhaj/lib/queries/auth";
 import { getStudentTimetable, type PeriodSlot } from "@manhaj/lib/queries/timetable";
 import { MOCK_PERIODS, type StudentPeriod } from "@manhaj/lib/mock-student-schedule";
@@ -36,6 +37,7 @@ export default async function StudentSchedulePage() {
 
   return (
     <div className="container">
+      <Link href="/student" className="back-link">← Back to dashboard</Link>
       <h1>My Schedule</h1>
       <p className="sub">Today + the rest of the week · what&apos;s next, where, what to bring.</p>
 

@@ -83,7 +83,7 @@ const MOCK_NEEDLE: NeedleMover[] = [
   {
     label: "PATH TO MCGILL",
     title: "Lead a community volunteering project",
-    desc: "Historically, McGill values community leadership. Manhaj says you have a project planned — could you formalise a final draft?",
+    desc: "Historically, McGill values community leadership. Manhaji says you have a project planned — could you formalise a final draft?",
   },
   {
     label: "PATH TO ALL",
@@ -225,7 +225,7 @@ export default function ApplicationTrackerClient({ studentName, apps, rubricScor
             Ms. Hala has feedback waiting on it — recommend reviewing this weekend.
           </div>
           <div className="at-alert-sub">
-            Drafted by Manhaj AI · personal statements are reviewed by your counsellor before any AI feedback is marked
+            Drafted by Manhaji AI · personal statements are reviewed by your counsellor before any AI feedback is marked
           </div>
         </div>
         <button className="at-alert-btn">Open with Ms. Hala</button>
@@ -327,7 +327,7 @@ export default function ApplicationTrackerClient({ studentName, apps, rubricScor
                 </tbody>
               </table>
               <div className="at-anon-footer">
-                About these numbers: Manhaj&apos;s internal model is trained on 5 years of applicant outcomes (50 senior classes). Match scores are indicative only — universities make the final call, and many things outside our data matter too. Use this as a planning aid, not a verdict.
+                About these numbers: Manhaji&apos;s internal model is trained on 5 years of applicant outcomes (50 senior classes). Match scores are indicative only — universities make the final call, and many things outside our data matter too. Use this as a planning aid, not a verdict.
               </div>
             </div>
           </div>

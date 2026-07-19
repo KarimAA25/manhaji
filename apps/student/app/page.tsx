@@ -129,7 +129,7 @@ export default async function StudentDashboard() {
           The one to build: <span className="greet-build">written Arabic</span>. Your score dipped below 3.0 for the
           second month; Ms Khadija prepared a 3-week scaffold pack — you can move this back above 3.5 in May.
           <div className="greet-hero-byline">
-            Drafted by Manhaj · reviewed and approved by Ms Sandra Swart · 8 May 2026
+            Drafted by Manhaji · reviewed and approved by Ms Sandra Swart · 8 May 2026
           </div>
         </div>
 

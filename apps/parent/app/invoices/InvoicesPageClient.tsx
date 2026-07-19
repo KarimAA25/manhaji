@@ -349,7 +349,7 @@ function PayPanel({ amount }: { amount: number }) {
       </div>
 
       <p className="inv-pay-disclaimer">
-        Manhaj never sees your card details. All payments stay with your school&apos;s chosen provider.
+        Manhaji never sees your card details. All payments stay with your school&apos;s chosen provider.
       </p>
     </div>
   );

@@ -1,6 +1,6 @@
 import { loginWithPassword, sendMagicLink } from "./actions";
 
-export const metadata = { title: "Sign in — Manhaj" };
+export const metadata = { title: "Sign in — Manhaji" };
 
 const ERRORS: Record<string, string> = {
   credentials: "Incorrect email or password.",
@@ -46,7 +46,7 @@ export default async function LoginPage({
           M
         </div>
         <h1 style={{ margin: 0, fontSize: 21, fontWeight: 700, color: "#0B2545" }}>
-          Manhaj
+          Manhaji
         </h1>
         <p style={{ margin: "4px 0 28px", fontSize: 13, color: "#5A6B82" }}>
           School Operations Platform

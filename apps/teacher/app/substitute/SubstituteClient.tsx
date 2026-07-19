@@ -99,7 +99,7 @@ const END_OF_DAY = [
   "Attendance must be submitted before you leave (Mr. Tariq will check from home · takes 2 minutes)",
   "Return attendance sheet to reception",
   "Any work collected from students — leave on Mr. Tariq's desk",
-  "Put any student concerns in the Manhaj app (takes 5 minutes)",
+  "Put any student concerns in the Manhaji app (takes 5 minutes)",
   "Say \"Day's over\" in the app — Mr. Tariq is automatically notified",
 ];
 
