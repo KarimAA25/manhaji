@@ -16,7 +16,7 @@ import {
   addApplicationAction,
   addTestScoreAction,
   requestBookingAction,
-} from "@/app/actions/applications";
+} from "../actions/applications";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 

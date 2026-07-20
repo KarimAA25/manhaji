@@ -5,7 +5,7 @@ import type { PeriodSlot } from "@manhaj/lib/queries/timetable";
 import type { HomeworkRow } from "@manhaj/lib/queries/lessons";
 import type { AssessmentRow, WrapupBlock } from "@manhaj/lib/queries/studyplanner";
 import type { RubricSuggestionData } from "@manhaj/lib/queries/goals";
-import { setWrapupDoneAction } from "@/app/actions/study";
+import { setWrapupDoneAction } from "../actions/study";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 

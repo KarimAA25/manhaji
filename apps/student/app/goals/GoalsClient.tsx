@@ -14,7 +14,7 @@ import {
   fetchGoalHistoryAction,
   tickGoalAction,
   saveReflectionAction,
-} from "@/app/actions/goals";
+} from "../actions/goals";
 
 type GoalStatus = "done" | "active" | "behind";
 

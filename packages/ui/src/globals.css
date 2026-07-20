@@ -7139,6 +7139,8 @@ a.inv-hist-receipt { text-decoration: none; }
 }
 .cal-up-add-btn:hover { border-color: var(--color-primary); background: var(--color-soft); }
 .cal-sync-btn.ghost.copied { color: #276749; border-color: #9AE6B4; background: #F0FFF4; }
+
+/* ============================================================================
    Sprint 1.5 · Teacher restructure — My Week tabs + substitute cover,
    student detail panel, Class-hub selector / Next-week planner / follow-up
    pop-up, rubric section dropdown.
