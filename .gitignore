@@ -105,3 +105,6 @@ data/processed/tt_2526/derived/substitution_score.json
 data/processed/tt_2526/derived/rebuild_*.json
 # Heavy review renders (canonical copies live in OneDrive 01 Product)
 docs/pm/reviews/*.pdf
+
+# Build artifacts (regenerated per build)
+**/tsconfig.tsbuildinfo
