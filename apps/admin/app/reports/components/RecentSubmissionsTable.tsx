@@ -1,11 +1,12 @@
 import type { RegulatorySubmissionRow } from "@manhaj/lib/queries/reports";
+import { generateHref, slugForCatalogName, REPORTS_HISTORY_PATH } from "../catalogue";
 
 const MOCK_SUBMISSIONS: RegulatorySubmissionRow[] = [
-  { id: "m1", report_name: "Term 2 attendance summary",        regulator: "Oman MoE", period_label: "1 Jan – 28 Mar 2026",    submitted_at: "2026-04-30", submitted_by: "Dr. Patel", status: "approved",  file_url: null },
-  { id: "m2", report_name: "Q1 incident & safeguarding return",regulator: "Oman MoE", period_label: "1 Jan – 31 Mar 2026",    submitted_at: "2026-04-15", submitted_by: "Ms. Salwa", status: "approved",  file_url: null },
-  { id: "m3", report_name: "Staffing change notice — new hire",regulator: "Oman MoE", period_label: "15 Apr 2026",            submitted_at: "2026-04-16", submitted_by: "HR",        status: "approved",  file_url: null },
-  { id: "m4", report_name: "Term 1 attendance summary",        regulator: "Oman MoE", period_label: "1 Sep – 19 Dec 2025",   submitted_at: "2026-01-10", submitted_by: "Dr. Patel", status: "approved",  file_url: null },
-  { id: "m5", report_name: "Annual enrolment declaration",     regulator: "Oman MoE", period_label: "2025/26 academic year", submitted_at: "2025-10-05", submitted_by: "Dr. Patel", status: "approved",  file_url: null },
+  { id: "m1", report_name: "Annual Comprehensive Report",       regulator: "Oman MoE", period_label: "2024/25 academic year", submitted_at: "2025-07-18", submitted_by: "Dr. Patel", status: "approved", file_url: null },
+  { id: "m2", report_name: "Staff Appointment Plan",            regulator: "Oman MoE", period_label: "AY 2025/26 planning",  submitted_at: "2025-06-20", submitted_by: "HR",        status: "approved", file_url: null },
+  { id: "m3", report_name: "Certified Bank Statement",          regulator: "Oman MoE", period_label: "H2 2025",             submitted_at: "2026-01-12", submitted_by: "Finance",   status: "submitted", file_url: null },
+  { id: "m4", report_name: "Tuition-Fee Modification Request",  regulator: "Oman MoE", period_label: "2025 review",         submitted_at: "2025-09-30", submitted_by: "Dr. Patel", status: "under_review", file_url: null },
+  { id: "m5", report_name: "Educational Portal — data & results", regulator: "Oman MoE", period_label: "Term 1 2025/26",   submitted_at: "2025-12-15", submitted_by: "Registrar", status: "approved", file_url: null },
 ];
 
 const STATUS_LABEL: Record<string, string> = {
@@ -22,6 +23,11 @@ function fmtDate(iso: string | null): string {
   return new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
 }
 
+/** The URL that Download opens: a stored file if we have one, else regenerate. */
+function downloadHref(r: RegulatorySubmissionRow): string {
+  return r.file_url ?? generateHref(slugForCatalogName(r.report_name));
+}
+
 export default function RecentSubmissionsTable({
   submissions,
 }: {
@@ -33,7 +39,7 @@ export default function RecentSubmissionsTable({
     <section aria-label="Recent submissions">
       <div className="reg-section-head">
         <span className="reg-section-label">Recent submissions</span>
-        <button className="reg-history-link">View full history →</button>
+        <a className="reg-history-link" href={REPORTS_HISTORY_PATH}>View full history →</a>
       </div>
 
       <div className="reg-tbl-wrap">
@@ -61,10 +67,14 @@ export default function RecentSubmissionsTable({
                   </span>
                 </td>
                 <td>
-                  {r.file_url
-                    ? <a href={r.file_url} className="reg-download" target="_blank" rel="noopener noreferrer">Download ↓</a>
-                    : <span className="reg-download" style={{ opacity: 0.35 }}>Download ↓</span>
-                  }
+                  <a
+                    href={downloadHref(r)}
+                    className="reg-download"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Download ↓
+                  </a>
                 </td>
               </tr>
             ))}
