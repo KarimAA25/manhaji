@@ -3,14 +3,14 @@ import { eventsToIcs } from "./ics";
 import { MOCK_EVENTS } from "./mock-calendar";
 
 describe("eventsToIcs", () => {
-  const ics = eventsToIcs(MOCK_EVENTS, "Manhaj · Household");
+  const ics = eventsToIcs(MOCK_EVENTS, "Manhaji · Household");
 
   it("starts with BEGIN:VCALENDAR and ends with END:VCALENDAR", () => {
     expect(ics.startsWith("BEGIN:VCALENDAR\r\n")).toBe(true);
     expect(ics.trimEnd().endsWith("END:VCALENDAR")).toBe(true);
   });
   it("contains the calendar name", () => {
-    expect(ics).toContain("X-WR-CALNAME:Manhaj · Household");
+    expect(ics).toContain("X-WR-CALNAME:Manhaji · Household");
   });
   it("emits one VEVENT per event", () => {
     const count = (ics.match(/BEGIN:VEVENT/g) || []).length;

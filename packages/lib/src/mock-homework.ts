@@ -1,5 +1,5 @@
 /**
- * Manhaj Phase 2.8 demo fixture — synthetic homework list for Layla (10A).
+ * Manhaji Phase 2.8 demo fixture — synthetic homework list for Layla (10A).
  * Mirrors a future RPC return.
  */
 
@@ -38,7 +38,7 @@ export const MOCK_HOMEWORK: HomeworkItem[] = [
     ai_estimate: "~30 min reading + ~15 min questions." },
   { id: "hw-6", subject: "History",   title: "Source-analysis Q3 from sheet",
     due: "2026-05-30T16:00:00+04:00", status: "not-started",
-    ai_estimate: "~20 min · use the source pack on Manhaj." },
+    ai_estimate: "~20 min · use the source pack on Manhaji." },
   { id: "hw-7", subject: "Physics",   title: "Problem set 11.2 (skip Q5)",
     due: "2026-06-02T16:00:00+04:00", status: "in-progress",
     ai_estimate: "~40 min remaining · stuck on Q3? Try the worked example." },

@@ -148,7 +148,7 @@ export default function AskManhaj() {
           role="log"
           aria-live="polite"
           aria-atomic="false"
-          aria-label="Chat with Manhaj"
+          aria-label="Chat with Manhaji"
           style={{
             background: "#FAFCFE", border: "1px solid var(--border)", borderRadius: 10,
             padding: 10, maxHeight: 360, overflowY: "auto",
@@ -160,7 +160,7 @@ export default function AskManhaj() {
           ))}
           {lastMeta && !streaming && (
             <div style={{ fontSize: 10.5, color: "var(--muted)", fontStyle: "italic", marginTop: 4 }}>
-              Manhaj &middot;{" "}
+              Manhaji &middot;{" "}
               {lastMeta.cache_hit ? "cached context · " : ""}
               {lastMeta.elapsed_ms != null ? `${(lastMeta.elapsed_ms / 1000).toFixed(1)}s` : "—"}
               {" "}&middot; verify before acting
@@ -186,9 +186,9 @@ export default function AskManhaj() {
           value={input}
           onChange={e => setInput(e.target.value)}
           onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } }}
-          placeholder={hasTurns ? "Ask a follow-up…" : "Ask Manhaj — try one of the suggestions below…"}
+          placeholder={hasTurns ? "Ask a follow-up…" : "Ask Manhaji — try one of the suggestions below…"}
           disabled={streaming}
-          aria-label="Ask Manhaj"
+          aria-label="Ask Manhaji"
           style={{
             flex: 1, padding: "8px 12px", border: "1px solid var(--border)",
             borderRadius: 8, fontSize: 12.5, fontFamily: "inherit", background: "#fff",
@@ -249,7 +249,7 @@ function ChatBubble({ role, content, streaming }: { role: "user" | "assistant"; 
         borderRadius: 12, padding: "10px 14px", fontSize: 12.5, lineHeight: 1.55,
         maxWidth: "85%", whiteSpace: "pre-wrap", wordBreak: "break-word",
       }}>
-        {content || (streaming ? <span style={{ opacity: 0.6, fontStyle: "italic" }}>Manhaj is thinking…</span> : "")}
+        {content || (streaming ? <span style={{ opacity: 0.6, fontStyle: "italic" }}>Manhaji is thinking…</span> : "")}
         {streaming && content && <span style={{ opacity: 0.6, marginLeft: 2 }}>▍</span>}
       </div>
     </div>

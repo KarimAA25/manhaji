@@ -1,5 +1,4 @@
-import { TrendChart, type TrendPoint } from "@manhaj/ui";
-import TeacherMyWeek from "./schedule-components/TeacherMyWeek";
+import TeacherMyWeek, { type TeacherWeekTab } from "./schedule-components/TeacherMyWeek";
 import AskManhajCard from "./schedule-components/AskManhajCard";
 import TeacherStudentRoster from "./components/TeacherStudentRoster";
 import TeacherStudentInsights from "./components/TeacherStudentInsights";
@@ -7,24 +6,19 @@ import { SWART_STUDENTS } from "@manhaj/lib/mock-teacher-students";
 import type { TeacherStudentRow } from "@manhaj/lib/mock-teacher-students";
 import type { StudentStatus } from "@manhaj/lib/mock-students";
 import { getCurrentTeacherId, getCurrentAcademicYearId } from "@manhaj/lib/queries/auth";
-import { getTeacherWithSections } from "@manhaj/lib/queries/teachers";
+import { getTeacherWithSections, getDeptColleagues } from "@manhaj/lib/queries/teachers";
 import { getStudentsForSections } from "@manhaj/lib/queries/students";
 import { getAssessmentsForTeacher, getPendingGradingCount } from "@manhaj/lib/queries/assessments";
-import { getTeacherTimetable } from "@manhaj/lib/queries/timetable";
+import { getTeacherTimetable, getEffectiveTimetableYearId } from "@manhaj/lib/queries/timetable";
 import { getTeacherSectionAttendance } from "@manhaj/lib/queries/attendance";
+import { getCoveringAssignments } from "@manhaj/lib/queries/substitute";
+
+/** Max colleague tabs on My Week (plus the teacher's own tab). */
+const MAX_COLLEAGUE_TABS = 4;
 
 export const dynamic = "force-dynamic";
 
 const SWART_SECTIONS = [...new Set(SWART_STUDENTS.map(s => s.section_code))].sort();
-
-const SWART_ATT: TrendPoint[] = [
-  { date: "05-01", pct: 95 }, { date: "05-02", pct: 96 }, { date: "05-05", pct: 94 },
-  { date: "05-06", pct: 97 }, { date: "05-07", pct: 96 }, { date: "05-08", pct: 98 },
-  { date: "05-09", pct: 95 }, { date: "05-12", pct: 94 }, { date: "05-13", pct: 96 },
-  { date: "05-14", pct: 97 }, { date: "05-15", pct: 95 }, { date: "05-16", pct: 94 },
-  { date: "05-19", pct: 96 }, { date: "05-20", pct: 92 }, { date: "05-21", pct: 94 },
-  { date: "05-22", pct: 95 }, { date: "05-23", pct: 96 },
-];
 
 const MOCK_SPOTLIGHT = [
   { name: "Rania Khalifa",  section: "10A", note: "EAL flag · Written rubric dropped to 2.9 · needs scaffolding support",  tone: "warn" },
@@ -33,14 +27,22 @@ const MOCK_SPOTLIGHT = [
 ];
 
 export default async function TeacherAnalyzePage() {
+  // OR pattern: any DB failure (no session, no env, empty tables) degrades to
+  // the Swart demo dataset instead of crashing the dashboard.
   const [teacherId, academicYearId] = await Promise.all([
-    getCurrentTeacherId(),
-    getCurrentAcademicYearId(),
+    getCurrentTeacherId().catch(() => null),
+    getCurrentAcademicYearId().catch(() => null),
   ]);
+
+  // Resolve the academic year that actually holds the published timetable
+  // (the demo timetable lives in the prior year — see getEffectiveTimetableYearId).
+  const timetableYearId = academicYearId
+    ? await getEffectiveTimetableYearId(academicYearId).catch(() => academicYearId)
+    : null;
 
   // Get teacher's sections then students
   const teacherSections = teacherId && academicYearId
-    ? await getTeacherWithSections(teacherId, academicYearId)
+    ? await getTeacherWithSections(teacherId, academicYearId).catch(() => [])
     : [];
 
   const sectionIds = teacherSections
@@ -52,12 +54,32 @@ export default async function TeacherAnalyzePage() {
   const toStr  = today.toISOString().slice(0, 10);
   const fromStr = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
 
-  const [dbStudents, timetableSlots, attResult, pendingGrading] = await Promise.all([
+  const [dbStudents, timetableSlots, attResult, pendingGrading, colleagues, coveringSlots] = await Promise.all([
     sectionIds.length > 0 ? getStudentsForSections(sectionIds).catch(() => []) : Promise.resolve([]),
-    teacherId && academicYearId ? getTeacherTimetable(teacherId, academicYearId).catch(() => []) : Promise.resolve([]),
+    teacherId && timetableYearId ? getTeacherTimetable(teacherId, timetableYearId).catch(() => []) : Promise.resolve([]),
     sectionIds.length > 0 ? getTeacherSectionAttendance(sectionIds, fromStr, toStr).catch(() => ({ avgPct: 0, trend: [] })) : Promise.resolve({ avgPct: 0, trend: [] }),
     teacherId && sectionIds.length > 0 ? getPendingGradingCount(teacherId, sectionIds).catch(() => 0) : Promise.resolve(0),
+    teacherId ? getDeptColleagues(teacherId).catch(() => []) : Promise.resolve([]),
+    teacherId ? getCoveringAssignments(teacherId).catch(() => []) : Promise.resolve([]),
   ]);
+
+  // My Week tabs: the teacher first, then same-department (substitutable)
+  // colleagues — each with their real timetable.
+  const colleagueSubset = colleagues.slice(1, 1 + MAX_COLLEAGUE_TABS);
+  const colleagueSlots = timetableYearId
+    ? await Promise.all(
+        colleagueSubset.map(c => getTeacherTimetable(c.id, timetableYearId).catch(() => [])),
+      )
+    : [];
+  const weekTabs: TeacherWeekTab[] = timetableSlots.length > 0
+    ? [
+        { id: teacherId ?? "self", name: colleagues[0]?.name ?? "Me", slots: timetableSlots },
+        ...colleagueSubset
+          .map((c, i) => ({ id: c.id, name: c.name, slots: colleagueSlots[i] ?? [] }))
+          .filter(t => t.slots.some(s => s.is_teaching)),
+      ]
+    : [];
+  const deptLabel = colleagues[0]?.dept;
 
   // Map DB students to TeacherStudentRow shape (assessment/att fields default for now)
   const students: TeacherStudentRow[] = dbStudents.length > 0
@@ -119,21 +141,35 @@ export default async function TeacherAnalyzePage() {
     ];
   })() : MOCK_SPOTLIGHT;
 
+  // Greeting sub-line: real "today" periods from the timetable, OR demo copy.
+  const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const todayDay = dayNames[today.getDay()];
+  const todaySlots = timetableSlots
+    .filter(s => s.is_teaching && s.day.toLowerCase().startsWith(todayDay.toLowerCase()))
+    .sort((a, b) => a.period.localeCompare(b.period));
+  const greetSub = todaySlots.length > 0
+    ? `Today: ${todaySlots.slice(0, 3).map(s => `${s.period} ${s.subject ?? "—"} · ${s.teacher ?? ""}`).join("  ·  ")}${todaySlots.length > 3 ? ` · +${todaySlots.length - 3} more` : ""}.`
+    : timetableSlots.length > 0
+      ? "No teaching periods today."
+      : "Today: P3 History · 10A  ·  P5 MUN club · 10A.  Yesterday: 92% submission rate on Y10 essay.";
+
+  // KPI: real weekly period count from the timetable, OR contract load, OR demo.
+  const weeklyPeriods = timetableSlots.filter(s => s.is_teaching).length
+    || teacherSections.reduce((sum, r) => sum + (r.weekly_periods ?? 0), 0)
+    || 22;
+
   return (
     <div className="container">
 
       <section className="ta-greet-hero">
         <h1 className="ta-greet-name">Good morning.</h1>
-        <p className="ta-greet-sub">
-          Today: P3 History · 10A &nbsp;·&nbsp; P5 MUN club · 10A.
-          &nbsp;Yesterday: 92% submission rate on Y10 essay.
-        </p>
+        <p className="ta-greet-sub">{greetSub}</p>
       </section>
 
       <div className="ta-kpi-row">
         <div className="ta-kpi-card">
           <div className="ta-kpi-l">My periods this week</div>
-          <div className="ta-kpi-v">{teacherSections.reduce((sum, r) => sum + (r.weekly_periods ?? 0), 0) || 22}</div>
+          <div className="ta-kpi-v">{weeklyPeriods}</div>
           <div className="ta-kpi-d">across {sections.length || 4} sections</div>
         </div>
         <div className="ta-kpi-card">
@@ -154,14 +190,13 @@ export default async function TeacherAnalyzePage() {
       </div>
 
       <h3 className="ta-section-head">My week</h3>
-      <TeacherMyWeek slots={timetableSlots.length > 0 ? timetableSlots : undefined} />
-
-      <h3 className="ta-section-head">Attendance · my classes · last 30 days</h3>
-      <TrendChart
-        points={attResult.trend.length > 0 ? attResult.trend : SWART_ATT}
-        target={95}
-        title="Attendance · my sections"
+      <TeacherMyWeek
+        tabs={weekTabs.length > 0 ? weekTabs : undefined}
+        dept={deptLabel}
+        covering={coveringSlots}
       />
+
+      <TeacherStudentInsights students={students} />
 
       <h3 className="ta-section-head">Recent assessments</h3>
       <div className="ta-assess-card">
@@ -210,9 +245,7 @@ export default async function TeacherAnalyzePage() {
       <h3 className="ta-section-head">My students · full roster</h3>
       <TeacherStudentRoster students={students} sections={sections} />
 
-      <TeacherStudentInsights students={students} />
-
-      <h3 className="ta-section-head">Ask Manhaj</h3>
+      <h3 className="ta-section-head">Ask Manhaji</h3>
       <AskManhajCard />
 
     </div>

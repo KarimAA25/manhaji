@@ -24,9 +24,9 @@ export default function FacultyAskManhaj() {
   }
 
   return (
-    <section className="fac-aq-card" aria-label="Ask Manhaj — Faculty">
+    <section className="fac-aq-card" aria-label="Ask Manhaji — Faculty">
       <header className="fac-aq-head">
-        <h3>Ask Manhaj</h3>
+        <h3>Ask Manhaji</h3>
         <p className="fac-aq-sub">Ask about load, contracts, performance — or request a rebalance plan.</p>
       </header>
       <textarea

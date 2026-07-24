@@ -13,8 +13,8 @@ export default function AiBriefingHeader({ summary, refreshedAgoMin }: {
   refreshedAgoMin?: number;
 }) {
   return (
-    <section className="ai-briefing" aria-label="Manhaj briefing">
-      <div className="ai-briefing-label">Manhaj briefing</div>
+    <section className="ai-briefing" aria-label="Manhaji briefing">
+      <div className="ai-briefing-label">Manhaji briefing</div>
       <p className="ai-briefing-headline">{summary.headline}</p>
       {summary.ai_suggested_action && (
         <p className="ai-briefing-cta"><b>Suggested first move:</b> {summary.ai_suggested_action}</p>
@@ -34,7 +34,7 @@ export default function AiBriefingHeader({ summary, refreshedAgoMin }: {
         </div>
       </div>
       <div className="ai-briefing-meta">
-        Drafted by Manhaj{refreshedAgoMin != null ? ` · refreshed ${refreshedAgoMin} min ago` : ""} · verify before acting
+        Drafted by Manhaji{refreshedAgoMin != null ? ` · refreshed ${refreshedAgoMin} min ago` : ""} · verify before acting
       </div>
     </section>
   );

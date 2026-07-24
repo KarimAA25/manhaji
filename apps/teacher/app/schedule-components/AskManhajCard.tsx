@@ -22,9 +22,9 @@ export default function AskManhajCard() {
   }
 
   return (
-    <section className="sch-aq2-card" aria-label="Ask Manhaj">
+    <section className="sch-aq2-card" aria-label="Ask Manhaji">
       <header className="sch-aq2-head">
-        <h3>Ask Manhaj</h3>
+        <h3>Ask Manhaji</h3>
         <p className="sch-aq2-sub">Type a change in plain English · we draft the diff for your sign-off.</p>
       </header>
       <textarea

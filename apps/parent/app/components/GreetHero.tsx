@@ -95,7 +95,7 @@ export default function GreetHero() {
         for the second month. Ms Khadija prepared a 3-week scaffold pack and {name} has 2 of 12 sessions
         done so far. Quiet encouragement at home goes a long way here.
         <div className="greet-hero-byline">
-          Drafted by Manhaj · reviewed and approved by Ms Sandra Swart · 8 May 2026
+          Drafted by Manhaji · reviewed and approved by Ms Sandra Swart · 8 May 2026
         </div>
       </div>
 

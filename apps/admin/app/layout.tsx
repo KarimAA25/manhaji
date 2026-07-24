@@ -6,7 +6,7 @@ import AskManhajDrawer from "./components/AskManhajDrawer";
 import { getCurrentAdminId, getAdminName } from "@manhaj/lib/queries/auth";
 
 export const metadata: Metadata = {
-  title: "Manhaj Admin — School Ops Platform",
+  title: "Manhaji Admin — School Ops Platform",
   description: "Principal dashboard for K-12 school operations.",
   robots: { index: false, follow: false },
 };
@@ -31,7 +31,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
             <div className="logo">M</div>
             <div>
               <div className="brand-name">
-                Manhaj <span className="brand-sub">· {SCHOOL_NAME}</span>
+                Manhaji <span className="brand-sub">· {SCHOOL_NAME}</span>
               </div>
             </div>
             <AdminNav />

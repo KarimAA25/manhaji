@@ -18,7 +18,7 @@ export default async function SectionMappingPage() {
     <div className="container">
       <h1>Section mapping</h1>
       <p className="sub">
-        Tell Manhaj what each section code means. Once mapped, sections become
+        Tell Manhaji what each section code means. Once mapped, sections become
         usable across reports, scheduling, and parent-facing forms.
       </p>
 
